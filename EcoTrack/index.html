@@ -1,0 +1,3824 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EcoTrack | Smart Waste Management</title>
+
+
+<style>
+
+/* =========================
+   GENERAL
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #f4f8f5;
+    color: #1f2937;
+}
+
+button {
+    cursor: pointer;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+nav {
+    background: white;
+    padding: 18px 7%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+
+    position: sticky;
+    top: 0;
+
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+    color: #16803c;
+}
+
+.logo span {
+    color: #43a047;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+nav ul li a:hover {
+    color: #16803c;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.login-btn,
+.register-btn,
+.admin-btn {
+    padding: 10px 15px;
+    border-radius: 7px;
+    font-weight: bold;
+}
+
+.login-btn {
+    background: white;
+    color: #16803c;
+    border: 1px solid #16803c;
+}
+
+.register-btn {
+    background: #16803c;
+    color: white;
+    border: none;
+}
+
+.admin-btn {
+    background: #14532d;
+    color: white;
+    border: none;
+}
+
+#userArea {
+    display: none;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-name {
+    font-weight: bold;
+    color: #14532d;
+}
+
+.logout-btn {
+    padding: 8px 14px;
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 7px;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    min-height: 520px;
+
+    padding: 70px 7%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background:
+    linear-gradient(
+        120deg,
+        #e8f5e9,
+        #f8fff9
+    );
+}
+
+.hero-text {
+    width: 55%;
+}
+
+.hero-text h1 {
+    font-size: 52px;
+    color: #14532d;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.hero-text h1 span {
+    color: #43a047;
+}
+
+.hero-text p {
+    color: #555;
+    font-size: 18px;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.primary-btn,
+.secondary-btn {
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.primary-btn {
+    background: #16803c;
+    color: white;
+    border: none;
+}
+
+.secondary-btn {
+    background: white;
+    color: #16803c;
+    border: 1px solid #16803c;
+}
+
+.hero-card {
+    width: 320px;
+    background: white;
+    padding: 40px;
+    text-align: center;
+    border-radius: 20px;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,0.1);
+}
+
+.hero-card .icon {
+    font-size: 80px;
+}
+
+.hero-card h2 {
+    color: #14532d;
+    margin: 15px 0;
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
+
+section {
+    padding: 70px 7%;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-title h2 {
+    font-size: 34px;
+    color: #14532d;
+    margin-bottom: 10px;
+}
+
+.section-title p {
+    color: #666;
+}
+
+
+/* =========================
+   FEATURES
+========================= */
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 25px;
+}
+
+.feature-card {
+    background: white;
+    padding: 30px 20px;
+    text-align: center;
+    border-radius: 15px;
+
+    box-shadow:
+    0 5px 20px rgba(0,0,0,0.07);
+
+    transition: 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    font-size: 45px;
+    margin-bottom: 15px;
+}
+
+.feature-card h3 {
+    color: #14532d;
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    color: #666;
+    line-height: 1.5;
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard-section {
+    background: #e8f5e9;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 25px;
+}
+
+.dashboard-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+
+    box-shadow:
+    0 5px 20px rgba(0,0,0,0.07);
+}
+
+.dashboard-card h3 {
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.dashboard-number {
+    font-size: 38px;
+    font-weight: bold;
+    color: #16803c;
+}
+
+
+/* =========================
+   REPORT FORM
+========================= */
+
+.report-section {
+    background: white;
+}
+
+.report-box {
+    max-width: 800px;
+    margin: auto;
+
+    background: #f8faf8;
+
+    padding: 35px;
+
+    border-radius: 15px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 7px;
+
+    font-size: 15px;
+}
+
+textarea {
+    height: 100px;
+    resize: none;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+
+    border: none;
+
+    background: #16803c;
+
+    color: white;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+}
+
+
+/* =========================
+   IMAGE
+========================= */
+
+#imagePreview {
+
+    display: none;
+
+    width: 100%;
+
+    max-height: 250px;
+
+    object-fit: cover;
+
+    border-radius: 10px;
+
+    margin-top: 10px;
+}
+
+
+/* =========================
+   LOCATION
+========================= */
+
+.location-row {
+    display: flex;
+    gap: 10px;
+}
+
+.location-btn {
+    padding: 12px 15px;
+
+    border: none;
+
+    background: #14532d;
+
+    color: white;
+
+    border-radius: 7px;
+
+    white-space: nowrap;
+}
+
+#locationMessage {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #16803c;
+}
+
+
+/* =========================
+   USER REPORT HISTORY
+========================= */
+
+.history-section {
+    background: #f4f8f5;
+}
+
+.reports-container {
+    max-width: 900px;
+    margin: auto;
+}
+
+.report-card {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    margin-bottom: 20px;
+
+    box-shadow:
+    0 4px 15px rgba(0,0,0,0.07);
+}
+
+.report-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.complaint-id {
+    font-weight: bold;
+    color: #14532d;
+}
+
+.status {
+    padding: 6px 12px;
+    border-radius: 20px;
+
+    background: #fff3cd;
+
+    color: #856404;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+.status.verified {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status.rejected {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.status.resolved {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.report-info {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 10px;
+
+    color: #555;
+}
+
+.report-image {
+    width: 150px;
+    height: 100px;
+
+    object-fit: cover;
+
+    border-radius: 8px;
+
+    margin-top: 15px;
+}
+
+.no-reports {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+}
+
+
+/* =========================
+   ADMIN
+========================= */
+
+.admin-section {
+    display: none;
+    background: #eef5f0;
+}
+
+.admin-container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 20px;
+
+    margin-bottom: 35px;
+}
+
+.admin-stat {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+
+    box-shadow:
+    0 4px 15px rgba(0,0,0,0.07);
+}
+
+.admin-stat h3 {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.admin-stat-number {
+    font-size: 32px;
+    font-weight: bold;
+    color: #16803c;
+}
+
+
+/* ADMIN TABLE */
+
+.admin-table-container {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    overflow-x: auto;
+
+    box-shadow:
+    0 4px 15px rgba(0,0,0,0.07);
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 14px;
+
+    border-bottom: 1px solid #eee;
+
+    text-align: left;
+}
+
+.admin-table th {
+    color: #14532d;
+    background: #f5faf6;
+}
+
+.admin-table img {
+    width: 70px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.admin-action {
+    padding: 7px 10px;
+    border: none;
+    border-radius: 5px;
+    margin: 2px;
+    color: white;
+}
+
+.verify-btn {
+    background: #16803c;
+}
+
+.reject-btn {
+    background: #ef4444;
+}
+
+.resolve-btn {
+    background: #2563eb;
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+.modal {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+    rgba(0,0,0,0.6);
+
+    justify-content: center;
+
+    align-items: center;
+
+    z-index: 2000;
+}
+
+.modal-box {
+
+    width: 400px;
+
+    max-width: 90%;
+
+    background: white;
+
+    padding: 35px;
+
+    border-radius: 15px;
+
+    position: relative;
+}
+
+.modal-box h2 {
+
+    text-align: center;
+
+    color: #14532d;
+
+    margin-bottom: 25px;
+}
+
+.modal-box input {
+
+    width: 100%;
+
+    padding: 12px;
+
+    margin-bottom: 15px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 7px;
+}
+
+.modal-box button {
+
+    width: 100%;
+
+    padding: 12px;
+
+    background: #16803c;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 7px;
+}
+
+.close {
+
+    position: absolute;
+
+    right: 18px;
+
+    top: 12px;
+
+    font-size: 25px;
+}
+
+.switch-text {
+
+    text-align: center;
+
+    margin-top: 18px;
+
+    color: #666;
+}
+
+.switch-text span {
+
+    color: #16803c;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+
+    background: #14532d;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 40px;
+}
+
+footer p {
+
+    color: #d1d5db;
+
+    margin-top: 10px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:900px) {
+
+    nav ul {
+        display: none;
+    }
+
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 40px;
+    }
+
+    .hero-text {
+        width: 100%;
+    }
+
+    .features {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .admin-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media(max-width:600px) {
+
+    .hero-text h1 {
+        font-size: 38px;
+    }
+
+    .features,
+    .dashboard,
+    .admin-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-card {
+        width: 100%;
+    }
+
+    .location-row {
+        flex-direction: column;
+    }
+
+    .report-info {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================
+   VERSION 5
+========================= */
+
+.tracking-box {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8faf8;
+    border-radius: 12px;
+}
+
+.tracking-title {
+    font-weight: bold;
+    color: #14532d;
+    margin-bottom: 20px;
+}
+
+.tracking {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.tracking::before {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 10%;
+    right: 10%;
+    height: 3px;
+    background: #ddd;
+    z-index: 0;
+}
+
+.track-step {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    width: 30%;
+}
+
+.track-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #ddd;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+}
+
+.track-step.active .track-circle {
+    background: #16803c;
+}
+
+.track-step p {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #666;
+}
+
+.achievement-box {
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.achievement {
+    background: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.achievement-icon {
+    font-size: 35px;
+    margin-bottom: 8px;
+}
+
+.achievement h4 {
+    color: #14532d;
+}
+
+.seg-guide {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.guide-card {
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+
+.guide-card h3 {
+    color: #14532d;
+    margin-bottom: 10px;
+}
+
+.guide-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+.admin-tools {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.admin-tools input,
+.admin-tools select {
+    padding: 11px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+}
+
+.admin-tools input {
+    flex: 1;
+}
+
+@media(max-width:700px) {
+    .achievement-box,
+    .seg-guide {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-tools {
+        flex-direction: column;
+    }
+}
+
+/* =========================
+   VERSION 6
+========================= */
+
+.v6-dashboard {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+}
+
+.eco-level-card,
+.notification-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+}
+
+.eco-level-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.eco-level-header h3 {
+    color: #14532d;
+}
+
+.level-badge {
+    background: #e8f5e9;
+    color: #16803c;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.progress-container {
+    width: 100%;
+    height: 14px;
+    background: #e5e7eb;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #16803c;
+    border-radius: 20px;
+    transition: width 0.5s ease;
+}
+
+.progress-text {
+    margin-top: 10px;
+    color: #666;
+    font-size: 14px;
+}
+
+.notification-card h3 {
+    color: #14532d;
+    margin-bottom: 15px;
+}
+
+.notification {
+    padding: 12px;
+    background: #f4f8f5;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.notification strong {
+    color: #16803c;
+}
+
+.v6-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.v6-stat {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+
+.v6-stat-icon {
+    font-size: 30px;
+}
+
+.v6-stat h4 {
+    color: #666;
+    margin: 8px 0;
+}
+
+.v6-stat-number {
+    font-size: 25px;
+    font-weight: bold;
+    color: #14532d;
+}
+
+.green-badge {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    background: #dcfce7;
+    color: #166534;
+    font-weight: bold;
+}
+
+@media(max-width:800px) {
+
+    .v6-dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .v6-stat-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media(max-width:500px) {
+
+    .v6-stat-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav>
+
+<div class="logo">
+    Eco<span>Track</span>
+</div>
+
+
+<ul>
+
+<li>
+<a href="#home">Home</a>
+</li>
+
+<li>
+<a href="#features">Features</a>
+</li>
+
+<li>
+<a href="#report">Report</a>
+</li>
+
+<li>
+<a href="#history">My Reports</a>
+</li>
+
+<li>
+<a href="#dashboard">Dashboard</a>
+</li>
+
+</ul>
+
+<div class="nav-buttons">
+
+    <div id="authButtons">
+
+        <button
+        class="login-btn"
+        onclick="openLogin()">
+        Login
+        </button>
+
+        <button
+        class="register-btn"
+        onclick="openRegister()">
+        Register
+        </button>
+
+    </div>
+
+
+    <!-- ADMIN ALWAYS VISIBLE -->
+
+    <button
+    class="admin-btn"
+    onclick="openAdminLogin()">
+
+        🛡️ Admin
+
+    </button>
+
+</div>
+
+
+<div id="userArea">
+
+<span
+class="user-name"
+id="navUserName">
+</span>
+
+<button
+class="logout-btn"
+onclick="logout()">
+
+Logout
+
+</button>
+
+</div>
+
+</nav>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section
+class="hero"
+id="home">
+
+
+<div class="hero-text">
+
+<h1>
+
+Track Waste.<br>
+
+<span>
+Build a Greener Future.
+</span>
+
+</h1>
+
+
+<p>
+
+EcoTrack helps citizens manage
+waste responsibly through
+segregation, proper disposal,
+reporting and eco-friendly
+participation.
+
+</p>
+
+
+<div class="hero-buttons">
+
+<button
+class="primary-btn"
+onclick="openReport()">
+
+Report Waste
+
+</button>
+
+
+<button
+class="secondary-btn"
+onclick="openRegister()">
+
+Join EcoTrack
+
+</button>
+
+</div>
+
+</div>
+
+
+<div class="hero-card">
+
+<div class="icon">
+♻️
+</div>
+
+<h2>
+EcoTrack
+</h2>
+
+<p>
+Every small action can create
+a cleaner environment.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     FEATURES
+========================= -->
+
+<section id="features">
+
+<div class="section-title">
+
+<h2>
+Our Features
+</h2>
+
+<p>
+Everything you need for better
+waste management
+</p>
+
+</div>
+
+
+<div class="features">
+
+
+<div class="feature-card">
+
+<div class="feature-icon">
+🗑️
+</div>
+
+<h3>
+Report Waste
+</h3>
+
+<p>
+Report waste problems with
+location and description.
+</p>
+
+</div>
+
+
+<div class="feature-card">
+
+<div class="feature-icon">
+♻️
+</div>
+
+<h3>
+Segregate Waste
+</h3>
+
+<p>
+Understand whether waste
+is wet, dry or e-waste.
+</p>
+
+</div>
+
+
+<div class="feature-card">
+
+<div class="feature-icon">
+📍
+</div>
+
+<h3>
+Find Disposal
+</h3>
+
+<p>
+Find suitable options for
+responsible waste disposal.
+</p>
+
+</div>
+
+
+<div class="feature-card">
+
+<div class="feature-icon">
+🏆
+</div>
+
+<h3>
+Earn Eco Points
+</h3>
+
+<p>
+Get points for responsible
+environmental actions.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     USER DASHBOARD
+========================= -->
+
+<section
+class="dashboard-section"
+id="dashboard">
+
+
+<div class="section-title">
+
+<h2>
+My Eco Dashboard
+</h2>
+
+<p>
+Track your environmental contribution
+</p>
+
+</div>
+
+
+<div class="dashboard">
+
+
+<div class="dashboard-card">
+
+<h3>
+Reports Submitted
+</h3>
+
+<div
+class="dashboard-number"
+id="reportCount">
+
+0
+
+</div>
+
+</div>
+
+
+<div class="dashboard-card">
+
+<h3>
+Eco Points
+</h3>
+
+<div
+class="dashboard-number"
+id="points">
+
+100
+
+</div>
+
+</div>
+
+
+<div class="dashboard-card">
+
+<h3>
+Waste Managed
+</h3>
+
+<div
+class="dashboard-number"
+id="wasteManaged">
+
+0 kg
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =========================
+     VERSION 6 SMART DASHBOARD
+========================= -->
+
+<section>
+
+    <div class="section-title">
+
+        <h2>
+            🌱 My Eco Progress
+        </h2>
+
+        <p>
+            See how your actions are helping the environment
+        </p>
+
+    </div>
+
+
+    <div class="v6-dashboard">
+
+
+        <!-- ECO LEVEL -->
+
+        <div class="eco-level-card">
+
+            <div class="eco-level-header">
+
+                <h3>
+                    🏆 Eco Level
+                </h3>
+
+                <span
+                    class="level-badge"
+                    id="ecoLevel">
+
+                    Eco Starter
+
+                </span>
+
+            </div>
+
+
+            <p id="levelMessage">
+
+                Start reporting waste to become
+                a Green Citizen!
+
+            </p>
+
+
+            <br>
+
+
+            <div class="progress-container">
+
+                <div
+                    class="progress-bar"
+                    id="ecoProgress">
+                </div>
+
+            </div>
+
+
+            <div
+                class="progress-text"
+                id="progressText">
+
+                0 / 200 Eco Points
+
+            </div>
+
+
+            <span
+                class="green-badge"
+                id="greenBadge">
+
+                🌱 Eco Starter
+
+            </span>
+
+        </div>
+
+
+        <!-- NOTIFICATIONS -->
+
+        <div class="notification-card">
+
+            <h3>
+                🔔 Notifications
+            </h3>
+
+
+            <div
+                id="notifications">
+
+                <div class="notification">
+
+                    🌱 Welcome to <strong>EcoTrack</strong>!
+
+                </div>
+
+                <div class="notification">
+
+                    ♻️ Submit a report to earn
+                    <strong>20 Eco Points</strong>.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- STATISTICS -->
+
+    <div class="v6-stat-grid">
+
+
+        <div class="v6-stat">
+
+            <div class="v6-stat-icon">
+                🗑️
+            </div>
+
+            <h4>
+                Reports
+            </h4>
+
+            <div
+                class="v6-stat-number"
+                id="v6Reports">
+
+                0
+
+            </div>
+
+        </div>
+
+
+        <div class="v6-stat">
+
+            <div class="v6-stat-icon">
+                🏆
+            </div>
+
+            <h4>
+                Eco Points
+            </h4>
+
+            <div
+                class="v6-stat-number"
+                id="v6Points">
+
+                100
+
+            </div>
+
+        </div>
+
+
+        <div class="v6-stat">
+
+            <div class="v6-stat-icon">
+                ♻️
+            </div>
+
+            <h4>
+                Waste Managed
+            </h4>
+
+            <div
+                class="v6-stat-number"
+                id="v6Waste">
+
+                0 kg
+
+            </div>
+
+        </div>
+
+
+        <div class="v6-stat">
+
+            <div class="v6-stat-icon">
+                🌍
+            </div>
+
+            <h4>
+                Eco Level
+            </h4>
+
+            <div
+                class="v6-stat-number"
+                id="v6Level">
+
+                Starter
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     REPORT FORM
+========================= -->
+
+<section
+class="report-section"
+id="report">
+
+
+<div class="section-title">
+
+<h2>
+Report Waste
+</h2>
+
+<p>
+Help us identify waste problems
+</p>
+
+</div>
+
+
+<div class="report-box">
+
+
+<form
+id="reportForm"
+onsubmit="submitReport(event)">
+
+
+<div class="form-group">
+
+<label>
+Waste Type
+</label>
+
+
+<select
+id="wasteType"
+required>
+
+<option value="">
+Select waste type
+</option>
+
+<option value="Wet Waste">
+Wet Waste
+</option>
+
+<option value="Dry Waste">
+Dry Waste
+</option>
+
+<option value="E-Waste">
+E-Waste
+</option>
+
+<option value="Plastic Waste">
+Plastic Waste
+</option>
+
+<option value="Other">
+Other
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Location
+</label>
+
+
+<div class="location-row">
+
+<input
+type="text"
+id="location"
+placeholder="Enter location"
+required>
+
+
+<button
+type="button"
+class="location-btn"
+onclick="getLocation()">
+
+📍 Use My Location
+
+</button>
+
+</div>
+
+
+<div id="locationMessage"></div>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Description
+</label>
+
+
+<textarea
+id="description"
+placeholder="Describe the waste problem..."
+required>
+</textarea>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Upload Waste Image
+</label>
+
+
+<input
+type="file"
+id="wasteImage"
+accept="image/*"
+onchange="previewImage(event)">
+
+
+<img
+id="imagePreview">
+
+</div>
+
+
+<button
+type="submit"
+class="submit-btn">
+
+Submit Report ♻️
+
+</button>
+
+</form>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     USER HISTORY
+========================= -->
+
+<section
+class="history-section"
+id="history">
+
+
+<div class="section-title">
+
+<h2>
+My Reports
+</h2>
+
+<p>
+Track the complaints you have submitted
+</p>
+
+</div>
+
+
+<div
+class="reports-container"
+id="reportsContainer">
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     ADMIN DASHBOARD
+========================= -->
+
+<section
+class="admin-section"
+id="adminDashboard">
+
+
+<div class="admin-container">
+
+
+<div class="section-title">
+
+<h2>
+🛡️ EcoTrack Admin Dashboard
+</h2>
+
+<p>
+Manage and verify citizen waste reports
+</p>
+
+</div>
+
+
+<!-- ADMIN STATS -->
+
+<div class="admin-stats">
+
+
+<div class="admin-stat">
+
+<h3>
+Total Reports
+</h3>
+
+<div
+class="admin-stat-number"
+id="totalReports">
+
+0
+
+</div>
+
+</div>
+
+
+<div class="admin-stat">
+
+<h3>
+Pending
+</h3>
+
+<div
+class="admin-stat-number"
+id="pendingReports">
+
+0
+
+</div>
+
+</div>
+
+
+<div class="admin-stat">
+
+<h3>
+Verified
+</h3>
+
+<div
+class="admin-stat-number"
+id="verifiedReports">
+
+0
+
+</div>
+
+</div>
+
+
+<div class="admin-stat">
+
+<h3>
+Resolved
+</h3>
+
+<div
+class="admin-stat-number"
+id="resolvedReports">
+
+0
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ADMIN TABLE -->
+
+<div class="admin-tools">
+
+    <input
+        type="text"
+        id="adminSearch"
+        placeholder="🔎 Search complaint or location..."
+        oninput="loadAdminReports()"
+    >
+
+
+    <select
+        id="adminFilter"
+        onchange="loadAdminReports()">
+
+        <option value="All">
+            All Status
+        </option>
+
+        <option value="Pending">
+            Pending
+        </option>
+
+        <option value="Verified">
+            Verified
+        </option>
+
+        <option value="Rejected">
+            Rejected
+        </option>
+
+        <option value="Resolved">
+            Resolved
+        </option>
+
+    </select>
+
+</div>
+
+<div class="admin-table-container">
+
+<table class="admin-table">
+
+<thead>
+
+<tr>
+
+<th>
+Complaint ID
+</th>
+
+<th>
+User
+</th>
+
+<th>
+Waste
+</th>
+
+<th>
+Location
+</th>
+
+<th>
+Image
+</th>
+
+<th>
+Status
+</th>
+
+<th>
+Action
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody
+id="adminReportsTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     LOGIN / REGISTER MODAL
+========================= -->
+
+<div
+class="modal"
+id="authModal">
+
+
+<div class="modal-box">
+
+
+<span
+class="close"
+onclick="closeModal()">
+
+×
+
+</span>
+
+
+<!-- LOGIN -->
+
+<div id="loginForm">
+
+<h2>
+Welcome Back 🌱
+</h2>
+
+
+<input
+type="email"
+id="loginEmail"
+placeholder="Email">
+
+
+<input
+type="password"
+id="loginPassword"
+placeholder="Password">
+
+
+<button
+onclick="loginUser()">
+
+Login
+
+</button>
+
+
+<p class="switch-text">
+
+Don't have an account?
+
+<span onclick="showRegister()">
+Register
+</span>
+
+</p>
+
+</div>
+
+
+<!-- REGISTER -->
+
+<div
+id="registerForm"
+style="display:none;">
+
+<h2>
+Join EcoTrack 🌱
+</h2>
+
+
+<input
+type="text"
+id="registerName"
+placeholder="Full Name">
+
+
+<input
+type="email"
+id="registerEmail"
+placeholder="Email">
+
+
+<input
+type="password"
+id="registerPassword"
+placeholder="Create Password">
+
+
+<button
+onclick="registerUser()">
+
+Create Account
+
+</button>
+
+
+<p class="switch-text">
+
+Already have an account?
+
+<span onclick="showLogin()">
+Login
+</span>
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     ADMIN LOGIN MODAL
+========================= -->
+
+<div
+class="modal"
+id="adminModal">
+
+
+<div class="modal-box">
+
+
+<span
+class="close"
+onclick="closeAdminModal()">
+
+×
+
+</span>
+
+
+<h2>
+🛡️ Admin Login
+</h2>
+
+
+<input
+type="email"
+id="adminEmail"
+placeholder="Admin Email">
+
+
+<input
+type="password"
+id="adminPassword"
+placeholder="Admin Password">
+
+
+<button
+onclick="adminLogin()">
+
+Login as Admin
+
+</button>
+
+
+<p class="switch-text">
+
+Demo Admin Account
+
+<br><br>
+
+admin@ecotrack.com
+
+<br>
+
+admin123
+
+</p>
+
+</div>
+
+</div>
+
+<!-- =========================
+     WASTE SEGREGATION GUIDE
+========================= -->
+
+<section>
+
+    <div class="section-title">
+
+        <h2>
+            ♻️ Waste Segregation Guide
+        </h2>
+
+        <p>
+            Know where your waste belongs
+        </p>
+
+    </div>
+
+
+    <div class="seg-guide">
+
+        <div class="guide-card">
+
+            <h3>🟢 Wet Waste</h3>
+
+            <p>
+                Food scraps, vegetable peels,
+                fruit waste and other
+                biodegradable materials.
+            </p>
+
+        </div>
+
+
+        <div class="guide-card">
+
+            <h3>🔵 Dry Waste</h3>
+
+            <p>
+                Paper, cardboard, plastic,
+                glass and metal items that
+                can be recycled.
+            </p>
+
+        </div>
+
+
+        <div class="guide-card">
+
+            <h3>🟠 E-Waste</h3>
+
+            <p>
+                Old phones, chargers,
+                batteries, computers and
+                electronic devices.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ACHIEVEMENTS
+========================= -->
+
+<section>
+
+    <div class="section-title">
+
+        <h2>
+            🏆 Eco Achievements
+        </h2>
+
+        <p>
+            Every responsible action counts
+        </p>
+
+    </div>
+
+
+    <div class="achievement-box">
+
+        <div class="achievement">
+
+            <div class="achievement-icon">
+                🌱
+            </div>
+
+            <h4>Eco Starter</h4>
+
+            <p>
+                Join EcoTrack
+            </p>
+
+        </div>
+
+
+        <div class="achievement">
+
+            <div class="achievement-icon">
+                ♻️
+            </div>
+
+            <h4>Eco Reporter</h4>
+
+            <p>
+                Submit your first report
+            </p>
+
+        </div>
+
+
+        <div class="achievement">
+
+            <div class="achievement-icon">
+                🌍
+            </div>
+
+            <h4>Green Citizen</h4>
+
+            <p>
+                Earn 200 Eco Points
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+<h2>
+EcoTrack ♻️
+</h2>
+
+<p>
+Track Waste. Manage Responsibly.
+Build a Greener Future.
+</p>
+
+</footer>
+
+
+<script>
+
+
+/* ===================================
+   USER DATA
+=================================== */
+
+let user =
+JSON.parse(
+localStorage.getItem("ecoUser")
+);
+
+
+/* ===================================
+   MODALS
+=================================== */
+
+function openLogin() {
+
+document.getElementById(
+"authModal"
+).style.display = "flex";
+
+showLogin();
+
+}
+
+
+function openRegister() {
+
+document.getElementById(
+"authModal"
+).style.display = "flex";
+
+showRegister();
+
+}
+
+
+function closeModal() {
+
+document.getElementById(
+"authModal"
+).style.display = "none";
+
+}
+
+
+function showLogin() {
+
+document.getElementById(
+"loginForm"
+).style.display = "block";
+
+document.getElementById(
+"registerForm"
+).style.display = "none";
+
+}
+
+
+function showRegister() {
+
+document.getElementById(
+"loginForm"
+).style.display = "none";
+
+document.getElementById(
+"registerForm"
+).style.display = "block";
+
+}
+
+
+/* ===================================
+   REGISTER
+=================================== */
+
+function registerUser() {
+
+let name =
+document.getElementById(
+"registerName"
+).value.trim();
+
+
+let email =
+document.getElementById(
+"registerEmail"
+).value.trim();
+
+
+let password =
+document.getElementById(
+"registerPassword"
+).value;
+
+
+if (
+name === "" ||
+email === "" ||
+password === ""
+) {
+
+alert(
+"Please fill all fields."
+);
+
+return;
+
+}
+
+
+let newUser = {
+
+name: name,
+
+email: email,
+
+password: password,
+
+points: 100,
+
+reports: 0,
+
+wasteManaged: 0
+
+};
+
+
+localStorage.setItem(
+"ecoUser",
+JSON.stringify(newUser)
+);
+
+
+localStorage.setItem(
+"ecoReports_" + email,
+JSON.stringify([])
+);
+
+
+user = newUser;
+
+
+alert(
+"Account created successfully! 🌱"
+);
+
+
+closeModal();
+
+updateUserUI();
+
+loadReports();
+updateEcoLevel();
+updateNotifications();
+
+}
+
+
+/* ===================================
+   LOGIN
+=================================== */
+
+function loginUser() {
+
+let email =
+document.getElementById(
+"loginEmail"
+).value.trim();
+
+
+let password =
+document.getElementById(
+"loginPassword"
+).value;
+
+
+let savedUser =
+JSON.parse(
+localStorage.getItem("ecoUser")
+);
+
+
+if (!savedUser) {
+
+alert(
+"No account found. Please register first."
+);
+
+return;
+
+}
+
+
+if (
+email === savedUser.email &&
+password === savedUser.password
+) {
+
+user = savedUser;
+
+alert(
+"Login successful! Welcome to EcoTrack 🌱"
+);
+
+closeModal();
+
+updateUserUI();
+
+loadReports();
+
+updateVersion6();
+
+updateNotifications();
+
+}
+
+else {
+
+alert(
+"Incorrect email or password."
+);
+
+}
+
+}
+
+
+/* ===================================
+   USER UI
+=================================== */
+
+function updateUserUI() {
+
+    if (!user) return;
+
+
+    document.getElementById(
+        "authButtons"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "userArea"
+    ).style.display = "flex";
+
+
+    document.getElementById(
+        "navUserName"
+    ).innerText =
+        "Hi, " + user.name;
+
+
+    // Get current user's reports
+    let reports = JSON.parse(
+        localStorage.getItem(
+            "ecoReports_" + user.email
+        )
+    ) || [];
+
+
+    // Update normal dashboard
+    let points =
+        100 + (reports.length * 20);
+
+
+    document.getElementById(
+        "points"
+    ).innerText = points;
+
+
+    document.getElementById(
+        "reportCount"
+    ).innerText =
+        reports.length;
+
+
+    document.getElementById(
+        "wasteManaged"
+    ).innerText =
+        reports.length + " kg";
+
+
+    // Update Version 6
+    updateVersion6();
+
+}
+
+/* ===================================
+   LOGOUT
+=================================== */
+
+function logout() {
+
+user = null;
+
+
+document.getElementById(
+"authButtons"
+).style.display = "flex";
+
+
+document.getElementById(
+"userArea"
+).style.display = "none";
+
+
+alert(
+"You have been logged out."
+);
+
+}
+
+
+/* ===================================
+   REPORT
+=================================== */
+
+function openReport() {
+
+if (!user) {
+
+alert(
+"Please login or register before reporting waste."
+);
+
+openLogin();
+
+return;
+
+}
+
+
+document.getElementById(
+"report"
+).scrollIntoView({
+behavior: "smooth"
+});
+
+}
+
+
+/* ===================================
+   IMAGE PREVIEW
+=================================== */
+
+function previewImage(event) {
+
+let image =
+document.getElementById(
+"imagePreview"
+);
+
+
+let file =
+event.target.files[0];
+
+
+if (!file) {
+
+image.style.display = "none";
+
+return;
+
+}
+
+
+let reader =
+new FileReader();
+
+
+reader.onload =
+function(e) {
+
+image.src =
+e.target.result;
+
+image.style.display =
+"block";
+
+};
+
+
+reader.readAsDataURL(file);
+
+}
+
+
+/* ===================================
+   LOCATION
+=================================== */
+
+function getLocation() {
+
+let message =
+document.getElementById(
+"locationMessage"
+);
+
+
+if (!navigator.geolocation) {
+
+message.innerText =
+"Location is not supported.";
+
+return;
+
+}
+
+
+message.innerText =
+"Getting your location... 📍";
+
+
+navigator.geolocation.getCurrentPosition(
+
+function(position) {
+
+let latitude =
+position.coords.latitude;
+
+let longitude =
+position.coords.longitude;
+
+
+document.getElementById(
+"location"
+).value =
+latitude +
+", " +
+longitude;
+
+
+message.innerText =
+"Location detected successfully ✓";
+
+},
+
+function() {
+
+message.innerText =
+"Unable to get location. Enter manually.";
+
+}
+
+);
+
+}
+
+
+/* ===================================
+   COMPLAINT ID
+=================================== */
+
+function generateComplaintID() {
+
+let number =
+Math.floor(
+100000 +
+Math.random() * 900000
+);
+
+
+return "ECO-" + number;
+
+}
+
+/* ===================================
+   SAVE REPORT
+=================================== */
+
+function saveReport(report) {
+
+    if (!user) {
+
+        alert("Please login first.");
+
+        return;
+
+    }
+
+
+    /* ===============================
+       SAVE USER COPY
+    =============================== */
+
+    let storageKey =
+        "ecoReports_" + user.email;
+
+
+    let userReports =
+        JSON.parse(
+            localStorage.getItem(storageKey)
+        ) || [];
+
+
+    // Make sure new reports have a status
+    report.status =
+        report.status || "Pending";
+
+
+    userReports.push(report);
+
+
+    localStorage.setItem(
+        storageKey,
+        JSON.stringify(userReports)
+    );
+
+
+    /* ===============================
+       SAVE ADMIN COPY
+    =============================== */
+
+    let allReports =
+        JSON.parse(
+            localStorage.getItem(
+                "allEcoReports"
+            )
+        ) || [];
+
+
+    allReports.push({
+        ...report,
+        userEmail: user.email,
+        userName: user.name
+    });
+
+
+    localStorage.setItem(
+        "allEcoReports",
+        JSON.stringify(allReports)
+    );
+
+
+    /* ===============================
+       UPDATE USER DATA
+    =============================== */
+
+    user.reports =
+        userReports.length;
+
+
+    user.points =
+        100 + (userReports.length * 20);
+
+
+    user.wasteManaged =
+        userReports.length;
+
+
+    localStorage.setItem(
+        "ecoUser",
+        JSON.stringify(user)
+    );
+
+
+    /* ===============================
+       REFRESH USER SECTION
+    =============================== */
+
+    updateUserUI();
+
+    loadReports();
+
+    updateVersion6();
+
+    updateNotifications();
+
+
+    /* ===============================
+       REFRESH ADMIN
+    =============================== */
+
+    loadAdminReports();
+
+
+    /* ===============================
+       RESET FORM
+    =============================== */
+
+    let form =
+        document.getElementById(
+            "reportForm"
+        );
+
+    if (form) {
+
+        form.reset();
+
+    }
+
+
+    let preview =
+        document.getElementById(
+            "imagePreview"
+        );
+
+    if (preview) {
+
+        preview.style.display =
+            "none";
+
+    }
+
+
+    let locationMessage =
+        document.getElementById(
+            "locationMessage"
+        );
+
+    if (locationMessage) {
+
+        locationMessage.innerText =
+            "";
+
+    }
+
+
+    /* ===============================
+       SUCCESS MESSAGE
+    =============================== */
+
+    alert(
+        "Report submitted successfully! 🎉\n\n" +
+        "Complaint ID: " +
+        report.id +
+        "\n\n+20 Eco Points"
+    );
+
+
+    /* ===============================
+       GO TO REPORT HISTORY
+    =============================== */
+
+    let history =
+        document.getElementById(
+            "history"
+        );
+
+    if (history) {
+
+        history.scrollIntoView({
+            behavior: "smooth"
+        });
+
+    }
+
+}
+
+/* ===================================
+   USER REPORT HISTORY
+=================================== */
+
+function loadReports() {
+
+    if (!user) {
+
+        document.getElementById(
+            "reportsContainer"
+        ).innerHTML = `
+
+            <div class="no-reports">
+
+                Please login to view your reports.
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    // Get reports of the logged-in user
+    let reports = JSON.parse(
+        localStorage.getItem(
+            "ecoReports_" + user.email
+        )
+    ) || [];
+
+
+    let container =
+        document.getElementById(
+            "reportsContainer"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    // No reports
+    if (reports.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="no-reports">
+
+                You haven't submitted any reports yet. 🌱
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML = "";
+
+
+    // Show newest report first
+    reports
+        .slice()
+        .reverse()
+        .forEach(function(report) {
+
+
+            let imageHTML = "";
+
+
+            if (report.image) {
+
+                imageHTML = `
+
+                    <img
+                        class="report-image"
+                        src="${report.image}"
+                        alt="Waste report image">
+
+                `;
+
+            }
+
+
+            // Make sure every report has a status
+            let status =
+                report.status || "Pending";
+
+
+            let statusClass =
+                status.toLowerCase();
+
+
+            container.innerHTML += `
+
+                <div class="report-card">
+
+                    <div class="report-top">
+
+                        <span class="complaint-id">
+
+                            ${report.id}
+
+                        </span>
+
+
+                        <span
+                            class="status ${statusClass}">
+
+                            ${status}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="report-info">
+
+                        <div>
+
+                            <strong>
+                                Waste:
+                            </strong>
+
+                            ${report.type}
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Date:
+                            </strong>
+
+                            ${report.date || "Recently"}
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Location:
+                            </strong>
+
+                            ${report.location}
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Description:
+                            </strong>
+
+                            ${report.description}
+
+                        </div>
+
+                    </div>
+
+
+                    ${imageHTML}
+
+                </div>
+
+            `;
+
+        });
+
+}
+
+/* ===================================
+   ADMIN LOGIN
+=================================== */
+
+function loadAdminReports() {
+
+    let table =
+        document.getElementById("adminReportsTable");
+
+    let reports =
+        JSON.parse(
+            localStorage.getItem("allEcoReports")
+        ) || [];
+
+
+    let search =
+        document.getElementById("adminSearch")
+        ? document.getElementById("adminSearch").value
+            .toLowerCase()
+        : "";
+
+
+    let filter =
+        document.getElementById("adminFilter")
+        ? document.getElementById("adminFilter").value
+        : "All";
+
+
+    let filteredReports = reports.filter(function(report) {
+
+        let matchesSearch =
+            report.id.toLowerCase().includes(search) ||
+            report.location.toLowerCase().includes(search) ||
+            report.userName.toLowerCase().includes(search);
+
+
+        let matchesFilter =
+            filter === "All" ||
+            report.status === filter;
+
+
+        return matchesSearch && matchesFilter;
+
+    });
+
+
+    table.innerHTML = "";
+
+
+    let pending = 0;
+    let verified = 0;
+    let resolved = 0;
+
+
+    reports.forEach(function(report) {
+
+        if (report.status === "Pending") {
+            pending++;
+        }
+
+        if (report.status === "Verified") {
+            verified++;
+        }
+
+        if (report.status === "Resolved") {
+            resolved++;
+        }
+
+    });
+
+
+    filteredReports.forEach(function(report) {
+
+        let imageHTML =
+            report.image
+            ?
+            `<img src="${report.image}">`
+            :
+            "No image";
+
+
+        table.innerHTML += `
+
+        <tr>
+
+            <td>
+                ${report.id}
+            </td>
+
+            <td>
+                ${report.userName}
+            </td>
+
+            <td>
+                ${report.type}
+            </td>
+
+            <td>
+                ${report.location}
+            </td>
+
+            <td>
+                ${imageHTML}
+            </td>
+
+            <td>
+                ${report.status}
+            </td>
+
+            <td>
+
+                <button
+                    class="admin-action verify-btn"
+                    onclick="updateReportStatus('${report.id}','Verified')">
+
+                    Verify
+
+                </button>
+
+
+                <button
+                    class="admin-action reject-btn"
+                    onclick="updateReportStatus('${report.id}','Rejected')">
+
+                    Reject
+
+                </button>
+
+
+                <button
+                    class="admin-action resolve-btn"
+                    onclick="updateReportStatus('${report.id}','Resolved')">
+
+                    Resolve
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+
+    document.getElementById("totalReports")
+        .innerText = reports.length;
+
+
+    document.getElementById("pendingReports")
+        .innerText = pending;
+
+
+    document.getElementById("verifiedReports")
+        .innerText = verified;
+
+
+    document.getElementById("resolvedReports")
+        .innerText = resolved;
+
+
+    if (filteredReports.length === 0) {
+
+        table.innerHTML = `
+
+        <tr>
+
+            <td
+                colspan="7"
+                style="text-align:center;padding:30px;">
+
+                No matching reports found.
+
+            </td>
+
+        </tr>
+
+        `;
+
+    }
+
+}
+
+/* ===================================
+   UPDATE REPORT STATUS
+=================================== */
+
+function updateReportStatus(
+    complaintID,
+    newStatus
+) {
+
+
+let allReports =
+JSON.parse(
+localStorage.getItem(
+"allEcoReports"
+)
+) || [];
+
+
+let report =
+allReports.find(
+function(item) {
+
+return item.id === complaintID;
+
+}
+);
+
+
+if (!report) {
+
+return;
+
+}
+
+
+report.status =
+newStatus;
+
+
+localStorage.setItem(
+"allEcoReports",
+JSON.stringify(allReports)
+);
+
+
+/* UPDATE USER REPORT */
+
+let userReports =
+JSON.parse(
+localStorage.getItem(
+"ecoReports_" +
+report.userEmail
+)
+) || [];
+
+
+let userReport =
+userReports.find(
+function(item) {
+
+return item.id === complaintID;
+
+}
+);
+
+
+if (userReport) {
+
+userReport.status =
+newStatus;
+
+}
+
+
+localStorage.setItem(
+"ecoReports_" +
+report.userEmail,
+
+JSON.stringify(userReports)
+);
+
+
+loadAdminReports();
+
+
+if (
+user &&
+user.email === report.userEmail
+) {
+
+loadReports();
+
+}
+
+
+alert(
+"Complaint " +
+complaintID +
+" is now " +
+newStatus
+);
+
+}
+
+
+/* ===================================
+   PAGE LOAD
+=================================== */
+
+window.onload =
+function() {
+
+
+if (user) {
+
+updateUserUI();
+
+loadReports();
+
+}
+
+
+loadAdminReports();
+
+};
+
+function openAdminLogin() {
+
+    document.getElementById("adminModal").style.display = "flex";
+
+}
+
+
+function closeAdminModal() {
+
+    document.getElementById("adminModal").style.display = "none";
+
+}
+
+
+function adminLogin() {
+
+    let email = document.getElementById("adminEmail").value.trim().toLowerCase();
+
+    let password = document.getElementById("adminPassword").value.trim();
+
+
+    if (
+        email === "admin@ecotrack.com" &&
+        password === "admin123"
+    ) {
+
+        closeAdminModal();
+
+        document.getElementById("adminDashboard").style.display = "block";
+
+        loadAdminReports();
+
+        document.getElementById("adminDashboard").scrollIntoView({
+            behavior: "smooth"
+        });
+
+        alert("Admin login successful! 🛡️");
+
+    } else {
+
+        alert("Invalid credentials.\n\nEmail: admin@ecotrack.com\nPassword: admin123");
+
+    }
+
+}
+
+/* =========================
+   VERSION 6
+   ECO LEVEL SYSTEM
+========================= */
+
+function updateEcoLevel() {
+
+    if (!user) {
+        return;
+    }
+
+    // Get reports belonging to the logged-in user
+    let reports = JSON.parse(
+        localStorage.getItem("ecoReports_" + user.email)
+    ) || [];
+
+
+    // Number of user's complaints
+    let reportCount = reports.length;
+
+
+    // Eco points
+    // 20 points for every submitted complaint
+    let points = 100 + (reportCount * 20);
+
+
+    // Update user dashboard
+    let reportsElement =
+        document.getElementById("v6Reports");
+
+    if (reportsElement) {
+        reportsElement.innerText = reportCount;
+    }
+
+
+    let pointsElement =
+        document.getElementById("v6Points");
+
+    if (pointsElement) {
+        pointsElement.innerText = points;
+    }
+
+
+    // Waste managed
+    let wasteElement =
+        document.getElementById("v6Waste");
+
+    if (wasteElement) {
+        wasteElement.innerText =
+            (reportCount * 1) + " kg";
+    }
+
+
+    // -------------------------
+    // ECO LEVEL
+    // -------------------------
+
+    let level = "Eco Starter";
+    let nextLevel = 200;
+    let previousLevel = 100;
+
+
+    if (points >= 500) {
+
+        level = "Eco Champion";
+        nextLevel = 1000;
+        previousLevel = 500;
+
+    }
+
+    else if (points >= 200) {
+
+        level = "Green Citizen";
+        nextLevel = 500;
+        previousLevel = 200;
+
+    }
+
+
+    let progress =
+        ((points - previousLevel) /
+        (nextLevel - previousLevel)) * 100;
+
+
+    if (progress < 0) {
+        progress = 0;
+    }
+
+    if (progress > 100) {
+        progress = 100;
+    }
+
+
+    let levelElement =
+        document.getElementById("ecoLevel");
+
+    if (levelElement) {
+        levelElement.innerText = level;
+    }
+
+
+    let levelText =
+        document.getElementById("v6Level");
+
+    if (levelText) {
+        levelText.innerText =
+            level.replace("Eco ", "");
+    }
+
+
+    let progressBar =
+        document.getElementById("ecoProgress");
+
+    if (progressBar) {
+        progressBar.style.width =
+            progress + "%";
+    }
+
+
+    let progressText =
+        document.getElementById("progressText");
+
+    if (progressText) {
+
+        progressText.innerText =
+            points +
+            " / " +
+            nextLevel +
+            " Eco Points";
+
+    }
+
+
+    let badge =
+        document.getElementById("greenBadge");
+
+    if (badge) {
+        badge.innerText =
+            "🌱 " + level;
+    }
+
+}
+
+/* =========================
+   VERSION 6
+   NOTIFICATIONS
+========================= */
+function updateNotifications() {
+
+    if (!user) {
+        return;
+    }
+
+
+    let reports = JSON.parse(
+        localStorage.getItem("ecoReports_" + user.email)
+    ) || [];
+
+
+    let container =
+        document.getElementById("notifications");
+
+
+    if (!container) {
+        return;
+    }
+
+
+    let notifications = [];
+
+
+    notifications.push(`
+
+        <div class="notification">
+
+            👋 Welcome back,
+            <strong>${user.name}</strong>!
+
+        </div>
+
+    `);
+
+
+    if (reports.length > 0) {
+
+        let latest =
+            reports[reports.length - 1];
+
+
+        let status =
+            latest.status || "Submitted";
+
+
+        notifications.push(`
+
+            <div class="notification">
+
+                📋 Complaint
+                <strong>${latest.id}</strong>
+                is <strong>${status}</strong>.
+
+            </div>
+
+        `);
+
+    }
+
+
+    notifications.push(`
+
+        <div class="notification">
+
+            ♻️ You have submitted
+            <strong>${reports.length}</strong>
+            complaint(s).
+
+        </div>
+
+    `);
+
+
+    container.innerHTML =
+        notifications.join("");
+
+}
+    
+/* =========================
+   VERSION 6
+   UPDATE EVERYTHING
+========================= */
+
+function updateVersion6() {
+
+    if (!user) {
+
+        return;
+
+    }
+
+
+    updateEcoLevel();
+
+    updateNotifications();
+
+}
+
+
+/* =========================
+   UPDATE USER UI
+========================= */
+
+const oldUpdateUserUI =
+    updateUserUI;
+
+
+/* Run Version 6 after
+   existing user update */
+
+function refreshEcoDashboard() {
+
+    if (user) {
+
+        updateEcoLevel();
+
+        updateNotifications();
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>
