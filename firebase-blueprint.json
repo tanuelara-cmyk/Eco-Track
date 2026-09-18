@@ -1,0 +1,67 @@
+{
+  "entities": {
+    "users": {
+      "title": "User Profile",
+      "description": "Registered citizen and admin user accounts",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "admin"] },
+        "ecoPoints": { "type": "number" },
+        "ecoLevel": { "type": "string" },
+        "reportsCount": { "type": "number" },
+        "wasteManaged": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "name", "email", "role", "ecoPoints", "ecoLevel"]
+    },
+    "reports": {
+      "title": "Waste Report",
+      "description": "Citizen submitted waste and cleanliness reports",
+      "type": "object",
+      "properties": {
+        "reportId": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "category": { "type": "string" },
+        "description": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "location": { "type": "string" },
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" },
+        "address": { "type": "string" },
+        "status": { "type": "string", "enum": ["Pending", "In Progress", "Resolved"] },
+        "ecoPoints": { "type": "number" },
+        "clusterId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "updatedBy": { "type": "string" }
+      },
+      "required": ["reportId", "userId", "category", "description", "status"]
+    },
+    "clusters": {
+      "title": "Report Cluster",
+      "description": "Aggregated clusters of duplicate or geographically proximate reports",
+      "type": "object",
+      "properties": {
+        "clusterId": { "type": "string" },
+        "representativeDescription": { "type": "string" },
+        "category": { "type": "string" },
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" },
+        "address": { "type": "string" },
+        "reportCount": { "type": "number" },
+        "uniqueUserCount": { "type": "number" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["clusterId", "category", "reportCount", "status"]
+    }
+  }
+}

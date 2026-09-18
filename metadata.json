@@ -1,0 +1,8 @@
+{
+  "name": "EcoTrack",
+  "description": "Smart Waste Management system for citizens and administrators to report, track, and manage urban waste collection.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

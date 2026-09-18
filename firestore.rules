@@ -1,0 +1,59 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.email == 'admin@gmail.com' ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+      );
+    }
+
+    // USERS COLLECTION
+    match /users/{userId} {
+      // Any authenticated user can read user profiles
+      allow read: if isAuthenticated();
+
+      // On registration, user can create their profile
+      allow create: if isOwner(userId);
+
+      // Users can update their own profile; admins can also manage
+      allow update: if isOwner(userId) || isAdmin();
+
+      // Users can delete their profile; admins can also manage
+      allow delete: if isOwner(userId) || isAdmin();
+    }
+
+    // REPORTS COLLECTION
+    match /reports/{reportDocId} {
+      // All authenticated users can read reports for community updates
+      allow read: if isAuthenticated();
+
+      // Authenticated users can create reports with their own UID and status 'Pending'
+      allow create: if isAuthenticated()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.status == 'Pending';
+
+      // Admin (admin@gmail.com) can update report statuses; report owners can update their report details
+      allow update: if isAuthenticated() && (isAdmin() || isOwner(resource.data.userId));
+
+      // Admin can manage/delete reports
+      allow delete: if isAdmin();
+    }
+
+    // CLUSTERS COLLECTION
+    match /clusters/{clusterId} {
+      allow read, write: if isAuthenticated();
+    }
+  }
+}

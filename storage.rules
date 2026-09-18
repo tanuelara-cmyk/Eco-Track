@@ -1,0 +1,20 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    match /reports/{userId}/{allPaths=**} {
+      // Authenticated users and admins can view report images
+      allow read: if isAuthenticated();
+
+      // Only the report owner can upload an image (max 5MB, image MIME type)
+      allow write: if isAuthenticated() 
+        && request.auth.uid == userId
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+  }
+}

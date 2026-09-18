@@ -8,6 +8,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>EcoTrack | Smart Waste Management</title>
+<meta name="description" content="EcoTrack - Smart Waste Management system for citizens and administrators to report, track, and manage urban waste collection.">
+<meta property="og:title" content="EcoTrack | Smart Waste Management">
+<meta property="og:description" content="EcoTrack - Smart Waste Management system for citizens and administrators to report, track, and manage urban waste collection.">
 
 
 <style>
@@ -492,14 +495,25 @@ textarea {
     color: #065f46;
 }
 
+.status.pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status.in-progress,
+.status.inprogress {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
 .status.rejected {
     background: #fee2e2;
     color: #991b1b;
 }
 
 .status.resolved {
-    background: #dbeafe;
-    color: #1e40af;
+    background: #d1fae5;
+    color: #065f46;
 }
 
 .report-info {
@@ -624,12 +638,20 @@ textarea {
     background: #16803c;
 }
 
+.progress-btn {
+    background: #0284c7;
+}
+
 .reject-btn {
     background: #ef4444;
 }
 
 .resolve-btn {
-    background: #2563eb;
+    background: #16803c;
+}
+
+.details-btn {
+    background: #4b5563;
 }
 
 
@@ -1093,6 +1115,54 @@ footer p {
 }
 
 </style>
+
+<script>
+// Immediate UI modal handlers to ensure instant responsiveness before and after module loads
+window.openLogin = function() {
+    var m = document.getElementById("authModal");
+    if (m) m.style.display = "flex";
+    var lf = document.getElementById("loginForm");
+    var rf = document.getElementById("registerForm");
+    if (lf) lf.style.display = "block";
+    if (rf) rf.style.display = "none";
+};
+window.openRegister = function() {
+    var m = document.getElementById("authModal");
+    if (m) m.style.display = "flex";
+    var lf = document.getElementById("loginForm");
+    var rf = document.getElementById("registerForm");
+    if (lf) lf.style.display = "none";
+    if (rf) rf.style.display = "block";
+};
+window.closeModal = function() {
+    var m = document.getElementById("authModal");
+    if (m) m.style.display = "none";
+};
+window.showLogin = function() {
+    var lf = document.getElementById("loginForm");
+    var rf = document.getElementById("registerForm");
+    if (lf) lf.style.display = "block";
+    if (rf) rf.style.display = "none";
+};
+window.showRegister = function() {
+    var lf = document.getElementById("loginForm");
+    var rf = document.getElementById("registerForm");
+    if (lf) lf.style.display = "none";
+    if (rf) rf.style.display = "block";
+};
+window.openAdminLogin = function() {
+    var m = document.getElementById("adminModal");
+    if (m) m.style.display = "flex";
+};
+window.closeAdminModal = function() {
+    var m = document.getElementById("adminModal");
+    if (m) m.style.display = "none";
+};
+window.closeDetailsModal = function() {
+    var m = document.getElementById("reportDetailsModal");
+    if (m) m.style.display = "none";
+};
+</script>
 
 </head>
 
@@ -1692,23 +1762,23 @@ id="wasteType"
 required>
 
 <option value="">
-Select waste type
-</option>
-
-<option value="Wet Waste">
-Wet Waste
+Select waste category
 </option>
 
 <option value="Dry Waste">
 Dry Waste
 </option>
 
+<option value="Wet Waste">
+Wet Waste
+</option>
+
 <option value="E-Waste">
 E-Waste
 </option>
 
-<option value="Plastic Waste">
-Plastic Waste
+<option value="Cleanliness">
+Cleanliness
 </option>
 
 <option value="Other">
@@ -1850,16 +1920,17 @@ id="adminDashboard">
 <div class="section-title">
 
 <h2>
-🛡️ EcoTrack Admin Dashboard
+EcoTrack Admin Dashboard
 </h2>
 
 <p>
-Manage and verify citizen waste reports
+Manage, track, and resolve community waste complaint reports
 </p>
 
 </div>
 
-
+<!-- REPORTS VIEW -->
+<div id="adminReportsView">
 <!-- ADMIN STATS -->
 
 <div class="admin-stats">
@@ -1902,7 +1973,7 @@ id="pendingReports">
 <div class="admin-stat">
 
 <h3>
-Verified
+In Progress
 </h3>
 
 <div
@@ -1959,16 +2030,42 @@ id="resolvedReports">
             Pending
         </option>
 
-        <option value="Verified">
-            Verified
-        </option>
-
-        <option value="Rejected">
-            Rejected
+        <option value="In Progress">
+            In Progress
         </option>
 
         <option value="Resolved">
             Resolved
+        </option>
+
+    </select>
+
+    <select
+        id="adminCategoryFilter"
+        onchange="loadAdminReports()">
+
+        <option value="All">
+            All Categories
+        </option>
+
+        <option value="Dry Waste">
+            Dry Waste
+        </option>
+
+        <option value="Wet Waste">
+            Wet Waste
+        </option>
+
+        <option value="E-Waste">
+            E-Waste
+        </option>
+
+        <option value="Cleanliness">
+            Cleanliness
+        </option>
+
+        <option value="Other">
+            Other
         </option>
 
     </select>
@@ -1988,11 +2085,19 @@ Complaint ID
 </th>
 
 <th>
+Date & Time
+</th>
+
+<th>
 User
 </th>
 
 <th>
-Waste
+Category
+</th>
+
+<th>
+Description
 </th>
 
 <th>
@@ -2015,7 +2120,6 @@ Action
 
 </thead>
 
-
 <tbody
 id="adminReportsTable">
 
@@ -2024,6 +2128,9 @@ id="adminReportsTable">
 </table>
 
 </div>
+
+</div>
+<!-- END REPORTS VIEW -->
 
 </div>
 
@@ -2050,10 +2157,12 @@ onclick="closeModal()">
 
 </span>
 
+<div id="authNotice" style="display:none; margin: 10px 0 14px 0; padding: 10px 12px; border-radius: 6px; font-size: 13px; text-align: left; line-height: 1.4;"></div>
+
 
 <!-- LOGIN -->
 
-<div id="loginForm">
+<form id="loginForm" onsubmit="event.preventDefault(); loginUser();">
 
 <h2>
 Welcome Back 🌱
@@ -2063,20 +2172,46 @@ Welcome Back 🌱
 <input
 type="email"
 id="loginEmail"
-placeholder="Email">
+placeholder="Email"
+required
+autocomplete="username">
 
 
 <input
 type="password"
 id="loginPassword"
-placeholder="Password">
+placeholder="Password"
+required
+autocomplete="current-password">
 
+<div style="display:flex; justify-content:flex-end; margin: -6px 0 14px 0;">
+    <button
+        type="button"
+        onclick="handleForgotPasswordPrompt('loginEmail')"
+        style="background:none; border:none; color:#16803c; font-size:12.5px; font-weight:600; cursor:pointer; padding:0; text-decoration:underline;">
+        Forgot password?
+    </button>
+</div>
 
 <button
-onclick="loginUser()">
+type="submit">
 
 Login
 
+</button>
+
+<div style="display:flex; align-items:center; margin: 14px 0 8px 0; color: #888; font-size: 13px;">
+    <div style="flex:1; height: 1px; background: #e0e0e0; margin-right: 10px;"></div>
+    <span>or</span>
+    <div style="flex:1; height: 1px; background: #e0e0e0; margin-left: 10px;"></div>
+</div>
+
+<button
+type="button"
+onclick="loginWithGoogle()"
+style="background: #ffffff; color: #374151; border: 1px solid #d1d5db; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 500; cursor: pointer;">
+    <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
+    Continue with Google
 </button>
 
 
@@ -2090,14 +2225,15 @@ Register
 
 </p>
 
-</div>
+</form>
 
 
 <!-- REGISTER -->
 
-<div
+<form
 id="registerForm"
-style="display:none;">
+style="display:none;"
+onsubmit="event.preventDefault(); registerUser();">
 
 <h2>
 Join EcoTrack 🌱
@@ -2107,26 +2243,46 @@ Join EcoTrack 🌱
 <input
 type="text"
 id="registerName"
-placeholder="Full Name">
+placeholder="Full Name"
+required
+autocomplete="name">
 
 
 <input
 type="email"
 id="registerEmail"
-placeholder="Email">
+placeholder="Email"
+required
+autocomplete="email">
 
 
 <input
 type="password"
 id="registerPassword"
-placeholder="Create Password">
+placeholder="Create Password (min. 6 characters)"
+required
+autocomplete="new-password">
 
 
 <button
-onclick="registerUser()">
+type="submit">
 
 Create Account
 
+</button>
+
+<div style="display:flex; align-items:center; margin: 14px 0 8px 0; color: #888; font-size: 13px;">
+    <div style="flex:1; height: 1px; background: #e0e0e0; margin-right: 10px;"></div>
+    <span>or</span>
+    <div style="flex:1; height: 1px; background: #e0e0e0; margin-left: 10px;"></div>
+</div>
+
+<button
+type="button"
+onclick="loginWithGoogle()"
+style="background: #ffffff; color: #374151; border: 1px solid #d1d5db; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 500; cursor: pointer;">
+    <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
+    Continue with Google
 </button>
 
 
@@ -2140,7 +2296,7 @@ Login
 
 </p>
 
-</div>
+</form>
 
 </div>
 
@@ -2169,45 +2325,92 @@ onclick="closeAdminModal()">
 
 
 <h2>
-🛡️ Admin Login
+🛡️ Admin Access
 </h2>
 
+<p style="font-size: 13px; color: #4b5563; margin: 4px 0 12px 0;">
+    Sign in with <strong>admin@gmail.com</strong> to access the EcoTrack Admin Dashboard.
+</p>
+
+<div id="adminNotice" style="display:none; margin: 10px 0 14px 0; padding: 10px 12px; border-radius: 6px; font-size: 13px; text-align: left; line-height: 1.4;"></div>
+
+<button
+type="button"
+id="adminGoogleBtn"
+onclick="loginWithGoogle()"
+style="background: #ffffff; color: #1f2937; border: 1.5px solid #d1d5db; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; cursor: pointer; width: 100%; padding: 11px 16px; border-radius: 8px; font-size: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); transition: all 0.2s;">
+    <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
+    Sign in with Google
+</button>
+
+<div style="display:flex; align-items:center; margin: 16px 0 12px 0; color: #888; font-size: 13px;">
+    <div style="flex:1; height: 1px; background: #e0e0e0; margin-right: 10px;"></div>
+    <span>or sign in with password</span>
+    <div style="flex:1; height: 1px; background: #e0e0e0; margin-left: 10px;"></div>
+</div>
+
+<form id="adminLoginForm" onsubmit="event.preventDefault(); adminLogin();">
 
 <input
 type="email"
 id="adminEmail"
-placeholder="Admin Email">
+placeholder="admin@gmail.com"
+value="admin@gmail.com"
+required
+autocomplete="username">
 
 
 <input
 type="password"
 id="adminPassword"
-placeholder="Admin Password">
+placeholder="Admin Password"
+required
+autocomplete="current-password">
 
+<div style="display:flex; justify-content:flex-end; margin: -6px 0 14px 0;">
+    <button
+        type="button"
+        onclick="handleForgotPasswordPrompt('adminEmail')"
+        style="background:none; border:none; color:#16803c; font-size:12.5px; font-weight:600; cursor:pointer; padding:0; text-decoration:underline;">
+        Forgot password?
+    </button>
+</div>
 
 <button
-onclick="adminLogin()">
+type="submit"
+id="adminSubmitBtn">
 
 Login as Admin
 
 </button>
 
+</form>
 
-<p class="switch-text">
 
-Demo Admin Account
-
-<br><br>
-
-admin@ecotrack.com
-
-<br>
-
-admin123
-
+<p class="switch-text" style="font-size: 12px; color: #666; margin-top: 15px; line-height: 1.4;">
+    🔒 Access to the EcoTrack Admin Dashboard is restricted to <strong>admin@gmail.com</strong>.
 </p>
 
 </div>
+
+</div>
+
+<!-- =========================
+     REPORT DETAILS MODAL
+========================= -->
+<div class="modal" id="reportDetailsModal">
+
+    <div class="modal-box" style="max-width: 520px; text-align: left;">
+
+        <span class="close" onclick="closeDetailsModal()">&times;</span>
+
+        <h2 id="modalReportId" style="color: #14532d; font-size: 20px; margin-bottom: 12px;">Report Details</h2>
+
+        <div id="modalReportBody" style="display: flex; flex-direction: column; gap: 10px; font-size: 14px; line-height: 1.6; color: #333;">
+            <!-- Populated dynamically -->
+        </div>
+
+    </div>
 
 </div>
 
@@ -2362,1461 +2565,1339 @@ Build a Greener Future.
 </footer>
 
 
-<script>
+<script type="module">
+/* ==============================================================================
+   EcoTrack - Firebase Backend Integration (Auth, Firestore, Storage)
+============================================================================== */
+import {
+    auth,
+    isFirebaseConfigured,
+    registerUserWithFirebase,
+    loginUserWithFirebase,
+    loginWithGoogle,
+    logoutUserFromFirebase,
+    sendPasswordReset,
+    getUserProfile,
+    submitReportToFirebase,
+    subscribeToUserReports,
+    subscribeToAllReports,
+    updateReportStatusInFirebase,
+    getFriendlyAuthErrorMessage,
+    getReportCategory,
+    getReportTimestamp
+} from "./firebase-config.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+// State
+let currentUser = null;
+let userReports = [];
+let allAdminReports = [];
+let unsubscribeUserReports = null;
+let unsubscribeAllReports = null;
+let currentCoords = { latitude: null, longitude: null };
 
-/* ===================================
-   USER DATA
-=================================== */
-
-let user =
-JSON.parse(
-localStorage.getItem("ecoUser")
-);
-
+function escapeHtml(str) {
+    if (!str) return "";
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
 
 /* ===================================
    MODALS
 =================================== */
-
-function openLogin() {
-
-document.getElementById(
-"authModal"
-).style.display = "flex";
-
-showLogin();
-
+function openLogin(prefillEmail = "") {
+    document.getElementById("authModal").style.display = "flex";
+    showLogin(prefillEmail);
 }
 
-
-function openRegister() {
-
-document.getElementById(
-"authModal"
-).style.display = "flex";
-
-showRegister();
-
+function openRegister(prefillEmail = "") {
+    document.getElementById("authModal").style.display = "flex";
+    showRegister(prefillEmail);
 }
-
 
 function closeModal() {
-
-document.getElementById(
-"authModal"
-).style.display = "none";
-
+    document.getElementById("authModal").style.display = "none";
+    const notice = document.getElementById("authNotice");
+    if (notice) notice.style.display = "none";
 }
 
-
-function showLogin() {
-
-document.getElementById(
-"loginForm"
-).style.display = "block";
-
-document.getElementById(
-"registerForm"
-).style.display = "none";
-
-}
-
-
-function showRegister() {
-
-document.getElementById(
-"loginForm"
-).style.display = "none";
-
-document.getElementById(
-"registerForm"
-).style.display = "block";
-
-}
-
-
-/* ===================================
-   REGISTER
-=================================== */
-
-function registerUser() {
-
-let name =
-document.getElementById(
-"registerName"
-).value.trim();
-
-
-let email =
-document.getElementById(
-"registerEmail"
-).value.trim();
-
-
-let password =
-document.getElementById(
-"registerPassword"
-).value;
-
-
-if (
-name === "" ||
-email === "" ||
-password === ""
-) {
-
-alert(
-"Please fill all fields."
-);
-
-return;
-
-}
-
-
-let newUser = {
-
-name: name,
-
-email: email,
-
-password: password,
-
-points: 100,
-
-reports: 0,
-
-wasteManaged: 0
-
-};
-
-
-localStorage.setItem(
-"ecoUser",
-JSON.stringify(newUser)
-);
-
-
-localStorage.setItem(
-"ecoReports_" + email,
-JSON.stringify([])
-);
-
-
-user = newUser;
-
-
-alert(
-"Account created successfully! 🌱"
-);
-
-
-closeModal();
-
-updateUserUI();
-
-loadReports();
-updateEcoLevel();
-updateNotifications();
-
-}
-
-
-/* ===================================
-   LOGIN
-=================================== */
-
-function loginUser() {
-
-let email =
-document.getElementById(
-"loginEmail"
-).value.trim();
-
-
-let password =
-document.getElementById(
-"loginPassword"
-).value;
-
-
-let savedUser =
-JSON.parse(
-localStorage.getItem("ecoUser")
-);
-
-
-if (!savedUser) {
-
-alert(
-"No account found. Please register first."
-);
-
-return;
-
-}
-
-
-if (
-email === savedUser.email &&
-password === savedUser.password
-) {
-
-user = savedUser;
-
-alert(
-"Login successful! Welcome to EcoTrack 🌱"
-);
-
-closeModal();
-
-updateUserUI();
-
-loadReports();
-
-updateVersion6();
-
-updateNotifications();
-
-}
-
-else {
-
-alert(
-"Incorrect email or password."
-);
-
-}
-
-}
-
-
-/* ===================================
-   USER UI
-=================================== */
-
-function updateUserUI() {
-
-    if (!user) return;
-
-
-    document.getElementById(
-        "authButtons"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "userArea"
-    ).style.display = "flex";
-
-
-    document.getElementById(
-        "navUserName"
-    ).innerText =
-        "Hi, " + user.name;
-
-
-    // Get current user's reports
-    let reports = JSON.parse(
-        localStorage.getItem(
-            "ecoReports_" + user.email
-        )
-    ) || [];
-
-
-    // Update normal dashboard
-    let points =
-        100 + (reports.length * 20);
-
-
-    document.getElementById(
-        "points"
-    ).innerText = points;
-
-
-    document.getElementById(
-        "reportCount"
-    ).innerText =
-        reports.length;
-
-
-    document.getElementById(
-        "wasteManaged"
-    ).innerText =
-        reports.length + " kg";
-
-
-    // Update Version 6
-    updateVersion6();
-
-}
-
-/* ===================================
-   LOGOUT
-=================================== */
-
-function logout() {
-
-user = null;
-
-
-document.getElementById(
-"authButtons"
-).style.display = "flex";
-
-
-document.getElementById(
-"userArea"
-).style.display = "none";
-
-
-alert(
-"You have been logged out."
-);
-
-}
-
-
-/* ===================================
-   REPORT
-=================================== */
-
-function openReport() {
-
-if (!user) {
-
-alert(
-"Please login or register before reporting waste."
-);
-
-openLogin();
-
-return;
-
-}
-
-
-document.getElementById(
-"report"
-).scrollIntoView({
-behavior: "smooth"
-});
-
-}
-
-
-/* ===================================
-   IMAGE PREVIEW
-=================================== */
-
-function previewImage(event) {
-
-let image =
-document.getElementById(
-"imagePreview"
-);
-
-
-let file =
-event.target.files[0];
-
-
-if (!file) {
-
-image.style.display = "none";
-
-return;
-
-}
-
-
-let reader =
-new FileReader();
-
-
-reader.onload =
-function(e) {
-
-image.src =
-e.target.result;
-
-image.style.display =
-"block";
-
-};
-
-
-reader.readAsDataURL(file);
-
-}
-
-
-/* ===================================
-   LOCATION
-=================================== */
-
-function getLocation() {
-
-let message =
-document.getElementById(
-"locationMessage"
-);
-
-
-if (!navigator.geolocation) {
-
-message.innerText =
-"Location is not supported.";
-
-return;
-
-}
-
-
-message.innerText =
-"Getting your location... 📍";
-
-
-navigator.geolocation.getCurrentPosition(
-
-function(position) {
-
-let latitude =
-position.coords.latitude;
-
-let longitude =
-position.coords.longitude;
-
-
-document.getElementById(
-"location"
-).value =
-latitude +
-", " +
-longitude;
-
-
-message.innerText =
-"Location detected successfully ✓";
-
-},
-
-function() {
-
-message.innerText =
-"Unable to get location. Enter manually.";
-
-}
-
-);
-
-}
-
-
-/* ===================================
-   COMPLAINT ID
-=================================== */
-
-function generateComplaintID() {
-
-let number =
-Math.floor(
-100000 +
-Math.random() * 900000
-);
-
-
-return "ECO-" + number;
-
-}
-
-/* ===================================
-   SAVE REPORT
-=================================== */
-
-function saveReport(report) {
-
-    if (!user) {
-
-        alert("Please login first.");
-
-        return;
-
+function showLogin(prefillEmail = "") {
+    document.getElementById("loginForm").style.display = "block";
+    document.getElementById("registerForm").style.display = "none";
+    const notice = document.getElementById("authNotice");
+    if (notice) notice.style.display = "none";
+    if (prefillEmail) {
+        const emailInput = document.getElementById("loginEmail");
+        if (emailInput) {
+            emailInput.value = prefillEmail;
+            const pwdInput = document.getElementById("loginPassword");
+            if (pwdInput) pwdInput.focus();
+        }
     }
-
-
-    /* ===============================
-       SAVE USER COPY
-    =============================== */
-
-    let storageKey =
-        "ecoReports_" + user.email;
-
-
-    let userReports =
-        JSON.parse(
-            localStorage.getItem(storageKey)
-        ) || [];
-
-
-    // Make sure new reports have a status
-    report.status =
-        report.status || "Pending";
-
-
-    userReports.push(report);
-
-
-    localStorage.setItem(
-        storageKey,
-        JSON.stringify(userReports)
-    );
-
-
-    /* ===============================
-       SAVE ADMIN COPY
-    =============================== */
-
-    let allReports =
-        JSON.parse(
-            localStorage.getItem(
-                "allEcoReports"
-            )
-        ) || [];
-
-
-    allReports.push({
-        ...report,
-        userEmail: user.email,
-        userName: user.name
-    });
-
-
-    localStorage.setItem(
-        "allEcoReports",
-        JSON.stringify(allReports)
-    );
-
-
-    /* ===============================
-       UPDATE USER DATA
-    =============================== */
-
-    user.reports =
-        userReports.length;
-
-
-    user.points =
-        100 + (userReports.length * 20);
-
-
-    user.wasteManaged =
-        userReports.length;
-
-
-    localStorage.setItem(
-        "ecoUser",
-        JSON.stringify(user)
-    );
-
-
-    /* ===============================
-       REFRESH USER SECTION
-    =============================== */
-
-    updateUserUI();
-
-    loadReports();
-
-    updateVersion6();
-
-    updateNotifications();
-
-
-    /* ===============================
-       REFRESH ADMIN
-    =============================== */
-
-    loadAdminReports();
-
-
-    /* ===============================
-       RESET FORM
-    =============================== */
-
-    let form =
-        document.getElementById(
-            "reportForm"
-        );
-
-    if (form) {
-
-        form.reset();
-
-    }
-
-
-    let preview =
-        document.getElementById(
-            "imagePreview"
-        );
-
-    if (preview) {
-
-        preview.style.display =
-            "none";
-
-    }
-
-
-    let locationMessage =
-        document.getElementById(
-            "locationMessage"
-        );
-
-    if (locationMessage) {
-
-        locationMessage.innerText =
-            "";
-
-    }
-
-
-    /* ===============================
-       SUCCESS MESSAGE
-    =============================== */
-
-    alert(
-        "Report submitted successfully! 🎉\n\n" +
-        "Complaint ID: " +
-        report.id +
-        "\n\n+20 Eco Points"
-    );
-
-
-    /* ===============================
-       GO TO REPORT HISTORY
-    =============================== */
-
-    let history =
-        document.getElementById(
-            "history"
-        );
-
-    if (history) {
-
-        history.scrollIntoView({
-            behavior: "smooth"
-        });
-
-    }
-
 }
 
-/* ===================================
-   USER REPORT HISTORY
-=================================== */
-
-function loadReports() {
-
-    if (!user) {
-
-        document.getElementById(
-            "reportsContainer"
-        ).innerHTML = `
-
-            <div class="no-reports">
-
-                Please login to view your reports.
-
-            </div>
-
-        `;
-
-        return;
+function showRegister(prefillEmail = "") {
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("registerForm").style.display = "block";
+    const notice = document.getElementById("authNotice");
+    if (notice) notice.style.display = "none";
+    if (prefillEmail) {
+        const regInput = document.getElementById("registerEmail");
+        if (regInput) {
+            regInput.value = prefillEmail;
+            const pwdInput = document.getElementById("registerPassword");
+            if (pwdInput) pwdInput.focus();
+        }
     }
+}
 
+function switchToLoginWithEmail(email) {
+    showLogin(email);
+    showAuthNotice(`Account exists! Please enter your password for <strong>${escapeHtml(email)}</strong> to log in.`, "info", `
+        <button type="button" onclick="handleForgotPassword('${escapeHtml(email)}')" style="background:none; border:none; color:#2563eb; font-size:12.5px; font-weight:600; cursor:pointer; text-decoration:underline; padding:0;">
+            Forgot Password?
+        </button>
+    `);
+}
 
-    // Get reports of the logged-in user
-    let reports = JSON.parse(
-        localStorage.getItem(
-            "ecoReports_" + user.email
-        )
-    ) || [];
-
-
-    let container =
-        document.getElementById(
-            "reportsContainer"
-        );
-
-
+function showGlobalToast(message, type = "info") {
+    let container = document.getElementById("toastContainer");
     if (!container) {
+        container = document.createElement("div");
+        container.id = "toastContainer";
+        container.style.cssText = "position:fixed;top:20px;right:20px;z-index:99999;display:flex;flex-direction:column;gap:10px;pointer-events:none;max-width:360px;";
+        document.body.appendChild(container);
+    }
+    const toast = document.createElement("div");
+    const bg = type === "error" ? "#dc2626" : type === "success" ? "#16a34a" : "#2563eb";
+    toast.style.cssText = `background:${bg};color:white;padding:12px 18px;border-radius:8px;font-size:14px;box-shadow:0 4px 14px rgba(0,0,0,0.18);pointer-events:auto;transition:opacity 0.3s ease;line-height:1.4;`;
+    toast.innerText = message;
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = "0";
+        setTimeout(() => toast.remove(), 300);
+    }, 4500);
+}
+window.showGlobalToast = showGlobalToast;
+
+function showAuthNotice(message, type = "error", actionHtml = "") {
+    const el = document.getElementById("authNotice");
+    if (!el) {
+        showGlobalToast(typeof message === "string" ? message : "Notice", type);
         return;
     }
-
-
-    // No reports
-    if (reports.length === 0) {
-
-        container.innerHTML = `
-
-            <div class="no-reports">
-
-                You haven't submitted any reports yet. 🌱
-
-            </div>
-
-        `;
-
-        return;
+    el.style.display = "block";
+    let content = `<div style="font-weight: 500; line-height: 1.45;">${message}</div>`;
+    if (actionHtml) {
+        content += `<div style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">${actionHtml}</div>`;
     }
-
-
-    container.innerHTML = "";
-
-
-    // Show newest report first
-    reports
-        .slice()
-        .reverse()
-        .forEach(function(report) {
-
-
-            let imageHTML = "";
-
-
-            if (report.image) {
-
-                imageHTML = `
-
-                    <img
-                        class="report-image"
-                        src="${report.image}"
-                        alt="Waste report image">
-
-                `;
-
-            }
-
-
-            // Make sure every report has a status
-            let status =
-                report.status || "Pending";
-
-
-            let statusClass =
-                status.toLowerCase();
-
-
-            container.innerHTML += `
-
-                <div class="report-card">
-
-                    <div class="report-top">
-
-                        <span class="complaint-id">
-
-                            ${report.id}
-
-                        </span>
-
-
-                        <span
-                            class="status ${statusClass}">
-
-                            ${status}
-
-                        </span>
-
-                    </div>
-
-
-                    <div class="report-info">
-
-                        <div>
-
-                            <strong>
-                                Waste:
-                            </strong>
-
-                            ${report.type}
-
-                        </div>
-
-
-                        <div>
-
-                            <strong>
-                                Date:
-                            </strong>
-
-                            ${report.date || "Recently"}
-
-                        </div>
-
-
-                        <div>
-
-                            <strong>
-                                Location:
-                            </strong>
-
-                            ${report.location}
-
-                        </div>
-
-
-                        <div>
-
-                            <strong>
-                                Description:
-                            </strong>
-
-                            ${report.description}
-
-                        </div>
-
-                    </div>
-
-
-                    ${imageHTML}
-
-                </div>
-
-            `;
-
-        });
-
-}
-
-/* ===================================
-   ADMIN LOGIN
-=================================== */
-
-function loadAdminReports() {
-
-    let table =
-        document.getElementById("adminReportsTable");
-
-    let reports =
-        JSON.parse(
-            localStorage.getItem("allEcoReports")
-        ) || [];
-
-
-    let search =
-        document.getElementById("adminSearch")
-        ? document.getElementById("adminSearch").value
-            .toLowerCase()
-        : "";
-
-
-    let filter =
-        document.getElementById("adminFilter")
-        ? document.getElementById("adminFilter").value
-        : "All";
-
-
-    let filteredReports = reports.filter(function(report) {
-
-        let matchesSearch =
-            report.id.toLowerCase().includes(search) ||
-            report.location.toLowerCase().includes(search) ||
-            report.userName.toLowerCase().includes(search);
-
-
-        let matchesFilter =
-            filter === "All" ||
-            report.status === filter;
-
-
-        return matchesSearch && matchesFilter;
-
-    });
-
-
-    table.innerHTML = "";
-
-
-    let pending = 0;
-    let verified = 0;
-    let resolved = 0;
-
-
-    reports.forEach(function(report) {
-
-        if (report.status === "Pending") {
-            pending++;
-        }
-
-        if (report.status === "Verified") {
-            verified++;
-        }
-
-        if (report.status === "Resolved") {
-            resolved++;
-        }
-
-    });
-
-
-    filteredReports.forEach(function(report) {
-
-        let imageHTML =
-            report.image
-            ?
-            `<img src="${report.image}">`
-            :
-            "No image";
-
-
-        table.innerHTML += `
-
-        <tr>
-
-            <td>
-                ${report.id}
-            </td>
-
-            <td>
-                ${report.userName}
-            </td>
-
-            <td>
-                ${report.type}
-            </td>
-
-            <td>
-                ${report.location}
-            </td>
-
-            <td>
-                ${imageHTML}
-            </td>
-
-            <td>
-                ${report.status}
-            </td>
-
-            <td>
-
-                <button
-                    class="admin-action verify-btn"
-                    onclick="updateReportStatus('${report.id}','Verified')">
-
-                    Verify
-
-                </button>
-
-
-                <button
-                    class="admin-action reject-btn"
-                    onclick="updateReportStatus('${report.id}','Rejected')">
-
-                    Reject
-
-                </button>
-
-
-                <button
-                    class="admin-action resolve-btn"
-                    onclick="updateReportStatus('${report.id}','Resolved')">
-
-                    Resolve
-
-                </button>
-
-            </td>
-
-        </tr>
-
-        `;
-
-    });
-
-
-    document.getElementById("totalReports")
-        .innerText = reports.length;
-
-
-    document.getElementById("pendingReports")
-        .innerText = pending;
-
-
-    document.getElementById("verifiedReports")
-        .innerText = verified;
-
-
-    document.getElementById("resolvedReports")
-        .innerText = resolved;
-
-
-    if (filteredReports.length === 0) {
-
-        table.innerHTML = `
-
-        <tr>
-
-            <td
-                colspan="7"
-                style="text-align:center;padding:30px;">
-
-                No matching reports found.
-
-            </td>
-
-        </tr>
-
-        `;
-
-    }
-
-}
-
-/* ===================================
-   UPDATE REPORT STATUS
-=================================== */
-
-function updateReportStatus(
-    complaintID,
-    newStatus
-) {
-
-
-let allReports =
-JSON.parse(
-localStorage.getItem(
-"allEcoReports"
-)
-) || [];
-
-
-let report =
-allReports.find(
-function(item) {
-
-return item.id === complaintID;
-
-}
-);
-
-
-if (!report) {
-
-return;
-
-}
-
-
-report.status =
-newStatus;
-
-
-localStorage.setItem(
-"allEcoReports",
-JSON.stringify(allReports)
-);
-
-
-/* UPDATE USER REPORT */
-
-let userReports =
-JSON.parse(
-localStorage.getItem(
-"ecoReports_" +
-report.userEmail
-)
-) || [];
-
-
-let userReport =
-userReports.find(
-function(item) {
-
-return item.id === complaintID;
-
-}
-);
-
-
-if (userReport) {
-
-userReport.status =
-newStatus;
-
-}
-
-
-localStorage.setItem(
-"ecoReports_" +
-report.userEmail,
-
-JSON.stringify(userReports)
-);
-
-
-loadAdminReports();
-
-
-if (
-user &&
-user.email === report.userEmail
-) {
-
-loadReports();
-
-}
-
-
-alert(
-"Complaint " +
-complaintID +
-" is now " +
-newStatus
-);
-
-}
-
-
-/* ===================================
-   PAGE LOAD
-=================================== */
-
-window.onload =
-function() {
-
-
-if (user) {
-
-updateUserUI();
-
-loadReports();
-
-}
-
-
-loadAdminReports();
-
-};
-
-function openAdminLogin() {
-
-    document.getElementById("adminModal").style.display = "flex";
-
-}
-
-
-function closeAdminModal() {
-
-    document.getElementById("adminModal").style.display = "none";
-
-}
-
-
-function adminLogin() {
-
-    let email = document.getElementById("adminEmail").value.trim().toLowerCase();
-
-    let password = document.getElementById("adminPassword").value.trim();
-
-
-    if (
-        email === "admin@ecotrack.com" &&
-        password === "admin123"
-    ) {
-
-        closeAdminModal();
-
-        document.getElementById("adminDashboard").style.display = "block";
-
-        loadAdminReports();
-
-        document.getElementById("adminDashboard").scrollIntoView({
-            behavior: "smooth"
-        });
-
-        alert("Admin login successful! 🛡️");
-
+    el.innerHTML = content;
+
+    if (type === "error") {
+        el.style.background = "#fef2f2";
+        el.style.color = "#991b1b";
+        el.style.border = "1px solid #fecaca";
+    } else if (type === "success") {
+        el.style.background = "#f0fdf4";
+        el.style.color = "#166534";
+        el.style.border = "1px solid #bbf7d0";
     } else {
-
-        alert("Invalid credentials.\n\nEmail: admin@ecotrack.com\nPassword: admin123");
-
+        el.style.background = "#eff6ff";
+        el.style.color = "#1e40af";
+        el.style.border = "1px solid #bfdbfe";
     }
-
 }
 
-/* =========================
-   VERSION 6
-   ECO LEVEL SYSTEM
-========================= */
+function showAdminNotice(message, type = "error", actionHtml = "") {
+    const el = document.getElementById("adminNotice");
+    if (!el) {
+        showGlobalToast(typeof message === "string" ? message : "Notice", type);
+        return;
+    }
+    el.style.display = "block";
+    let content = `<div style="font-weight: 500; line-height: 1.45;">${message}</div>`;
+    if (actionHtml) {
+        content += `<div style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">${actionHtml}</div>`;
+    }
+    el.innerHTML = content;
+
+    if (type === "error") {
+        el.style.background = "#fef2f2";
+        el.style.color = "#991b1b";
+        el.style.border = "1px solid #fecaca";
+    } else if (type === "success") {
+        el.style.background = "#f0fdf4";
+        el.style.color = "#166534";
+        el.style.border = "1px solid #bbf7d0";
+    } else {
+        el.style.background = "#eff6ff";
+        el.style.color = "#1e40af";
+        el.style.border = "1px solid #bfdbfe";
+    }
+}
+
+async function handleForgotPassword(passedEmail) {
+    let email = (passedEmail || "").trim().toLowerCase();
+    if (!email) {
+        const loginInput = document.getElementById("loginEmail");
+        const adminInput = document.getElementById("adminEmail");
+        const regInput = document.getElementById("registerEmail");
+        email = (loginInput && loginInput.value ? loginInput.value : (adminInput && adminInput.value ? adminInput.value : (regInput && regInput.value ? regInput.value : ""))).trim().toLowerCase();
+    }
+    if (!email) {
+        const entered = prompt("Enter your registered email address to receive a password reset link:");
+        if (!entered) return;
+        email = entered.trim().toLowerCase();
+    }
+
+    try {
+        await sendPasswordReset(email);
+        const msg = `✅ Password reset link has been sent to <strong>${escapeHtml(email)}</strong>. Please check your inbox and spam folder.`;
+        showAuthNotice(msg, "success");
+        const adminNotice = document.getElementById("adminNotice");
+        if (adminNotice && adminNotice.style.display !== "none") {
+            showAdminNotice(msg, "success");
+        }
+        showGlobalToast("Password reset link sent! 📩 Check your inbox.", "success");
+    } catch (err) {
+        console.error("Password reset error:", err);
+        const errText = getFriendlyAuthErrorMessage(err);
+        showAuthNotice("Could not send password reset link: " + errText, "error");
+        showGlobalToast("Password reset failed: " + errText, "error");
+    }
+}
+
+function handleForgotPasswordPrompt(sourceInputId) {
+    const input = sourceInputId ? document.getElementById(sourceInputId) : null;
+    const email = input ? input.value : "";
+    handleForgotPassword(email);
+}
+
+async function loginWithGoogleHandler() {
+    const adminGoogleBtn = document.getElementById("adminGoogleBtn");
+    const originalText = adminGoogleBtn ? adminGoogleBtn.innerText : "";
+    if (adminGoogleBtn) {
+        adminGoogleBtn.innerText = "Signing in with Google... ⏳";
+    }
+
+    const wasAdminModalOpen = document.getElementById("adminModal") && document.getElementById("adminModal").style.display === "flex";
+
+    try {
+        const userProfile = await loginWithGoogle();
+        currentUser = userProfile;
+        closeModal();
+        closeAdminModal();
+        updateUserUI();
+        initUserReportsSubscription(currentUser.userId || currentUser.uid);
+
+        const userEmail = (currentUser.email || "").toLowerCase().trim();
+        const isAdmin = userEmail === "admin@gmail.com";
+
+        if (isAdmin) {
+            const adminDash = document.getElementById("adminDashboard");
+            if (adminDash) {
+                adminDash.style.display = "block";
+                adminDash.scrollIntoView({ behavior: "smooth" });
+            }
+            initAdminReportsSubscription();
+            showGlobalToast("Welcome to EcoTrack Admin Dashboard 🛡️", "success");
+        } else {
+            const adminDash = document.getElementById("adminDashboard");
+            if (adminDash) adminDash.style.display = "none";
+
+            if (wasAdminModalOpen) {
+                showGlobalToast("Access Denied: Only admin@gmail.com can access the EcoTrack Admin Dashboard.", "error");
+            } else {
+                showGlobalToast("Signed in with Google! 🌱 Welcome to EcoTrack, " + (currentUser.name || "Citizen"), "success");
+            }
+        }
+    } catch (err) {
+        if (err && (err.code === "auth/popup-closed-by-user" || err.code === "auth/cancelled-popup-request")) {
+            return;
+        }
+        console.error("Google sign-in error:", err);
+        const friendlyMsg = getFriendlyAuthErrorMessage(err);
+        showAdminNotice(friendlyMsg, "error");
+        showAuthNotice(friendlyMsg, "error");
+    } finally {
+        if (adminGoogleBtn) {
+            adminGoogleBtn.innerText = originalText;
+        }
+    }
+}
+window.loginWithGoogle = loginWithGoogleHandler;
+
+/* ===================================
+   AUTHENTICATION (FIREBASE AUTH)
+================================== */
+async function registerUser() {
+    const name = document.getElementById("registerName").value.trim();
+    const email = document.getElementById("registerEmail").value.trim().toLowerCase();
+    const password = document.getElementById("registerPassword").value;
+
+    if (!name || !email || !password) {
+        showAuthNotice("Please fill all fields: Name, Email, and Password.", "error");
+        return;
+    }
+
+    if (password.length < 6) {
+        showAuthNotice("Password must be at least 6 characters long.", "error");
+        return;
+    }
+
+    const regBtn = document.querySelector("#registerForm button[type='submit']");
+    const originalText = regBtn ? regBtn.innerText : "";
+    if (regBtn) {
+        regBtn.disabled = true;
+        regBtn.innerText = "Creating Account... 🌱";
+    }
+
+    try {
+        const userProfile = await registerUserWithFirebase(name, email, password);
+        currentUser = userProfile;
+        showGlobalToast("Account created successfully! 🌱 Welcome to EcoTrack, " + name, "success");
+        closeModal();
+        updateUserUI();
+        initUserReportsSubscription(currentUser.userId || currentUser.uid);
+    } catch (err) {
+        console.error("Registration error:", err);
+        const code = err.code || "";
+        if (code === "auth/email-already-in-use") {
+            const actionHtml = `
+                <button type="button" onclick="switchToLoginWithEmail('${escapeHtml(email)}')" style="background:#16803c; color:white; border:none; padding:6px 14px; border-radius:6px; font-size:12.5px; font-weight:600; cursor:pointer;">
+                    👉 Log In with this Account
+                </button>
+                <button type="button" onclick="loginWithGoogle()" style="background:#ffffff; color:#374151; border:1px solid #d1d5db; padding:6px 12px; border-radius:6px; font-size:12.5px; font-weight:500; cursor:pointer;">
+                    Continue with Google
+                </button>
+            `;
+            showAuthNotice(`<strong>${escapeHtml(email)}</strong> is already registered. If this is your account, please log in or continue with Google.`, "error", actionHtml);
+        } else {
+            showAuthNotice(getFriendlyAuthErrorMessage(err), "error");
+        }
+    } finally {
+        if (regBtn) {
+            regBtn.disabled = false;
+            regBtn.innerText = originalText;
+        }
+    }
+}
+
+async function loginUser() {
+    const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+    const password = document.getElementById("loginPassword").value;
+
+    if (!email || !password) {
+        showAuthNotice("Please enter both email and password.", "error");
+        return;
+    }
+
+    const loginBtn = document.querySelector("#loginForm button[type='submit']");
+    const originalText = loginBtn ? loginBtn.innerText : "";
+    if (loginBtn) {
+        loginBtn.disabled = true;
+        loginBtn.innerText = "Logging in... ⏳";
+    }
+
+    try {
+        const userProfile = await loginUserWithFirebase(email, password);
+        currentUser = userProfile;
+        closeModal();
+        updateUserUI();
+        initUserReportsSubscription(currentUser.userId || currentUser.uid);
+
+        const userEmail = (currentUser.email || "").toLowerCase().trim();
+        const isAdmin = userEmail === "admin@gmail.com";
+        const adminDash = document.getElementById("adminDashboard");
+
+        if (isAdmin) {
+            if (adminDash) {
+                adminDash.style.display = "block";
+                adminDash.scrollIntoView({ behavior: "smooth" });
+            }
+            initAdminReportsSubscription();
+            showGlobalToast("Welcome to EcoTrack Admin Dashboard 🛡️", "success");
+        } else {
+            if (adminDash) adminDash.style.display = "none";
+            showGlobalToast("Login successful! Welcome back to EcoTrack 🌱", "success");
+        }
+    } catch (err) {
+        console.error("Login error:", err);
+        const code = err.code || "";
+        if (code === "auth/invalid-credential" || code === "auth/wrong-password" || code === "auth/invalid-login-credentials" || code === "auth/user-not-found") {
+            const actionHtml = `
+                <button type="button" onclick="handleForgotPassword('${escapeHtml(email)}')" style="background:#2563eb; color:white; border:none; padding:6px 14px; border-radius:6px; font-size:12.5px; font-weight:600; cursor:pointer;">
+                    🔑 Reset Password
+                </button>
+                <button type="button" onclick="loginWithGoogle()" style="background:#ffffff; color:#374151; border:1px solid #d1d5db; padding:6px 12px; border-radius:6px; font-size:12.5px; font-weight:500; cursor:pointer;">
+                    Continue with Google
+                </button>
+                <button type="button" onclick="showRegister('${escapeHtml(email)}')" style="background:#f3f4f6; color:#374151; border:1px solid #d1d5db; padding:6px 10px; border-radius:6px; font-size:12px; cursor:pointer;">
+                    Create Account
+                </button>
+            `;
+            showAuthNotice("Invalid email or password.<br><span style='font-size:12px; color:#4b5563; font-weight:normal; display:inline-block; margin-top:2px;'>• If you signed up using Google, click <strong>Continue with Google</strong>.<br>• If you forgot your password, click <strong>Reset Password</strong> to receive a reset link.</span>", "error", actionHtml);
+        } else {
+            showAuthNotice(getFriendlyAuthErrorMessage(err), "error");
+        }
+    } finally {
+        if (loginBtn) {
+            loginBtn.disabled = false;
+            loginBtn.innerText = originalText;
+        }
+    }
+}
+
+async function logout() {
+    try {
+        if (unsubscribeUserReports) {
+            unsubscribeUserReports();
+            unsubscribeUserReports = null;
+        }
+        await logoutUserFromFirebase();
+        currentUser = null;
+        userReports = [];
+
+        document.getElementById("authButtons").style.display = "flex";
+        document.getElementById("userArea").style.display = "none";
+        document.getElementById("adminDashboard").style.display = "none";
+
+        loadReports();
+        alert("You have been logged out.");
+    } catch (err) {
+        console.error("Logout error:", err);
+    }
+}
+
+/* ===================================
+   USER DASHBOARD & GAMIFICATION UI
+=================================== */
+function updateUserUI() {
+    if (!currentUser) return;
+
+    const authBtns = document.getElementById("authButtons");
+    if (authBtns) authBtns.style.display = "none";
+
+    const userArea = document.getElementById("userArea");
+    if (userArea) userArea.style.display = "flex";
+
+    const navName = document.getElementById("navUserName");
+    if (navName) navName.innerText = "Hi, " + (currentUser.name || currentUser.displayName || "Citizen");
+
+    const reportCount = userReports.length;
+    const points = (currentUser.ecoPoints !== undefined) ? currentUser.ecoPoints : (100 + reportCount * 20);
+
+    const pointsEl = document.getElementById("points");
+    if (pointsEl) pointsEl.innerText = points;
+
+    const countEl = document.getElementById("reportCount");
+    if (countEl) countEl.innerText = reportCount;
+
+    const wasteEl = document.getElementById("wasteManaged");
+    if (wasteEl) wasteEl.innerText = reportCount + " kg";
+
+    updateVersion6();
+}
 
 function updateEcoLevel() {
+    if (!currentUser) return;
 
-    if (!user) {
-        return;
-    }
+    const reportCount = userReports.length;
+    const points = (currentUser.ecoPoints !== undefined) ? currentUser.ecoPoints : (100 + reportCount * 20);
 
-    // Get reports belonging to the logged-in user
-    let reports = JSON.parse(
-        localStorage.getItem("ecoReports_" + user.email)
-    ) || [];
+    const reportsEl = document.getElementById("v6Reports");
+    if (reportsEl) reportsEl.innerText = reportCount;
 
+    const pointsEl = document.getElementById("v6Points");
+    if (pointsEl) pointsEl.innerText = points;
 
-    // Number of user's complaints
-    let reportCount = reports.length;
-
-
-    // Eco points
-    // 20 points for every submitted complaint
-    let points = 100 + (reportCount * 20);
-
-
-    // Update user dashboard
-    let reportsElement =
-        document.getElementById("v6Reports");
-
-    if (reportsElement) {
-        reportsElement.innerText = reportCount;
-    }
-
-
-    let pointsElement =
-        document.getElementById("v6Points");
-
-    if (pointsElement) {
-        pointsElement.innerText = points;
-    }
-
-
-    // Waste managed
-    let wasteElement =
-        document.getElementById("v6Waste");
-
-    if (wasteElement) {
-        wasteElement.innerText =
-            (reportCount * 1) + " kg";
-    }
-
-
-    // -------------------------
-    // ECO LEVEL
-    // -------------------------
+    const wasteEl = document.getElementById("v6Waste");
+    if (wasteEl) wasteEl.innerText = (reportCount * 1) + " kg";
 
     let level = "Eco Starter";
     let nextLevel = 200;
     let previousLevel = 100;
 
-
     if (points >= 500) {
-
         level = "Eco Champion";
         nextLevel = 1000;
         previousLevel = 500;
-
-    }
-
-    else if (points >= 200) {
-
+    } else if (points >= 200) {
         level = "Green Citizen";
         nextLevel = 500;
         previousLevel = 200;
-
     }
 
+    let progress = ((points - previousLevel) / (nextLevel - previousLevel)) * 100;
+    if (progress < 0) progress = 0;
+    if (progress > 100) progress = 100;
 
-    let progress =
-        ((points - previousLevel) /
-        (nextLevel - previousLevel)) * 100;
+    const levelEl = document.getElementById("ecoLevel");
+    if (levelEl) levelEl.innerText = level;
 
+    const v6LevelEl = document.getElementById("v6Level");
+    if (v6LevelEl) v6LevelEl.innerText = level.replace("Eco ", "");
 
-    if (progress < 0) {
-        progress = 0;
-    }
+    const progressBar = document.getElementById("ecoProgress");
+    if (progressBar) progressBar.style.width = progress + "%";
 
-    if (progress > 100) {
-        progress = 100;
-    }
+    const progressText = document.getElementById("progressText");
+    if (progressText) progressText.innerText = points + " / " + nextLevel + " Eco Points";
 
-
-    let levelElement =
-        document.getElementById("ecoLevel");
-
-    if (levelElement) {
-        levelElement.innerText = level;
-    }
-
-
-    let levelText =
-        document.getElementById("v6Level");
-
-    if (levelText) {
-        levelText.innerText =
-            level.replace("Eco ", "");
-    }
-
-
-    let progressBar =
-        document.getElementById("ecoProgress");
-
-    if (progressBar) {
-        progressBar.style.width =
-            progress + "%";
-    }
-
-
-    let progressText =
-        document.getElementById("progressText");
-
-    if (progressText) {
-
-        progressText.innerText =
-            points +
-            " / " +
-            nextLevel +
-            " Eco Points";
-
-    }
-
-
-    let badge =
-        document.getElementById("greenBadge");
-
-    if (badge) {
-        badge.innerText =
-            "🌱 " + level;
-    }
-
+    const badge = document.getElementById("greenBadge");
+    if (badge) badge.innerText = "🌱 " + level;
 }
 
-/* =========================
-   VERSION 6
-   NOTIFICATIONS
-========================= */
 function updateNotifications() {
+    if (!currentUser) return;
 
-    if (!user) {
-        return;
-    }
+    const container = document.getElementById("notifications");
+    if (!container) return;
 
-
-    let reports = JSON.parse(
-        localStorage.getItem("ecoReports_" + user.email)
-    ) || [];
-
-
-    let container =
-        document.getElementById("notifications");
-
-
-    if (!container) {
-        return;
-    }
-
-
-    let notifications = [];
-
-
+    const notifications = [];
     notifications.push(`
-
         <div class="notification">
-
-            👋 Welcome back,
-            <strong>${user.name}</strong>!
-
+            👋 Welcome back, <strong>${currentUser.name || currentUser.displayName || "Eco Hero"}</strong>!
         </div>
-
     `);
 
-
-    if (reports.length > 0) {
-
-        let latest =
-            reports[reports.length - 1];
-
-
-        let status =
-            latest.status || "Submitted";
-
-
+    if (userReports.length > 0) {
+        const latest = userReports[0];
+        const status = latest.status || "Pending";
         notifications.push(`
-
             <div class="notification">
-
-                📋 Complaint
-                <strong>${latest.id}</strong>
-                is <strong>${status}</strong>.
-
+                📋 Complaint <strong>${latest.reportId || latest.id}</strong> is <strong>${status}</strong>.
             </div>
-
         `);
-
     }
 
-
     notifications.push(`
-
         <div class="notification">
-
-            ♻️ You have submitted
-            <strong>${reports.length}</strong>
-            complaint(s).
-
+            ♻️ You have submitted <strong>${userReports.length}</strong> complaint(s).
         </div>
-
     `);
 
-
-    container.innerHTML =
-        notifications.join("");
-
+    container.innerHTML = notifications.join("");
 }
-    
-/* =========================
-   VERSION 6
-   UPDATE EVERYTHING
-========================= */
 
 function updateVersion6() {
-
-    if (!user) {
-
-        return;
-
-    }
-
-
+    if (!currentUser) return;
     updateEcoLevel();
-
     updateNotifications();
-
 }
 
-
-/* =========================
-   UPDATE USER UI
-========================= */
-
-const oldUpdateUserUI =
-    updateUserUI;
-
-
-/* Run Version 6 after
-   existing user update */
-
-function refreshEcoDashboard() {
-
-    if (user) {
-
-        updateEcoLevel();
-
-        updateNotifications();
-
+/* ===================================
+   REPORT SUBMISSION
+=================================== */
+function openReport() {
+    if (!currentUser) {
+        alert("Please login or register before reporting waste.");
+        openLogin();
+        return;
     }
 
+    const reportSection = document.getElementById("report");
+    if (reportSection) {
+        reportSection.scrollIntoView({ behavior: "smooth" });
+    }
 }
 
+function previewImage(event) {
+    const image = document.getElementById("imagePreview");
+    const file = event.target.files[0];
+
+    if (!file) {
+        image.style.display = "none";
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        image.src = e.target.result;
+        image.style.display = "block";
+    };
+    reader.readAsDataURL(file);
+}
+
+function getLocation() {
+    const message = document.getElementById("locationMessage");
+
+    if (!navigator.geolocation) {
+        message.innerText = "Location is not supported by your browser.";
+        return;
+    }
+
+    message.innerText = "Getting your coordinates... 📍";
+
+    navigator.geolocation.getCurrentPosition(
+        function(position) {
+            currentCoords.latitude = position.coords.latitude;
+            currentCoords.longitude = position.coords.longitude;
+
+            document.getElementById("location").value =
+                position.coords.latitude.toFixed(5) + ", " + position.coords.longitude.toFixed(5);
+
+            message.innerText = "Location detected successfully ✓";
+        },
+        function(err) {
+            console.warn("Geolocation warning:", err);
+            message.innerText = "Unable to get automatic location. Please type location manually.";
+        }
+    );
+}
+
+function generateComplaintID() {
+    const number = Math.floor(100000 + Math.random() * 900000);
+    return "ECO-" + number;
+}
+
+let isSubmittingReport = false;
+
+async function submitReport(event) {
+    event.preventDefault();
+
+    // Prevent duplicate reports on rapid/repeated button clicks
+    if (isSubmittingReport) {
+        console.warn("Report submission already in progress. Duplicate submission prevented.");
+        return;
+    }
+
+    const authUser = auth.currentUser;
+    if (!currentUser && !authUser) {
+        alert("Please login or register before reporting waste.");
+        openLogin();
+        return;
+    }
+
+    // Ensure currentUser is available even if profile is still syncing
+    if (!currentUser && authUser) {
+        currentUser = {
+            uid: authUser.uid,
+            userId: authUser.uid,
+            email: authUser.email || "",
+            name: authUser.displayName || "Citizen",
+            role: "user",
+            ecoPoints: 0
+        };
+    }
+
+    const wasteTypeEl = document.getElementById("wasteType");
+    const wasteType = wasteTypeEl ? wasteTypeEl.value : "";
+    const locationInput = document.getElementById("location") ? document.getElementById("location").value.trim() : "";
+    const description = document.getElementById("description") ? document.getElementById("description").value.trim() : "";
+    const imageInput = document.getElementById("wasteImage");
+    const imageFile = imageInput && imageInput.files && imageInput.files[0] ? imageInput.files[0] : null;
+
+    if (!wasteType) {
+        alert("Please select a waste category.");
+        return;
+    }
+    if (!locationInput) {
+        alert("Please provide a location.");
+        return;
+    }
+    if (!description) {
+        alert("Please provide a description.");
+        return;
+    }
+
+    isSubmittingReport = true;
+    const submitBtn = event.target.querySelector("button[type='submit']") || document.querySelector("#reportForm button[type='submit']");
+    const originalText = submitBtn ? submitBtn.innerHTML : "";
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = "Submitting to Firebase... ⏳";
+    }
+
+    const complaintID = generateComplaintID();
+    const activeUid = (authUser && authUser.uid) || (currentUser && (currentUser.userId || currentUser.uid));
+    const activeEmail = (authUser && authUser.email) || (currentUser && currentUser.email) || "";
+    const activeName = (currentUser && (currentUser.name || currentUser.displayName)) || (authUser && (authUser.displayName || (authUser.email ? authUser.email.split("@")[0] : "Citizen"))) || "Citizen";
+
+    // Check coordinates
+    let lat = currentCoords.latitude;
+    let lng = currentCoords.longitude;
+    if (lat === null && lng === null && locationInput.includes(",")) {
+        const parts = locationInput.split(",");
+        const pLat = parseFloat(parts[0]);
+        const pLng = parseFloat(parts[1]);
+        if (!isNaN(pLat) && !isNaN(pLng)) {
+            lat = pLat;
+            lng = pLng;
+        }
+    }
+
+    const reportData = {
+        reportId: complaintID,
+        userId: activeUid,
+        userName: activeName,
+        userEmail: activeEmail,
+        category: wasteType,
+        wasteType: wasteType,
+        type: wasteType,
+        complaintType: wasteType,
+        description: description,
+        location: locationInput,
+        latitude: lat,
+        longitude: lng
+    };
+
+    try {
+        // Submit directly to Firestore reports collection
+        await submitReportToFirebase(reportData, imageFile);
+
+        // Only executed after Firestore confirms document is successfully written!
+        if (currentUser) {
+            currentUser.ecoPoints = (currentUser.ecoPoints !== undefined ? currentUser.ecoPoints : 0) + 20;
+            updateUserUI();
+        }
+
+        // Ensure real-time subscription is active
+        if (!unsubscribeUserReports && activeUid) {
+            initUserReportsSubscription(activeUid);
+        }
+
+        // Reset report form
+        const form = document.getElementById("reportForm");
+        if (form) form.reset();
+
+        const preview = document.getElementById("imagePreview");
+        if (preview) {
+            preview.src = "";
+            preview.style.display = "none";
+        }
+
+        const locationMsg = document.getElementById("locationMessage");
+        if (locationMsg) locationMsg.innerText = "";
+        currentCoords = { latitude: null, longitude: null };
+
+        showGlobalToast(`Report ${complaintID} submitted successfully! 🎉 +20 Eco Points`, "success");
+        alert(`Report submitted successfully! 🎉\n\nComplaint ID: ${complaintID}\nCategory: ${wasteType}\n\n+20 Eco Points added!`);
+
+        const historyEl = document.getElementById("history");
+        if (historyEl) {
+            historyEl.scrollIntoView({ behavior: "smooth" });
+        }
+    } catch (err) {
+        console.error("Report submission failed:", err);
+        showGlobalToast("Submission failed: " + (err.message || err), "error");
+        alert("Submission failed: " + (err.message || err));
+    } finally {
+        isSubmittingReport = false;
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+        }
+    }
+}
+
+/* ===================================
+   USER REPORT HISTORY (FIRESTORE)
+=================================== */
+function initUserReportsSubscription(userId) {
+    if (unsubscribeUserReports) {
+        unsubscribeUserReports();
+    }
+    unsubscribeUserReports = subscribeToUserReports(userId, (reports) => {
+        userReports = reports;
+        loadReports();
+        updateUserUI();
+    });
+}
+
+function loadReports() {
+    const container = document.getElementById("reportsContainer");
+    if (!container) return;
+
+    if (!currentUser) {
+        container.innerHTML = `
+            <div class="no-reports">
+                Please login to view your reports.
+            </div>
+        `;
+        return;
+    }
+
+    if (userReports.length === 0) {
+        container.innerHTML = `
+            <div class="no-reports">
+                You haven't submitted any reports yet. 🌱
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = "";
+
+    userReports.forEach(function(report) {
+        const imageSrc = report.imageUrl || report.image;
+        let imageHTML = "";
+        if (imageSrc) {
+            imageHTML = `
+                <img
+                    class="report-image"
+                    src="${imageSrc}"
+                    alt="Waste report image"
+                    onclick="viewReportDetails('${report.docId || report.reportId}')"
+                    style="cursor:pointer;"
+                    title="Click to view details"
+                >
+            `;
+        }
+
+        const status = report.status || "Pending";
+        const statusClass = status.toLowerCase().replace(" ", "-");
+        const dateMs = getReportTimestamp(report);
+        const dateDisplay = dateMs > 0
+            ? new Date(dateMs).toLocaleDateString()
+            : (report.date || "Recently");
+        const category = getReportCategory(report);
+
+        container.innerHTML += `
+            <div class="report-card">
+                <div class="report-top">
+                    <span class="complaint-id">${report.reportId || report.id || "N/A"}</span>
+                    <span class="status ${statusClass}">${status}</span>
+                </div>
+                <div class="report-info">
+                    <div>
+                        <strong>Category:</strong> ${category}
+                    </div>
+                    <div>
+                        <strong>Date:</strong> ${dateDisplay}
+                    </div>
+                    <div>
+                        <strong>Location:</strong> ${report.location || report.address || "N/A"}
+                    </div>
+                    <div>
+                        <strong>Description:</strong> ${report.description || "No description provided."}
+                    </div>
+                </div>
+                ${imageHTML}
+            </div>
+        `;
+    });
+}
+
+/* ===================================
+   ADMIN DASHBOARD & AUTHENTICATION
+=================================== */
+function openAdminLogin() {
+    const userEmail = (currentUser?.email || "").toLowerCase().trim();
+    if (currentUser && userEmail === "admin@gmail.com") {
+        const adminDash = document.getElementById("adminDashboard");
+        if (adminDash) {
+            adminDash.style.display = "block";
+            adminDash.scrollIntoView({ behavior: "smooth" });
+        }
+        initAdminReportsSubscription();
+        showGlobalToast("Welcome to EcoTrack Admin Dashboard 🛡️", "info");
+        return;
+    }
+
+    const m = document.getElementById("adminModal");
+    if (m) m.style.display = "flex";
+    const noticeEl = document.getElementById("adminNotice");
+    if (currentUser) {
+        if (noticeEl) {
+            noticeEl.style.display = "block";
+            noticeEl.style.background = "#fef2f2";
+            noticeEl.style.border = "1px solid #fca5a5";
+            noticeEl.style.color = "#991b1b";
+            noticeEl.innerHTML = `⚠️ <strong>Admin Access Restricted:</strong> Current account (<em>${escapeHtml(currentUser.email || "Citizen")}</em>) is a citizen user. Please log in with <strong>admin@gmail.com</strong> to access the EcoTrack Admin Dashboard.`;
+        }
+    } else {
+        if (noticeEl) noticeEl.style.display = "none";
+    }
+    const emailInput = document.getElementById("adminEmail");
+    if (emailInput) {
+        emailInput.value = "admin@gmail.com";
+    }
+}
+window.openAdminLogin = openAdminLogin;
+
+function closeAdminModal() {
+    document.getElementById("adminModal").style.display = "none";
+}
+
+async function adminLogin() {
+    const email = document.getElementById("adminEmail").value.trim().toLowerCase();
+    const password = document.getElementById("adminPassword").value;
+
+    if (!email || !password) {
+        showAdminNotice("Please enter both email and password.", "error");
+        return;
+    }
+
+    if (email !== "admin@gmail.com") {
+        showAdminNotice("Access Denied: Only <strong>admin@gmail.com</strong> is authorized to access the EcoTrack Admin Dashboard.", "error");
+        return;
+    }
+
+    const adminBtn = document.getElementById("adminSubmitBtn") || document.querySelector("#adminModal button[type='submit']");
+    const originalText = adminBtn ? adminBtn.innerText : "";
+    if (adminBtn) {
+        adminBtn.disabled = true;
+        adminBtn.innerText = "Authenticating with Firebase... 🛡️";
+    }
+
+    try {
+        let userProfile;
+        try {
+            userProfile = await loginUserWithFirebase(email, password);
+        } catch (authErr) {
+            const code = authErr.code || "";
+            // If admin@gmail.com doesn't exist in Firebase Auth yet, register it directly via Firebase Auth
+            if (code === "auth/user-not-found") {
+                userProfile = await registerUserWithFirebase("Administrator", email, password);
+            } else {
+                throw authErr;
+            }
+        }
+
+        const userEmail = (userProfile.email || "").toLowerCase().trim();
+        if (userEmail !== "admin@gmail.com") {
+            showAdminNotice("Access Denied: Only <strong>admin@gmail.com</strong> can access the EcoTrack Admin Dashboard.", "error");
+            return;
+        }
+
+        currentUser = userProfile;
+        closeAdminModal();
+        const adminDash = document.getElementById("adminDashboard");
+        if (adminDash) {
+            adminDash.style.display = "block";
+            adminDash.scrollIntoView({ behavior: "smooth" });
+        }
+        initAdminReportsSubscription();
+        updateUserUI();
+        showGlobalToast("Welcome to EcoTrack Admin Dashboard 🛡️", "success");
+    } catch (err) {
+        console.error("Admin login failed:", err);
+        const code = err.code || "";
+        if (code === "auth/invalid-credential" || code === "auth/wrong-password" || code === "auth/invalid-login-credentials") {
+            const actionHtml = `
+                <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
+                    <button type="button" onclick="handleForgotPassword('${escapeHtml(email)}')" style="background:#2563eb; color:white; border:none; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">
+                        🔑 Reset Password
+                    </button>
+                    <button type="button" onclick="handleRegisterAdmin('${escapeHtml(email)}')" style="background:#16803c; color:white; border:none; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">
+                        ➕ Register admin@gmail.com in Firebase
+                    </button>
+                </div>
+            `;
+            showAdminNotice("Invalid credentials for admin@gmail.com.<br><span style='font-size:12px; color:#4b5563; font-weight:normal;'>If this account hasn't been created in Firebase yet, click 'Register admin@gmail.com in Firebase' below.</span>", "error", actionHtml);
+        } else {
+            const friendlyMsg = getFriendlyAuthErrorMessage(err);
+            showAdminNotice(friendlyMsg, "error");
+        }
+    } finally {
+        if (adminBtn) {
+            adminBtn.disabled = false;
+            adminBtn.innerText = originalText;
+        }
+    }
+}
+
+async function handleRegisterAdmin(email) {
+    const password = document.getElementById("adminPassword").value;
+    if (!password || password.length < 6) {
+        showAdminNotice("Please enter a password with at least 6 characters to register admin@gmail.com.", "error");
+        return;
+    }
+    try {
+        const userProfile = await registerUserWithFirebase("Administrator", email, password);
+        currentUser = userProfile;
+        closeAdminModal();
+        const adminDash = document.getElementById("adminDashboard");
+        if (adminDash) {
+            adminDash.style.display = "block";
+            adminDash.scrollIntoView({ behavior: "smooth" });
+        }
+        initAdminReportsSubscription();
+        updateUserUI();
+        showGlobalToast("Admin account registered in Firebase & authenticated! 🛡️", "success");
+    } catch (e) {
+        showAdminNotice("Registration failed: " + (e.message || e), "error");
+    }
+}
+window.handleRegisterAdmin = handleRegisterAdmin;
+
+function initAdminReportsSubscription() {
+    const userEmail = (currentUser?.email || "").toLowerCase().trim();
+    if (!currentUser || userEmail !== "admin@gmail.com") {
+        return;
+    }
+    if (unsubscribeAllReports) {
+        unsubscribeAllReports();
+    }
+    unsubscribeAllReports = subscribeToAllReports((reports) => {
+        allAdminReports = reports;
+        loadAdminReports();
+    });
+}
+
+function normalizeCategory(cat) {
+    if (!cat) return "";
+    const lower = String(cat).toLowerCase().trim();
+    if (lower.includes("dry")) return "Dry Waste";
+    if (lower.includes("wet")) return "Wet Waste";
+    if (lower.includes("e-waste") || lower.includes("ewaste") || lower === "e waste") return "E-Waste";
+    if (lower.includes("clean")) return "Cleanliness";
+    if (lower.includes("other")) return "Other";
+    return cat.trim();
+}
+
+function syncAdminCategoryDropdown() {
+    const select = document.getElementById("adminCategoryFilter");
+    if (!select) return;
+
+    const currentVal = select.value || "All";
+    const standardCategories = ["Dry Waste", "Wet Waste", "E-Waste", "Cleanliness", "Other"];
+    const foundCategories = new Set(standardCategories);
+
+    allAdminReports.forEach(r => {
+        const cat = getReportCategory(r);
+        if (cat) {
+            const norm = normalizeCategory(cat);
+            if (norm) foundCategories.add(norm);
+            else foundCategories.add(cat);
+        }
+    });
+
+    const existingOptions = Array.from(select.options).map(o => o.value);
+    let needsUpdate = false;
+    foundCategories.forEach(cat => {
+        if (!existingOptions.includes(cat)) needsUpdate = true;
+    });
+
+    if (needsUpdate || select.options.length <= 1) {
+        let html = `<option value="All">All Categories</option>`;
+        foundCategories.forEach(cat => {
+            html += `<option value="${cat}">${cat}</option>`;
+        });
+        select.innerHTML = html;
+        if (currentVal && Array.from(select.options).some(o => o.value === currentVal)) {
+            select.value = currentVal;
+        } else {
+            select.value = "All";
+        }
+    }
+}
+
+function loadAdminReports() {
+    const table = document.getElementById("adminReportsTable");
+    if (!table) return;
+
+    const userEmail = (currentUser?.email || "").toLowerCase().trim();
+    if (!currentUser || userEmail !== "admin@gmail.com") {
+        table.innerHTML = `
+            <tr>
+                <td colspan="9" style="text-align:center;padding:30px;color:#dc2626;">
+                    Access restricted. Please sign in with <strong>admin@gmail.com</strong>.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    const search = document.getElementById("adminSearch")
+        ? document.getElementById("adminSearch").value.toLowerCase().trim()
+        : "";
+
+    const filter = document.getElementById("adminFilter")
+        ? document.getElementById("adminFilter").value
+        : "All";
+
+    const categorySelect = document.getElementById("adminCategoryFilter");
+    const categoryFilter = categorySelect ? categorySelect.value : "All";
+
+    // Ensure category dropdown dynamically contains any unique categories found in Firestore
+    syncAdminCategoryDropdown();
+
+    const filteredReports = allAdminReports.filter(function(report) {
+        const id = (report.reportId || report.id || report.docId || "").toLowerCase();
+        const loc = (report.location || report.address || "").toLowerCase();
+        const name = (report.userName || report.user || report.userEmail || "").toLowerCase();
+        const desc = (report.description || "").toLowerCase();
+        const reportCat = getReportCategory(report);
+        const normCat = normalizeCategory(reportCat);
+
+        const matchesSearch = !search || id.includes(search) || loc.includes(search) || name.includes(search) || desc.includes(search) || reportCat.toLowerCase().includes(search);
+        
+        // Status filter: "All" displays every status
+        const reportStatus = report.status || "Pending";
+        const matchesFilter = (filter === "All") || (reportStatus.toLowerCase() === filter.toLowerCase());
+
+        // Category filter: "All" displays every report in Firestore without exception
+        let matchesCategory = true;
+        if (categoryFilter !== "All") {
+            const normFilter = normalizeCategory(categoryFilter);
+            matchesCategory = (normCat === normFilter) || (reportCat.toLowerCase() === categoryFilter.toLowerCase());
+        }
+
+        return matchesSearch && matchesFilter && matchesCategory;
+    });
+
+    table.innerHTML = "";
+
+    let pending = 0;
+    let inProgress = 0;
+    let resolved = 0;
+
+    allAdminReports.forEach(function(report) {
+        const status = report.status || "Pending";
+        if (status === "Pending") pending++;
+        if (status === "In Progress" || status === "Verified") inProgress++;
+        if (status === "Resolved") resolved++;
+    });
+
+    const totalEl = document.getElementById("totalReports");
+    if (totalEl) totalEl.innerText = allAdminReports.length;
+
+    const pendingEl = document.getElementById("pendingReports");
+    if (pendingEl) pendingEl.innerText = pending;
+
+    const verifiedEl = document.getElementById("verifiedReports");
+    if (verifiedEl) verifiedEl.innerText = inProgress;
+
+    const resolvedEl = document.getElementById("resolvedReports");
+    if (resolvedEl) resolvedEl.innerText = resolved;
+
+    if (filteredReports.length === 0) {
+        table.innerHTML = `
+            <tr>
+                <td colspan="9" style="text-align:center;padding:30px;color:#6b7280;">
+                    No matching reports found.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    filteredReports.forEach(function(report) {
+        const imgSrc = report.imageUrl || report.image;
+        const imageHTML = imgSrc
+            ? `<img src="${imgSrc}" style="width:48px;height:48px;object-fit:cover;border-radius:4px;cursor:pointer;border:1px solid #d1d5db;" onclick="viewReportDetails('${report.docId || report.reportId}')" title="Click to view details">`
+            : '<span style="color:#9ca3af;font-size:12px;">No image</span>';
+
+        const docId = report.docId || report.reportId || report.id;
+        const status = report.status || "Pending";
+        const statusClass = status.toLowerCase().replace(" ", "-");
+        const category = getReportCategory(report);
+
+        const dateMs = getReportTimestamp(report);
+        const dateDisplay = dateMs > 0
+            ? new Date(dateMs).toLocaleDateString(undefined, {month:'short', day:'numeric'}) + ' ' + new Date(dateMs).toLocaleTimeString(undefined, {hour:'2-digit', minute:'2-digit'})
+            : (report.date || "Recent");
+
+        const rawDesc = report.description || "No description provided.";
+        const displayDesc = rawDesc.length > 55 ? rawDesc.substring(0, 55) + "..." : rawDesc;
+        const rawLoc = report.location || report.address || "N/A";
+        const displayLoc = rawLoc.length > 45 ? rawLoc.substring(0, 45) + "..." : rawLoc;
+
+        table.innerHTML += `
+            <tr>
+                <td><strong>${report.reportId || report.id || docId}</strong></td>
+                <td style="white-space:nowrap; font-size:12.5px; color:#4b5563;">${dateDisplay}</td>
+                <td>${escapeHtml(report.userName || report.user || "Citizen")}</td>
+                <td><span style="background:#f0fdf4; color:#166534; font-weight:600; padding:2px 8px; border-radius:4px; font-size:12px; border:1px solid #bbf7d0;">${category}</span></td>
+                <td style="max-width:180px; font-size:12.5px; color:#374151; word-break:break-word;" title="${escapeHtml(rawDesc)}">${escapeHtml(displayDesc)}</td>
+                <td style="max-width:160px; font-size:12.5px; color:#4b5563; word-break:break-word;" title="${escapeHtml(rawLoc)}">${escapeHtml(displayLoc)}</td>
+                <td>${imageHTML}</td>
+                <td><span class="status ${statusClass}">${status}</span></td>
+                <td style="white-space:nowrap;">
+                    <button
+                        class="admin-action progress-btn"
+                        onclick="updateReportStatus('${docId}','In Progress')">
+                        In Progress
+                    </button>
+                    <button
+                        class="admin-action resolve-btn"
+                        onclick="updateReportStatus('${docId}','Resolved')">
+                        Resolve
+                    </button>
+                    <button
+                        class="admin-action details-btn"
+                        onclick="viewReportDetails('${docId}')">
+                        Details
+                    </button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+async function updateReportStatus(docId, newStatus) {
+    const userEmail = (currentUser?.email || "").toLowerCase().trim();
+    if (!currentUser || userEmail !== "admin@gmail.com") {
+        alert("Unauthorized: Only admin@gmail.com can change report status.");
+        return;
+    }
+
+    try {
+        const adminName = currentUser.name || currentUser.displayName || currentUser.email || "Admin";
+        await updateReportStatusInFirebase(docId, newStatus, adminName);
+        showGlobalToast(`Report status updated to "${newStatus}"!`, "success");
+    } catch (err) {
+        console.error("Failed to update status:", err);
+        alert("Failed to update report status: " + (err.message || err));
+    }
+}
+
+/* ===================================
+   REPORT DETAILS MODAL
+=================================== */
+function viewReportDetails(docId) {
+    const report = allAdminReports.find(r => r.docId === docId || r.reportId === docId)
+                || userReports.find(r => r.docId === docId || r.reportId === docId);
+
+    if (!report) return;
+
+    const modal = document.getElementById("reportDetailsModal");
+    const titleEl = document.getElementById("modalReportId");
+    const bodyEl = document.getElementById("modalReportBody");
+
+    titleEl.innerText = `Report Details (${report.reportId || report.id || report.docId})`;
+
+    const status = report.status || "Pending";
+    const statusClass = status.toLowerCase().replace(" ", "-");
+
+    const dateMs = getReportTimestamp(report);
+    const dateStr = dateMs > 0
+        ? new Date(dateMs).toLocaleString()
+        : (report.date || "Recently");
+
+    const updatedMs = report.updatedAt?.seconds ? report.updatedAt.seconds * 1000 : dateMs;
+    const updatedStr = updatedMs > 0
+        ? new Date(updatedMs).toLocaleString()
+        : dateStr;
+
+    const coordsDisplay = (report.latitude && report.longitude)
+        ? `${report.latitude}, ${report.longitude} (<a href="https://www.google.com/maps?q=${report.latitude},${report.longitude}" target="_blank" style="color:#16803c; text-decoration:underline;">View in Maps ↗</a>)`
+        : "Not recorded";
+
+    const imgSrc = report.imageUrl || report.image;
+    const imageDisplay = imgSrc
+        ? `<div style="margin-top:8px;">
+               <strong style="display:block;margin-bottom:4px;">Waste Image:</strong>
+               <a href="${imgSrc}" target="_blank" title="Click to view full image">
+                   <img src="${imgSrc}" style="width:100%; max-height:240px; object-fit:cover; border-radius:8px; border:1px solid #ddd;">
+               </a>
+           </div>`
+        : `<div><strong>Image:</strong> No image attached</div>`;
+
+    const category = getReportCategory(report);
+
+    bodyEl.innerHTML = `
+        <div><strong>Status:</strong> <span class="status ${statusClass}">${status}</span></div>
+        <div><strong>Category:</strong> ${category}</div>
+        <div><strong>Reporter:</strong> ${report.userName || report.user || "Citizen"} (${report.userEmail || "N/A"})</div>
+        <div><strong>Location:</strong> ${report.location || report.address || "N/A"}</div>
+        <div><strong>Coordinates:</strong> ${coordsDisplay}</div>
+        <div><strong>Description:</strong> ${report.description || "No description provided."}</div>
+        <div><strong>EcoPoints:</strong> +${report.ecoPoints || 20} pts</div>
+        <div><strong>Created At:</strong> ${dateStr}</div>
+        <div><strong>Last Updated:</strong> ${updatedStr}</div>
+        ${imageDisplay}
+    `;
+
+    modal.style.display = "flex";
+}
+
+function closeDetailsModal() {
+    const modal = document.getElementById("reportDetailsModal");
+    if (modal) modal.style.display = "none";
+}
+
+/* ===================================
+   WINDOW EVENT BINDINGS
+=================================== */
+window.openLogin = openLogin;
+window.openRegister = openRegister;
+window.closeModal = closeModal;
+window.showLogin = showLogin;
+window.showRegister = showRegister;
+window.switchToLoginWithEmail = switchToLoginWithEmail;
+window.handleForgotPassword = handleForgotPassword;
+window.handleForgotPasswordPrompt = handleForgotPasswordPrompt;
+window.registerUser = registerUser;
+window.loginUser = loginUser;
+window.logout = logout;
+window.openReport = openReport;
+window.previewImage = previewImage;
+window.getLocation = getLocation;
+window.submitReport = submitReport;
+window.loadReports = loadReports;
+window.openAdminLogin = openAdminLogin;
+window.closeAdminModal = closeAdminModal;
+window.adminLogin = adminLogin;
+window.loadAdminReports = loadAdminReports;
+window.updateReportStatus = updateReportStatus;
+window.viewReportDetails = viewReportDetails;
+window.closeDetailsModal = closeDetailsModal;
+
+/* ===================================
+   SESSION RESTORATION & INITIALIZATION
+=================================== */
+function initApp() {
+    if (!isFirebaseConfigured()) {
+        console.warn(
+            "EcoTrack: Firebase is not configured yet. " +
+            "Please open /firebase-config.js and paste your Firebase Project credentials."
+        );
+        return;
+    }
+
+    onAuthStateChanged(auth, async (firebaseUser) => {
+        if (firebaseUser) {
+            try {
+                const profile = await getUserProfile(firebaseUser.uid);
+                const userEmail = (firebaseUser.email || "").toLowerCase().trim();
+                const isAdmin = userEmail === "admin@gmail.com";
+                currentUser = profile || {
+                    userId: firebaseUser.uid,
+                    name: firebaseUser.displayName || (firebaseUser.email ? firebaseUser.email.split("@")[0] : "Citizen"),
+                    email: firebaseUser.email,
+                    role: isAdmin ? "admin" : "user",
+                    ecoPoints: 0,
+                    ecoLevel: isAdmin ? "Eco Master" : "Eco Starter"
+                };
+                updateUserUI();
+                initUserReportsSubscription(firebaseUser.uid);
+
+                const adminDash = document.getElementById("adminDashboard");
+                if (isAdmin) {
+                    if (adminDash) adminDash.style.display = "block";
+                    initAdminReportsSubscription();
+                } else {
+                    if (adminDash) adminDash.style.display = "none";
+                }
+            } catch (err) {
+                console.error("Failed to fetch user profile on auth change:", err);
+            }
+        } else {
+            currentUser = null;
+            userReports = [];
+            const authBtns = document.getElementById("authButtons");
+            if (authBtns) authBtns.style.display = "flex";
+            const userArea = document.getElementById("userArea");
+            if (userArea) userArea.style.display = "none";
+            const adminDash = document.getElementById("adminDashboard");
+            if (adminDash) adminDash.style.display = "none";
+            loadReports();
+        }
+    });
+}
+
+if (document.readyState === "loading") {
+    window.addEventListener("DOMContentLoaded", initApp);
+} else {
+    initApp();
+}
 </script>
 
 </body>
