@@ -41,8 +41,13 @@ import {
     getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
+// ==============================================================================
+// AUTHORIZED ADMINISTRATOR CONFIGURATION
+// ==============================================================================
+export const ADMIN_EMAIL = "tanu.elara@gmail.com";
+
 // Firebase project credentials provisioned by Google Cloud
-export const firebaseConfig = {
+const defaultFirebaseConfig = {
     apiKey: "AIzaSyC-ikOKZ7gzeLJp9bWdP-mwYZlU_ejs2Ak",
     authDomain: "gen-lang-client-0947402564.firebaseapp.com",
     projectId: "gen-lang-client-0947402564",
@@ -51,6 +56,10 @@ export const firebaseConfig = {
     messagingSenderId: "428097366673",
     appId: "1:428097366673:web:b169c1a4ac33b6f7bc2d30"
 };
+
+export const firebaseConfig = (typeof window !== "undefined" && window.__FIREBASE_CONFIG__)
+    ? { ...defaultFirebaseConfig, ...window.__FIREBASE_CONFIG__ }
+    : defaultFirebaseConfig;
 
 // Check if credentials are valid
 export const isFirebaseConfigured = () => {
@@ -70,6 +79,23 @@ export const db = firebaseConfig.firestoreDatabaseId && firebaseConfig.firestore
     : getFirestore(app);
 export const storage = getStorage(app);
 
+// Attach to window for global availability and backward compatibility across inline scripts
+if (typeof window !== "undefined") {
+    window.ADMIN_EMAIL = ADMIN_EMAIL;
+    window.firebaseConfig = firebaseConfig;
+    window.firebaseApp = app;
+    window.firebaseAuth = auth;
+    window.firebaseDb = db;
+}
+
+// Safe diagnostic logging for deployment verification (no secrets/passwords)
+console.log("[EcoTrack Diagnostics] Firebase initialized:", {
+    projectId: firebaseConfig.projectId,
+    authDomain: firebaseConfig.authDomain,
+    firestoreDatabaseId: firebaseConfig.firestoreDatabaseId || "(default)",
+    hasApiKey: Boolean(firebaseConfig.apiKey)
+});
+
 // ==============================================================================
 // AUTHENTICATION SERVICES
 // ==============================================================================
@@ -87,10 +113,10 @@ export async function registerUserWithFirebase(name, email, password) {
     const firebaseUser = userCredential.user;
 
     // Set display name in Firebase Auth
-    await updateProfile(firebaseUser, { displayName: name });
+    await updateProfile(firebaseUser, { displayName: name }).catch(() => {});
 
     // Create user profile in Firestore
-    const isAdmin = email.toLowerCase().trim() === "admin@gmail.com";
+    const isAdmin = email.toLowerCase().trim() === ADMIN_EMAIL;
     const userDocRef = doc(db, "users", firebaseUser.uid);
     const userData = {
         uid: firebaseUser.uid,
@@ -106,51 +132,78 @@ export async function registerUserWithFirebase(name, email, password) {
         updatedAt: serverTimestamp()
     };
 
-    await setDoc(userDocRef, userData);
+    try {
+        await setDoc(userDocRef, userData);
+    } catch (fsErr) {
+        console.warn("Could not save initial user document to Firestore, continuing with auth info:", fsErr);
+    }
     return { ...userData, uid: firebaseUser.uid };
 }
 
 /**
  * Log in an existing user with Email and Password
- * Retrieves role strictly from Firestore document
+ * Retrieves role strictly from Firestore document or admin email verification
  */
 export async function loginUserWithFirebase(email, password) {
     if (!isFirebaseConfigured()) {
         throw new Error("Firebase is not configured yet. Please enter your project keys in firebase-config.js.");
     }
 
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    console.log("[EcoTrack Diagnostics] Authenticating via Firebase signInWithEmailAndPassword for email:", email, "| Project:", firebaseConfig.projectId);
+    let userCredential;
+    try {
+        userCredential = await signInWithEmailAndPassword(auth, email, password);
+    } catch (authError) {
+        console.warn("[EcoTrack Auth]", {
+            code: authError?.code || "unknown",
+            message: authError?.message || "Authentication failed"
+        });
+        throw authError;
+    }
     const firebaseUser = userCredential.user;
+    console.log("[EcoTrack Diagnostics] Authentication successful for:", firebaseUser.email, "| UID:", firebaseUser.uid, "| Provider:", firebaseUser.providerData?.[0]?.providerId || "password");
 
-    // Fetch user profile from Firestore
+    const isAdmin = (firebaseUser.email || email).toLowerCase().trim() === ADMIN_EMAIL;
     const userDocRef = doc(db, "users", firebaseUser.uid);
-    const userDoc = await getDoc(userDocRef);
-    const isAdmin = (firebaseUser.email || email).toLowerCase().trim() === "admin@gmail.com";
 
-    if (userDoc.exists()) {
-        const data = userDoc.data();
-        const role = isAdmin ? "admin" : (data.role || "user");
-        if (isAdmin && data.role !== "admin") {
-            await updateDoc(userDocRef, { role: "admin" }).catch(() => {});
+    try {
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+            const data = userDoc.data();
+            const role = isAdmin ? "admin" : (data.role || "user");
+            if (isAdmin && data.role !== "admin") {
+                await updateDoc(userDocRef, { role: "admin" }).catch(() => {});
+            }
+            return { ...data, uid: firebaseUser.uid, role };
+        } else {
+            // Fallback for pre-existing auth users missing a Firestore profile
+            const fallbackData = {
+                uid: firebaseUser.uid,
+                userId: firebaseUser.uid,
+                name: firebaseUser.displayName || email.split("@")[0],
+                email: email.toLowerCase(),
+                role: isAdmin ? "admin" : "user",
+                ecoPoints: 0,
+                ecoLevel: isAdmin ? "Eco Master" : "Eco Starter",
+                reportsCount: 0,
+                wasteManaged: 0,
+                createdAt: serverTimestamp(),
+                updatedAt: serverTimestamp()
+            };
+            await setDoc(userDocRef, fallbackData).catch(() => {});
+            return { ...fallbackData, uid: firebaseUser.uid };
         }
-        return { ...data, uid: firebaseUser.uid, role };
-    } else {
-        // Fallback for pre-existing auth users missing a Firestore profile
-        const fallbackData = {
+    } catch (firestoreErr) {
+        console.warn("Firestore profile fetch/creation failed during login, using authenticated user:", firestoreErr);
+        return {
             uid: firebaseUser.uid,
             userId: firebaseUser.uid,
             name: firebaseUser.displayName || email.split("@")[0],
-            email: email.toLowerCase(),
+            email: (firebaseUser.email || email).toLowerCase(),
             role: isAdmin ? "admin" : "user",
             ecoPoints: 0,
-            ecoLevel: isAdmin ? "Eco Master" : "Eco Starter",
-            reportsCount: 0,
-            wasteManaged: 0,
-            createdAt: serverTimestamp(),
-            updatedAt: serverTimestamp()
+            ecoLevel: isAdmin ? "Eco Master" : "Eco Starter"
         };
-        await setDoc(userDocRef, fallbackData);
-        return { ...fallbackData, uid: firebaseUser.uid };
     }
 }
 
@@ -175,7 +228,7 @@ export async function loginWithGoogle() {
     const userCredential = await signInWithPopup(auth, provider);
     const user = userCredential.user;
 
-    const isAdmin = (user.email || "").toLowerCase().trim() === "admin@gmail.com";
+    const isAdmin = (user.email || "").toLowerCase().trim() === ADMIN_EMAIL;
     // Check if user document already exists in Firestore
     const userDocRef = doc(db, "users", user.uid);
     const docSnap = await getDoc(userDocRef);
@@ -224,16 +277,21 @@ export async function sendPasswordReset(email) {
  */
 export async function getUserProfile(uid) {
     if (!isFirebaseConfigured() || !uid) return null;
-    const userDocRef = doc(db, "users", uid);
-    const docSnap = await getDoc(userDocRef);
-    if (!docSnap.exists()) return null;
-    const data = docSnap.data();
-    const isAdmin = (data.email || "").toLowerCase().trim() === "admin@gmail.com";
-    if (isAdmin && data.role !== "admin") {
-        await updateDoc(userDocRef, { role: "admin" }).catch(() => {});
-        return { ...data, role: "admin" };
+    try {
+        const userDocRef = doc(db, "users", uid);
+        const docSnap = await getDoc(userDocRef);
+        if (!docSnap.exists()) return null;
+        const data = docSnap.data();
+        const isAdmin = (data.email || "").toLowerCase().trim() === ADMIN_EMAIL;
+        if (isAdmin && data.role !== "admin") {
+            await updateDoc(userDocRef, { role: "admin" }).catch(() => {});
+            return { ...data, role: "admin" };
+        }
+        return data;
+    } catch (err) {
+        console.warn("Could not retrieve user document from Firestore, returning basic profile:", err);
+        return null;
     }
-    return data;
 }
 
 // ==============================================================================
@@ -351,9 +409,15 @@ export function getReportCategory(report) {
 export function getFriendlyAuthErrorMessage(error) {
     if (!error) return "An unknown error occurred.";
     const code = error.code || "";
+    const currentDomain = (typeof window !== "undefined" && window.location ? window.location.hostname : "your domain");
     switch (code) {
         case "auth/operation-not-allowed":
             return "Email/Password sign-in is disabled in your Firebase project. Please enable Email/Password provider in Firebase Console > Authentication > Sign-in method, or use 'Continue with Google'.";
+        case "auth/unauthorized-domain":
+            return `This deployed domain (${currentDomain}) is not authorized in Firebase Authentication. Go to Firebase Console > Authentication > Settings > Authorized domains and add "${currentDomain}".`;
+        case "auth/api-key-not-valid.invalid-api-key":
+        case "auth/invalid-api-key":
+            return "Invalid Firebase API key or HTTP referrer restrictions are blocking this domain in Google Cloud Console.";
         case "auth/email-already-in-use":
             return "This email address is already registered. If this is your account, please log in or click 'Continue with Google'.";
         case "auth/invalid-email":
@@ -477,7 +541,11 @@ export function subscribeToUserReports(userId, onUpdate, onError) {
         reports.sort((a, b) => getReportTimestamp(b) - getReportTimestamp(a));
         onUpdate(reports);
     }, (error) => {
-        console.error("Error subscribing to user reports:", error);
+        if (error && error.code === "permission-denied") {
+            console.warn("User reports subscription: permission pending or restricted.");
+        } else {
+            console.warn("User reports subscription event:", error?.message || error);
+        }
         if (onError) onError(error);
     });
 }
@@ -511,7 +579,11 @@ export function subscribeToAllReports(onUpdate, onError) {
         reports.sort((a, b) => getReportTimestamp(b) - getReportTimestamp(a));
         onUpdate(reports);
     }, (error) => {
-        console.error("Error subscribing to all reports:", error);
+        if (error && error.code === "permission-denied") {
+            console.warn("All reports subscription requires administrator role or updated permissions.");
+        } else {
+            console.warn("All reports subscription event:", error?.message || error);
+        }
         if (onError) onError(error);
     });
 }

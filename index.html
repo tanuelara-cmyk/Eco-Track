@@ -8,6 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>EcoTrack | Smart Waste Management</title>
+<base href="/">
 <meta name="description" content="EcoTrack - Smart Waste Management system for citizens and administrators to report, track, and manage urban waste collection.">
 <meta property="og:title" content="EcoTrack | Smart Waste Management">
 <meta property="og:description" content="EcoTrack - Smart Waste Management system for citizens and administrators to report, track, and manage urban waste collection.">
@@ -2329,7 +2330,7 @@ onclick="closeAdminModal()">
 </h2>
 
 <p style="font-size: 13px; color: #4b5563; margin: 4px 0 12px 0;">
-    Sign in with <strong>admin@gmail.com</strong> to access the EcoTrack Admin Dashboard.
+    Sign in with <strong>tanu.elara@gmail.com</strong> to access the EcoTrack Admin Dashboard.
 </p>
 
 <div id="adminNotice" style="display:none; margin: 10px 0 14px 0; padding: 10px 12px; border-radius: 6px; font-size: 13px; text-align: left; line-height: 1.4;"></div>
@@ -2354,8 +2355,8 @@ style="background: #ffffff; color: #1f2937; border: 1.5px solid #d1d5db; display
 <input
 type="email"
 id="adminEmail"
-placeholder="admin@gmail.com"
-value="admin@gmail.com"
+placeholder="tanu.elara@gmail.com"
+value="tanu.elara@gmail.com"
 required
 autocomplete="username">
 
@@ -2367,11 +2368,17 @@ placeholder="Admin Password"
 required
 autocomplete="current-password">
 
-<div style="display:flex; justify-content:flex-end; margin: -6px 0 14px 0;">
+<div style="display:flex; justify-content:space-between; align-items:center; margin: -6px 0 14px 0;">
+    <button
+        type="button"
+        onclick="registerAdminAccount(document.getElementById('adminPassword').value)"
+        style="background:none; border:none; color:#15803d; font-size:12.5px; font-weight:600; cursor:pointer; padding:0; text-decoration:underline;">
+        ✨ First time? Register this password
+    </button>
     <button
         type="button"
         onclick="handleForgotPasswordPrompt('adminEmail')"
-        style="background:none; border:none; color:#16803c; font-size:12.5px; font-weight:600; cursor:pointer; padding:0; text-decoration:underline;">
+        style="background:none; border:none; color:#6b7280; font-size:12.5px; font-weight:500; cursor:pointer; padding:0; text-decoration:underline;">
         Forgot password?
     </button>
 </div>
@@ -2386,9 +2393,8 @@ Login as Admin
 
 </form>
 
-
 <p class="switch-text" style="font-size: 12px; color: #666; margin-top: 15px; line-height: 1.4;">
-    🔒 Access to the EcoTrack Admin Dashboard is restricted to <strong>admin@gmail.com</strong>.
+    🔒 Access to the EcoTrack Admin Dashboard is restricted to <strong>tanu.elara@gmail.com</strong>.
 </p>
 
 </div>
@@ -2570,6 +2576,8 @@ Build a Greener Future.
    EcoTrack - Firebase Backend Integration (Auth, Firestore, Storage)
 ============================================================================== */
 import {
+    firebaseConfig,
+    app,
     auth,
     isFirebaseConfigured,
     registerUserWithFirebase,
@@ -2585,8 +2593,14 @@ import {
     getFriendlyAuthErrorMessage,
     getReportCategory,
     getReportTimestamp
-} from "./firebase-config.js";
+} from "/firebase-config.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+// ==============================================================================
+// AUTHORIZED ADMINISTRATOR CONFIGURATION
+// ==============================================================================
+const ADMIN_EMAIL = "tanu.elara@gmail.com";
+window.ADMIN_EMAIL = ADMIN_EMAIL;
 
 // State
 let currentUser = null;
@@ -2742,6 +2756,11 @@ function showAdminNotice(message, type = "error", actionHtml = "") {
 
 async function handleForgotPassword(passedEmail) {
     let email = (passedEmail || "").trim().toLowerCase();
+    const adminModal = document.getElementById("adminModal");
+    const isAdminModalOpen = adminModal && (adminModal.style.display === "flex" || adminModal.style.display === "block");
+    if (!email && isAdminModalOpen) {
+        email = ADMIN_EMAIL.toLowerCase().trim();
+    }
     if (!email) {
         const loginInput = document.getElementById("loginEmail");
         const adminInput = document.getElementById("adminEmail");
@@ -2749,7 +2768,7 @@ async function handleForgotPassword(passedEmail) {
         email = (loginInput && loginInput.value ? loginInput.value : (adminInput && adminInput.value ? adminInput.value : (regInput && regInput.value ? regInput.value : ""))).trim().toLowerCase();
     }
     if (!email) {
-        const entered = prompt("Enter your registered email address to receive a password reset link:");
+        const entered = prompt("Enter your registered email address to receive a password reset link:", isAdminModalOpen ? ADMIN_EMAIL : "");
         if (!entered) return;
         email = entered.trim().toLowerCase();
     }
@@ -2772,6 +2791,10 @@ async function handleForgotPassword(passedEmail) {
 }
 
 function handleForgotPasswordPrompt(sourceInputId) {
+    if (sourceInputId === "adminEmail") {
+        handleForgotPassword(ADMIN_EMAIL);
+        return;
+    }
     const input = sourceInputId ? document.getElementById(sourceInputId) : null;
     const email = input ? input.value : "";
     handleForgotPassword(email);
@@ -2795,7 +2818,7 @@ async function loginWithGoogleHandler() {
         initUserReportsSubscription(currentUser.userId || currentUser.uid);
 
         const userEmail = (currentUser.email || "").toLowerCase().trim();
-        const isAdmin = userEmail === "admin@gmail.com";
+        const isAdmin = isAuthorizedAdmin(userEmail);
 
         if (isAdmin) {
             const adminDash = document.getElementById("adminDashboard");
@@ -2810,7 +2833,7 @@ async function loginWithGoogleHandler() {
             if (adminDash) adminDash.style.display = "none";
 
             if (wasAdminModalOpen) {
-                showGlobalToast("Access Denied: Only admin@gmail.com can access the EcoTrack Admin Dashboard.", "error");
+                showGlobalToast("Access Denied: Account is not an authorized administrator.", "error");
             } else {
                 showGlobalToast("Signed in with Google! 🌱 Welcome to EcoTrack, " + (currentUser.name || "Citizen"), "success");
             }
@@ -2864,9 +2887,9 @@ async function registerUser() {
         updateUserUI();
         initUserReportsSubscription(currentUser.userId || currentUser.uid);
     } catch (err) {
-        console.error("Registration error:", err);
         const code = err.code || "";
         if (code === "auth/email-already-in-use") {
+            console.warn("Registration notice: email already registered:", email);
             const actionHtml = `
                 <button type="button" onclick="switchToLoginWithEmail('${escapeHtml(email)}')" style="background:#16803c; color:white; border:none; padding:6px 14px; border-radius:6px; font-size:12.5px; font-weight:600; cursor:pointer;">
                     👉 Log In with this Account
@@ -2877,6 +2900,7 @@ async function registerUser() {
             `;
             showAuthNotice(`<strong>${escapeHtml(email)}</strong> is already registered. If this is your account, please log in or continue with Google.`, "error", actionHtml);
         } else {
+            console.error("Registration error:", err);
             showAuthNotice(getFriendlyAuthErrorMessage(err), "error");
         }
     } finally {
@@ -2911,7 +2935,7 @@ async function loginUser() {
         initUserReportsSubscription(currentUser.userId || currentUser.uid);
 
         const userEmail = (currentUser.email || "").toLowerCase().trim();
-        const isAdmin = userEmail === "admin@gmail.com";
+        const isAdmin = isAuthorizedAdmin(userEmail);
         const adminDash = document.getElementById("adminDashboard");
 
         if (isAdmin) {
@@ -3386,9 +3410,17 @@ function loadReports() {
 /* ===================================
    ADMIN DASHBOARD & AUTHENTICATION
 =================================== */
+let isAdminAuthenticating = false;
+
+function isAuthorizedAdmin(email) {
+    const clean = (email || "").toLowerCase().trim();
+    return clean === ADMIN_EMAIL.toLowerCase().trim();
+}
+window.isAuthorizedAdmin = isAuthorizedAdmin;
+
 function openAdminLogin() {
     const userEmail = (currentUser?.email || "").toLowerCase().trim();
-    if (currentUser && userEmail === "admin@gmail.com") {
+    if (currentUser && isAuthorizedAdmin(userEmail)) {
         const adminDash = document.getElementById("adminDashboard");
         if (adminDash) {
             adminDash.style.display = "block";
@@ -3408,14 +3440,14 @@ function openAdminLogin() {
             noticeEl.style.background = "#fef2f2";
             noticeEl.style.border = "1px solid #fca5a5";
             noticeEl.style.color = "#991b1b";
-            noticeEl.innerHTML = `⚠️ <strong>Admin Access Restricted:</strong> Current account (<em>${escapeHtml(currentUser.email || "Citizen")}</em>) is a citizen user. Please log in with <strong>admin@gmail.com</strong> to access the EcoTrack Admin Dashboard.`;
+            noticeEl.innerHTML = `⚠️ <strong>Admin Access Restricted:</strong> Current account (<em>${escapeHtml(currentUser.email || "Citizen")}</em>) is not an administrator. Please log in with <strong>${escapeHtml(ADMIN_EMAIL)}</strong> to access the EcoTrack Admin Dashboard.`;
         }
     } else {
         if (noticeEl) noticeEl.style.display = "none";
     }
     const emailInput = document.getElementById("adminEmail");
-    if (emailInput) {
-        emailInput.value = "admin@gmail.com";
+    if (emailInput && !emailInput.value) {
+        emailInput.value = ADMIN_EMAIL;
     }
 }
 window.openAdminLogin = openAdminLogin;
@@ -3425,46 +3457,173 @@ function closeAdminModal() {
 }
 
 async function adminLogin() {
-    const email = document.getElementById("adminEmail").value.trim().toLowerCase();
-    const password = document.getElementById("adminPassword").value;
+    // 1. Concurrency guard - prevent multiple simultaneous authentication requests
+    if (isAdminAuthenticating) {
+        console.log("[EcoTrack Diagnostics] Admin authentication already in progress. Ignoring duplicate click.");
+        return;
+    }
+
+    const emailInput = document.getElementById("adminEmail");
+    const passwordInput = document.getElementById("adminPassword");
+    const email = (emailInput?.value || "").trim().toLowerCase();
+    const password = passwordInput?.value || "";
 
     if (!email || !password) {
         showAdminNotice("Please enter both email and password.", "error");
         return;
     }
 
-    if (email !== "admin@gmail.com") {
-        showAdminNotice("Access Denied: Only <strong>admin@gmail.com</strong> is authorized to access the EcoTrack Admin Dashboard.", "error");
+    // 2. Client-side restriction: only ADMIN_EMAIL is authorized
+    if (!isAuthorizedAdmin(email)) {
+        showAdminNotice(`Access Denied: Only <strong>${escapeHtml(ADMIN_EMAIL)}</strong> can access the EcoTrack Admin Dashboard.`, "error");
         return;
     }
 
+    // 3. Disable the submit button immediately to block multiple form submissions / clicks
     const adminBtn = document.getElementById("adminSubmitBtn") || document.querySelector("#adminModal button[type='submit']");
-    const originalText = adminBtn ? adminBtn.innerText : "";
+    const originalText = adminBtn ? adminBtn.innerText : "Login as Admin";
+    
+    isAdminAuthenticating = true;
     if (adminBtn) {
         adminBtn.disabled = true;
         adminBtn.innerText = "Authenticating with Firebase... 🛡️";
     }
 
     try {
-        let userProfile;
-        try {
-            userProfile = await loginUserWithFirebase(email, password);
-        } catch (authErr) {
-            const code = authErr.code || "";
-            // If admin@gmail.com doesn't exist in Firebase Auth yet, register it directly via Firebase Auth
-            if (code === "auth/user-not-found") {
-                userProfile = await registerUserWithFirebase("Administrator", email, password);
-            } else {
-                throw authErr;
-            }
-        }
+        console.log("[EcoTrack Diagnostics] Performing single Firebase authentication attempt for:", email, "| Project:", firebaseConfig?.projectId || "gen-lang-client-0947402564");
 
-        const userEmail = (userProfile.email || "").toLowerCase().trim();
-        if (userEmail !== "admin@gmail.com") {
-            showAdminNotice("Access Denied: Only <strong>admin@gmail.com</strong> can access the EcoTrack Admin Dashboard.", "error");
+        // 4. Exactly ONE intentional Firebase authentication request
+        const userProfile = await loginUserWithFirebase(email, password);
+
+        // 5. Verify authenticated Firebase user is ADMIN_EMAIL
+        const authenticatedEmail = (auth.currentUser?.email || userProfile?.email || "").toLowerCase().trim();
+        if (!isAuthorizedAdmin(authenticatedEmail)) {
+            showAdminNotice(`Access Denied: Only <strong>${escapeHtml(ADMIN_EMAIL)}</strong> can access the EcoTrack Admin Dashboard.`, "error");
             return;
         }
 
+        currentUser = userProfile;
+        closeAdminModal();
+
+        // 6. Open EcoTrack Admin Dashboard
+        const adminDash = document.getElementById("adminDashboard");
+        if (adminDash) {
+            adminDash.style.display = "block";
+            if (window.location.hash !== "#adminDashboard") {
+                try {
+                    history.pushState(null, "", "#adminDashboard");
+                } catch (e) {
+                    window.location.hash = "adminDashboard";
+                }
+            }
+            adminDash.scrollIntoView({ behavior: "smooth" });
+        }
+        initAdminReportsSubscription();
+        updateUserUI();
+        showGlobalToast("Welcome to EcoTrack Admin Dashboard 🛡️", "success");
+    } catch (err) {
+        const code = err.code || "unknown";
+        const message = err.message || "An unexpected error occurred.";
+
+        // Log warning for diagnostics - NEVER log passwords or sensitive tokens
+        console.warn("[Firebase Admin Auth]", {
+            code: code,
+            message: message
+        });
+
+        let diagnosticDetail = "";
+        let showResetAction = false;
+        let showRegisterAction = false;
+
+        switch (code) {
+            case "auth/invalid-credential":
+                diagnosticDetail = `Firebase returned <code>auth/invalid-credential</code>. The password does not match Firebase Authentication records for <strong>${escapeHtml(ADMIN_EMAIL)}</strong> (or the password account has not been registered yet in this Firebase project).`;
+                showResetAction = true;
+                showRegisterAction = true;
+                break;
+            case "auth/wrong-password":
+                diagnosticDetail = `Firebase returned <code>auth/wrong-password</code>. The password entered for <strong>${escapeHtml(ADMIN_EMAIL)}</strong> is incorrect.`;
+                showResetAction = true;
+                break;
+            case "auth/user-not-found":
+                diagnosticDetail = `Firebase returned <code>auth/user-not-found</code>. The user <strong>${escapeHtml(ADMIN_EMAIL)}</strong> does not exist yet in Firebase Authentication for project <code>${escapeHtml(firebaseConfig?.projectId || "gen-lang-client-0947402564")}</code>.`;
+                showResetAction = true;
+                showRegisterAction = true;
+                break;
+            case "auth/too-many-requests":
+                diagnosticDetail = `Firebase returned <code>auth/too-many-requests</code>. Access to <strong>${escapeHtml(ADMIN_EMAIL)}</strong> has been temporarily throttled by Firebase due to repeated failed attempts. Please wait for the temporary security cooldown to expire or use password reset.`;
+                showResetAction = true;
+                break;
+            case "auth/network-request-failed":
+                diagnosticDetail = "Firebase returned <code>auth/network-request-failed</code>. Network connection to Firebase Authentication servers failed. Please check your internet connectivity.";
+                break;
+            case "auth/operation-not-allowed":
+                diagnosticDetail = "Firebase returned <code>auth/operation-not-allowed</code>. Email/Password sign-in is disabled in your Firebase Console under Authentication > Sign-in method.";
+                break;
+            default:
+                diagnosticDetail = `Firebase returned <code>${escapeHtml(code)}</code>: ${escapeHtml(message)}`;
+                break;
+        }
+
+        let actionButtonsHtml = "";
+        if (showResetAction) {
+            actionButtonsHtml += `
+                <button type="button" onclick="handleForgotPassword('${escapeHtml(email)}')" style="background:#2563eb; color:white; border:none; padding:6px 14px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">
+                    🔑 Send Password Reset Link
+                </button>
+            `;
+        }
+        if (showRegisterAction) {
+            actionButtonsHtml += `
+                <button type="button" onclick="registerAdminAccount(document.getElementById('adminPassword').value)" style="background:#15803d; color:white; border:none; padding:6px 14px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">
+                    ✨ First Time? Register with this Password
+                </button>
+            `;
+        }
+
+        const noticeHtml = `
+            <div style="text-align:left; line-height:1.45;">
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                    <span style="background:#fee2e2; color:#991b1b; padding:3px 8px; border-radius:4px; font-family:monospace; font-weight:700; font-size:12px; border:1px solid #fca5a5;">
+                        ${escapeHtml(code)}
+                    </span>
+                    <strong style="color:#991b1b; font-size:13px;">Firebase Authentication Notice</strong>
+                </div>
+                <div style="font-size:13px; color:#1f2937; margin-bottom:6px;">
+                    ${diagnosticDetail}
+                </div>
+                <div style="font-size:11px; color:#6b7280; font-family:monospace; word-break:break-all; margin-bottom:8px;">
+                    ${escapeHtml(message)}
+                </div>
+                ${actionButtonsHtml ? `<div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;">${actionButtonsHtml}</div>` : ""}
+            </div>
+        `;
+
+        showAdminNotice(noticeHtml, "error");
+    } finally {
+        // 8. Re-enable button
+        isAdminAuthenticating = false;
+        if (adminBtn) {
+            adminBtn.disabled = false;
+            adminBtn.innerText = originalText;
+        }
+    }
+}
+
+async function registerAdminAccount(rawPassword) {
+    const password = (rawPassword || document.getElementById("adminPassword")?.value || "").trim();
+    if (!password || password.length < 6) {
+        showAdminNotice("Please enter a password with at least 6 characters in the password field first.", "error");
+        return;
+    }
+    const adminBtn = document.getElementById("adminSubmitBtn");
+    const originalText = adminBtn ? adminBtn.innerText : "Login as Admin";
+    if (adminBtn) {
+        adminBtn.disabled = true;
+        adminBtn.innerText = "Registering Admin... 🛡️";
+    }
+    try {
+        const userProfile = await registerUserWithFirebase("Administrator", ADMIN_EMAIL, password);
         currentUser = userProfile;
         closeAdminModal();
         const adminDash = document.getElementById("adminDashboard");
@@ -3474,25 +3633,18 @@ async function adminLogin() {
         }
         initAdminReportsSubscription();
         updateUserUI();
-        showGlobalToast("Welcome to EcoTrack Admin Dashboard 🛡️", "success");
+        showGlobalToast("Admin account registered and logged in successfully! 🛡️", "success");
     } catch (err) {
-        console.error("Admin login failed:", err);
-        const code = err.code || "";
-        if (code === "auth/invalid-credential" || code === "auth/wrong-password" || code === "auth/invalid-login-credentials") {
-            const actionHtml = `
-                <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
-                    <button type="button" onclick="handleForgotPassword('${escapeHtml(email)}')" style="background:#2563eb; color:white; border:none; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">
-                        🔑 Reset Password
-                    </button>
-                    <button type="button" onclick="handleRegisterAdmin('${escapeHtml(email)}')" style="background:#16803c; color:white; border:none; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">
-                        ➕ Register admin@gmail.com in Firebase
-                    </button>
-                </div>
-            `;
-            showAdminNotice("Invalid credentials for admin@gmail.com.<br><span style='font-size:12px; color:#4b5563; font-weight:normal;'>If this account hasn't been created in Firebase yet, click 'Register admin@gmail.com in Firebase' below.</span>", "error", actionHtml);
+        const code = err.code || "unknown";
+        console.warn("[Admin Registration]", { code, message: err.message });
+        if (code === "auth/email-already-in-use") {
+            showAdminNotice(`<strong>${escapeHtml(ADMIN_EMAIL)}</strong> already has a Firebase account. Please enter your existing password, sign in with Google, or reset your password.`, "error", `
+                <button type="button" onclick="handleForgotPassword('${escapeHtml(ADMIN_EMAIL)}')" style="background:#2563eb; color:white; border:none; padding:6px 14px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">
+                    🔑 Send Password Reset Link
+                </button>
+            `);
         } else {
-            const friendlyMsg = getFriendlyAuthErrorMessage(err);
-            showAdminNotice(friendlyMsg, "error");
+            showAdminNotice(`Registration error (${escapeHtml(code)}): ${escapeHtml(err.message || "Failed to register")}`, "error");
         }
     } finally {
         if (adminBtn) {
@@ -3501,34 +3653,11 @@ async function adminLogin() {
         }
     }
 }
-
-async function handleRegisterAdmin(email) {
-    const password = document.getElementById("adminPassword").value;
-    if (!password || password.length < 6) {
-        showAdminNotice("Please enter a password with at least 6 characters to register admin@gmail.com.", "error");
-        return;
-    }
-    try {
-        const userProfile = await registerUserWithFirebase("Administrator", email, password);
-        currentUser = userProfile;
-        closeAdminModal();
-        const adminDash = document.getElementById("adminDashboard");
-        if (adminDash) {
-            adminDash.style.display = "block";
-            adminDash.scrollIntoView({ behavior: "smooth" });
-        }
-        initAdminReportsSubscription();
-        updateUserUI();
-        showGlobalToast("Admin account registered in Firebase & authenticated! 🛡️", "success");
-    } catch (e) {
-        showAdminNotice("Registration failed: " + (e.message || e), "error");
-    }
-}
-window.handleRegisterAdmin = handleRegisterAdmin;
+window.registerAdminAccount = registerAdminAccount;
 
 function initAdminReportsSubscription() {
     const userEmail = (currentUser?.email || "").toLowerCase().trim();
-    if (!currentUser || userEmail !== "admin@gmail.com") {
+    if (!currentUser || !isAuthorizedAdmin(userEmail)) {
         return;
     }
     if (unsubscribeAllReports) {
@@ -3537,6 +3666,8 @@ function initAdminReportsSubscription() {
     unsubscribeAllReports = subscribeToAllReports((reports) => {
         allAdminReports = reports;
         loadAdminReports();
+    }, (err) => {
+        console.warn("Admin reports real-time feed notice:", err?.message || err);
     });
 }
 
@@ -3593,11 +3724,11 @@ function loadAdminReports() {
     if (!table) return;
 
     const userEmail = (currentUser?.email || "").toLowerCase().trim();
-    if (!currentUser || userEmail !== "admin@gmail.com") {
+    if (!currentUser || !isAuthorizedAdmin(userEmail)) {
         table.innerHTML = `
             <tr>
                 <td colspan="9" style="text-align:center;padding:30px;color:#dc2626;">
-                    Access restricted. Please sign in with <strong>admin@gmail.com</strong>.
+                    Access restricted. Please sign in with <strong>${escapeHtml(ADMIN_EMAIL)}</strong>.
                 </td>
             </tr>
         `;
@@ -3733,8 +3864,8 @@ function loadAdminReports() {
 
 async function updateReportStatus(docId, newStatus) {
     const userEmail = (currentUser?.email || "").toLowerCase().trim();
-    if (!currentUser || userEmail !== "admin@gmail.com") {
-        alert("Unauthorized: Only admin@gmail.com can change report status.");
+    if (!currentUser || !isAuthorizedAdmin(userEmail)) {
+        alert(`Unauthorized: Only ${ADMIN_EMAIL} can change report status.`);
         return;
     }
 
@@ -3857,7 +3988,7 @@ function initApp() {
             try {
                 const profile = await getUserProfile(firebaseUser.uid);
                 const userEmail = (firebaseUser.email || "").toLowerCase().trim();
-                const isAdmin = userEmail === "admin@gmail.com";
+                const isAdmin = isAuthorizedAdmin(userEmail);
                 currentUser = profile || {
                     userId: firebaseUser.uid,
                     name: firebaseUser.displayName || (firebaseUser.email ? firebaseUser.email.split("@")[0] : "Citizen"),
@@ -3876,6 +4007,7 @@ function initApp() {
                 } else {
                     if (adminDash) adminDash.style.display = "none";
                 }
+                handleAdminRouting();
             } catch (err) {
                 console.error("Failed to fetch user profile on auth change:", err);
             }
@@ -3889,9 +4021,38 @@ function initApp() {
             const adminDash = document.getElementById("adminDashboard");
             if (adminDash) adminDash.style.display = "none";
             loadReports();
+            handleAdminRouting();
         }
     });
+
+    handleAdminRouting();
 }
+
+function handleAdminRouting() {
+    const path = (window.location.pathname || "").toLowerCase();
+    const hash = (window.location.hash || "").toLowerCase();
+    const isAdminRoute = path === "/admin" || path.startsWith("/admin/") || hash === "#admin" || hash === "#admindashboard";
+
+    if (isAdminRoute) {
+        const userEmail = (currentUser?.email || "").toLowerCase().trim();
+        const isAdmin = isAuthorizedAdmin(userEmail);
+        const adminDash = document.getElementById("adminDashboard");
+
+        if (isAdmin) {
+            if (adminDash) {
+                adminDash.style.display = "block";
+                adminDash.scrollIntoView({ behavior: "smooth" });
+            }
+            initAdminReportsSubscription();
+        } else {
+            openAdminLogin();
+        }
+    }
+}
+
+window.addEventListener("hashchange", handleAdminRouting);
+window.addEventListener("popstate", handleAdminRouting);
+window.handleAdminRouting = handleAdminRouting;
 
 if (document.readyState === "loading") {
     window.addEventListener("DOMContentLoaded", initApp);
