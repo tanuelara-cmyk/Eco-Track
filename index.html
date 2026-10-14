@@ -4,7 +4,6 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>EcoTrack | Smart Waste Management</title>
@@ -12,7 +11,6 @@
 <meta name="description" content="EcoTrack - Smart Waste Management system for citizens and administrators to report, track, and manage urban waste collection.">
 <meta property="og:title" content="EcoTrack | Smart Waste Management">
 <meta property="og:description" content="EcoTrack - Smart Waste Management system for citizens and administrators to report, track, and manage urban waste collection.">
-
 
 <style>
 
@@ -48,16 +46,12 @@ button {
 nav {
     background: white;
     padding: 18px 7%;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-
     position: sticky;
     top: 0;
-
     z-index: 1000;
 }
 
@@ -65,6 +59,7 @@ nav {
     font-size: 26px;
     font-weight: bold;
     color: #16803c;
+    cursor: pointer;
 }
 
 .logo span {
@@ -80,6 +75,8 @@ nav ul {
 nav ul li a {
     text-decoration: none;
     color: #333;
+    font-weight: 500;
+    transition: color 0.2s;
 }
 
 nav ul li a:hover {
@@ -91,49 +88,33 @@ nav ul li a:hover {
     gap: 10px;
 }
 
-.login-btn,
-.register-btn,
-.admin-btn {
-    padding: 10px 15px;
+.user-nav-btn,
+.admin-nav-btn {
+    padding: 10px 16px;
     border-radius: 7px;
     font-weight: bold;
+    font-size: 14px;
+    transition: all 0.2s;
 }
 
-.login-btn {
-    background: white;
-    color: #16803c;
-    border: 1px solid #16803c;
-}
-
-.register-btn {
+.user-nav-btn {
     background: #16803c;
     color: white;
     border: none;
 }
 
-.admin-btn {
+.user-nav-btn:hover {
+    background: #14532d;
+}
+
+.admin-nav-btn {
     background: #14532d;
     color: white;
     border: none;
 }
 
-#userArea {
-    display: none;
-    align-items: center;
-    gap: 10px;
-}
-
-.user-name {
-    font-weight: bold;
-    color: #14532d;
-}
-
-.logout-btn {
-    padding: 8px 14px;
-    background: #ef4444;
-    color: white;
-    border: none;
-    border-radius: 7px;
+.admin-nav-btn:hover {
+    background: #0f3d21;
 }
 
 
@@ -143,19 +124,11 @@ nav ul li a:hover {
 
 .hero {
     min-height: 520px;
-
     padding: 70px 7%;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    background:
-    linear-gradient(
-        120deg,
-        #e8f5e9,
-        #f8fff9
-    );
+    background: linear-gradient(120deg, #e8f5e9, #f8fff9);
 }
 
 .hero-text {
@@ -187,9 +160,11 @@ nav ul li a:hover {
 
 .primary-btn,
 .secondary-btn {
-    padding: 14px 24px;
+    padding: 14px 26px;
     border-radius: 8px;
     font-size: 15px;
+    font-weight: bold;
+    transition: all 0.2s;
 }
 
 .primary-btn {
@@ -198,10 +173,18 @@ nav ul li a:hover {
     border: none;
 }
 
+.primary-btn:hover {
+    background: #14532d;
+}
+
 .secondary-btn {
     background: white;
-    color: #16803c;
-    border: 1px solid #16803c;
+    color: #14532d;
+    border: 2px solid #14532d;
+}
+
+.secondary-btn:hover {
+    background: #e8f5e9;
 }
 
 .hero-card {
@@ -210,9 +193,7 @@ nav ul li a:hover {
     padding: 40px;
     text-align: center;
     border-radius: 20px;
-
-    box-shadow:
-    0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .hero-card .icon {
@@ -264,10 +245,7 @@ section {
     padding: 30px 20px;
     text-align: center;
     border-radius: 15px;
-
-    box-shadow:
-    0 5px 20px rgba(0,0,0,0.07);
-
+    box-shadow: 0 5px 20px rgba(0,0,0,0.07);
     transition: 0.3s;
 }
 
@@ -309,9 +287,7 @@ section {
     background: white;
     padding: 30px;
     border-radius: 15px;
-
-    box-shadow:
-    0 5px 20px rgba(0,0,0,0.07);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.07);
 }
 
 .dashboard-card h3 {
@@ -337,12 +313,10 @@ section {
 .report-box {
     max-width: 800px;
     margin: auto;
-
     background: #f8faf8;
-
     padding: 35px;
-
     border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
 .form-group {
@@ -358,15 +332,10 @@ section {
 .form-group input,
 .form-group select,
 .form-group textarea {
-
     width: 100%;
-
     padding: 12px;
-
     border: 1px solid #ddd;
-
     border-radius: 7px;
-
     font-size: 15px;
 }
 
@@ -378,16 +347,17 @@ textarea {
 .submit-btn {
     width: 100%;
     padding: 14px;
-
     border: none;
-
     background: #16803c;
-
     color: white;
-
     border-radius: 8px;
-
     font-size: 16px;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.submit-btn:hover {
+    background: #14532d;
 }
 
 
@@ -396,18 +366,13 @@ textarea {
 ========================= */
 
 #imagePreview {
-
     display: none;
-
     width: 100%;
-
     max-height: 250px;
-
     object-fit: cover;
-
     border-radius: 10px;
-
     margin-top: 10px;
+    border: 1px solid #e5e7eb;
 }
 
 
@@ -422,16 +387,16 @@ textarea {
 
 .location-btn {
     padding: 12px 15px;
-
     border: none;
-
     background: #14532d;
-
     color: white;
-
     border-radius: 7px;
-
     white-space: nowrap;
+    font-weight: 600;
+}
+
+.location-btn:hover {
+    background: #16803c;
 }
 
 #locationMessage {
@@ -456,44 +421,33 @@ textarea {
 
 .report-card {
     background: white;
-
     padding: 25px;
-
     border-radius: 12px;
-
     margin-bottom: 20px;
-
-    box-shadow:
-    0 4px 15px rgba(0,0,0,0.07);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
 }
 
 .report-top {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 15px;
 }
 
 .complaint-id {
     font-weight: bold;
     color: #14532d;
+    font-size: 16px;
 }
 
 .status {
-    padding: 6px 12px;
+    padding: 6px 14px;
     border-radius: 20px;
-
     background: #fff3cd;
-
     color: #856404;
-
     font-size: 13px;
-
     font-weight: bold;
-}
-
-.status.verified {
-    background: #d1fae5;
-    color: #065f46;
+    display: inline-block;
 }
 
 .status.pending {
@@ -507,12 +461,8 @@ textarea {
     color: #0369a1;
 }
 
-.status.rejected {
-    background: #fee2e2;
-    color: #991b1b;
-}
-
-.status.resolved {
+.status.resolved,
+.status.verified {
     background: #d1fae5;
     color: #065f46;
 }
@@ -521,25 +471,27 @@ textarea {
     display: grid;
     grid-template-columns: repeat(2,1fr);
     gap: 10px;
-
     color: #555;
+    font-size: 14px;
+    line-height: 1.5;
 }
 
 .report-image {
     width: 150px;
     height: 100px;
-
     object-fit: cover;
-
     border-radius: 8px;
-
     margin-top: 15px;
+    border: 1px solid #e5e7eb;
 }
 
 .no-reports {
     text-align: center;
-    padding: 30px;
+    padding: 40px;
     color: #777;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
 
@@ -548,7 +500,7 @@ textarea {
 ========================= */
 
 .admin-section {
-    display: none;
+    display: block;
     background: #eef5f0;
 }
 
@@ -561,7 +513,6 @@ textarea {
     display: grid;
     grid-template-columns: repeat(4,1fr);
     gap: 20px;
-
     margin-bottom: 35px;
 }
 
@@ -569,14 +520,13 @@ textarea {
     background: white;
     padding: 25px;
     border-radius: 12px;
-
-    box-shadow:
-    0 4px 15px rgba(0,0,0,0.07);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
 }
 
 .admin-stat h3 {
     color: #666;
     margin-bottom: 10px;
+    font-size: 15px;
 }
 
 .admin-stat-number {
@@ -590,15 +540,28 @@ textarea {
 
 .admin-table-container {
     background: white;
-
     padding: 25px;
-
     border-radius: 12px;
-
     overflow-x: auto;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+}
 
-    box-shadow:
-    0 4px 15px rgba(0,0,0,0.07);
+.admin-tools {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.admin-tools input,
+.admin-tools select {
+    padding: 11px 14px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    font-size: 14px;
+}
+
+.admin-tools input {
+    flex: 1;
 }
 
 .admin-table {
@@ -609,42 +572,43 @@ textarea {
 .admin-table th,
 .admin-table td {
     padding: 14px;
-
     border-bottom: 1px solid #eee;
-
     text-align: left;
 }
 
 .admin-table th {
     color: #14532d;
     background: #f5faf6;
+    font-weight: bold;
+    font-size: 13.5px;
 }
 
 .admin-table img {
-    width: 70px;
-    height: 50px;
+    width: 60px;
+    height: 45px;
     object-fit: cover;
     border-radius: 5px;
+    border: 1px solid #ddd;
 }
 
 .admin-action {
-    padding: 7px 10px;
+    padding: 6px 11px;
     border: none;
     border-radius: 5px;
     margin: 2px;
     color: white;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s;
 }
 
-.verify-btn {
-    background: #16803c;
+.admin-action:hover {
+    opacity: 0.9;
 }
 
 .progress-btn {
     background: #0284c7;
-}
-
-.reject-btn {
-    background: #ef4444;
 }
 
 .resolve-btn {
@@ -661,185 +625,39 @@ textarea {
 ========================= */
 
 .modal {
-
     display: none;
-
     position: fixed;
-
     inset: 0;
-
-    background:
-    rgba(0,0,0,0.6);
-
+    background: rgba(0,0,0,0.6);
     justify-content: center;
-
     align-items: center;
-
     z-index: 2000;
 }
 
 .modal-box {
-
-    width: 400px;
-
+    width: 520px;
     max-width: 90%;
-
     background: white;
-
-    padding: 35px;
-
+    padding: 30px;
     border-radius: 15px;
-
     position: relative;
-}
-
-.modal-box h2 {
-
-    text-align: center;
-
-    color: #14532d;
-
-    margin-bottom: 25px;
-}
-
-.modal-box input {
-
-    width: 100%;
-
-    padding: 12px;
-
-    margin-bottom: 15px;
-
-    border: 1px solid #ddd;
-
-    border-radius: 7px;
-}
-
-.modal-box button {
-
-    width: 100%;
-
-    padding: 12px;
-
-    background: #16803c;
-
-    color: white;
-
-    border: none;
-
-    border-radius: 7px;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .close {
-
     position: absolute;
-
     right: 18px;
-
-    top: 12px;
-
-    font-size: 25px;
-}
-
-.switch-text {
-
-    text-align: center;
-
-    margin-top: 18px;
-
+    top: 14px;
+    font-size: 26px;
+    cursor: pointer;
     color: #666;
 }
 
-.switch-text span {
-
-    color: #16803c;
-
-    cursor: pointer;
-
-    font-weight: bold;
+.close:hover {
+    color: #000;
 }
 
-
-/* =========================
-   FOOTER
-========================= */
-
-footer {
-
-    background: #14532d;
-
-    color: white;
-
-    text-align: center;
-
-    padding: 40px;
-}
-
-footer p {
-
-    color: #d1d5db;
-
-    margin-top: 10px;
-}
-
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:900px) {
-
-    nav ul {
-        display: none;
-    }
-
-    .hero {
-        flex-direction: column;
-        text-align: center;
-        gap: 40px;
-    }
-
-    .hero-text {
-        width: 100%;
-    }
-
-    .features {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .dashboard {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .admin-stats {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-@media(max-width:600px) {
-
-    .hero-text h1 {
-        font-size: 38px;
-    }
-
-    .features,
-    .dashboard,
-    .admin-stats {
-        grid-template-columns: 1fr;
-    }
-
-    .hero-card {
-        width: 100%;
-    }
-
-    .location-row {
-        flex-direction: column;
-    }
-
-    .report-info {
-        grid-template-columns: 1fr;
-    }
-}
 
 /* =========================
    VERSION 5
@@ -856,53 +674,6 @@ footer p {
     font-weight: bold;
     color: #14532d;
     margin-bottom: 20px;
-}
-
-.tracking {
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-}
-
-.tracking::before {
-    content: "";
-    position: absolute;
-    top: 15px;
-    left: 10%;
-    right: 10%;
-    height: 3px;
-    background: #ddd;
-    z-index: 0;
-}
-
-.track-step {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    width: 30%;
-}
-
-.track-circle {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: #ddd;
-    margin: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-weight: bold;
-}
-
-.track-step.active .track-circle {
-    background: #16803c;
-}
-
-.track-step p {
-    margin-top: 8px;
-    font-size: 13px;
-    color: #666;
 }
 
 .achievement-box {
@@ -952,36 +723,9 @@ footer p {
     line-height: 1.6;
 }
 
-.admin-tools {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 20px;
-}
-
-.admin-tools input,
-.admin-tools select {
-    padding: 11px;
-    border: 1px solid #ddd;
-    border-radius: 7px;
-}
-
-.admin-tools input {
-    flex: 1;
-}
-
-@media(max-width:700px) {
-    .achievement-box,
-    .seg-guide {
-        grid-template-columns: 1fr;
-    }
-
-    .admin-tools {
-        flex-direction: column;
-    }
-}
 
 /* =========================
-   VERSION 6
+   VERSION 6 SMART DASHBOARD
 ========================= */
 
 .v6-dashboard {
@@ -1097,79 +841,98 @@ footer p {
     font-weight: bold;
 }
 
-@media(max-width:800px) {
 
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    background: #14532d;
+    color: white;
+    text-align: center;
+    padding: 40px;
+}
+
+footer p {
+    color: #d1d5db;
+    margin-top: 10px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:900px) {
+    nav ul {
+        display: none;
+    }
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 40px;
+    }
+    .hero-text {
+        width: 100%;
+    }
+    .hero-buttons {
+        justify-content: center;
+    }
+    .features {
+        grid-template-columns: 1fr 1fr;
+    }
+    .dashboard {
+        grid-template-columns: 1fr 1fr;
+    }
+    .admin-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media(max-width:700px) {
+    .achievement-box,
+    .seg-guide {
+        grid-template-columns: 1fr;
+    }
+    .admin-tools {
+        flex-direction: column;
+    }
+}
+
+@media(max-width:600px) {
+    .hero-text h1 {
+        font-size: 38px;
+    }
+    .hero-buttons {
+        flex-direction: column;
+    }
+    .features,
+    .dashboard,
+    .admin-stats {
+        grid-template-columns: 1fr;
+    }
+    .hero-card {
+        width: 100%;
+    }
+    .location-row {
+        flex-direction: column;
+    }
+    .report-info {
+        grid-template-columns: 1fr;
+    }
     .v6-dashboard {
         grid-template-columns: 1fr;
     }
-
     .v6-stat-grid {
         grid-template-columns: 1fr 1fr;
     }
 }
 
-@media(max-width:500px) {
-
-    .v6-stat-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
 </style>
-
-<script>
-// Immediate UI modal handlers to ensure instant responsiveness before and after module loads
-window.openLogin = function() {
-    var m = document.getElementById("authModal");
-    if (m) m.style.display = "flex";
-    var lf = document.getElementById("loginForm");
-    var rf = document.getElementById("registerForm");
-    if (lf) lf.style.display = "block";
-    if (rf) rf.style.display = "none";
-};
-window.openRegister = function() {
-    var m = document.getElementById("authModal");
-    if (m) m.style.display = "flex";
-    var lf = document.getElementById("loginForm");
-    var rf = document.getElementById("registerForm");
-    if (lf) lf.style.display = "none";
-    if (rf) rf.style.display = "block";
-};
-window.closeModal = function() {
-    var m = document.getElementById("authModal");
-    if (m) m.style.display = "none";
-};
-window.showLogin = function() {
-    var lf = document.getElementById("loginForm");
-    var rf = document.getElementById("registerForm");
-    if (lf) lf.style.display = "block";
-    if (rf) rf.style.display = "none";
-};
-window.showRegister = function() {
-    var lf = document.getElementById("loginForm");
-    var rf = document.getElementById("registerForm");
-    if (lf) lf.style.display = "none";
-    if (rf) rf.style.display = "block";
-};
-window.openAdminLogin = function() {
-    var m = document.getElementById("adminModal");
-    if (m) m.style.display = "flex";
-};
-window.closeAdminModal = function() {
-    var m = document.getElementById("adminModal");
-    if (m) m.style.display = "none";
-};
-window.closeDetailsModal = function() {
-    var m = document.getElementById("reportDetailsModal");
-    if (m) m.style.display = "none";
-};
-</script>
 
 </head>
 
-
 <body>
-
 
 <!-- =========================
      NAVBAR
@@ -1177,82 +940,26 @@ window.closeDetailsModal = function() {
 
 <nav>
 
-<div class="logo">
+<div class="logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
     Eco<span>Track</span>
 </div>
 
-
 <ul>
-
-<li>
-<a href="#home">Home</a>
-</li>
-
-<li>
-<a href="#features">Features</a>
-</li>
-
-<li>
-<a href="#report">Report</a>
-</li>
-
-<li>
-<a href="#history">My Reports</a>
-</li>
-
-<li>
-<a href="#dashboard">Dashboard</a>
-</li>
-
+    <li><a href="#home">Home</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#dashboard">Dashboard</a></li>
+    <li><a href="#report">Report</a></li>
+    <li><a href="#history">My Reports</a></li>
+    <li><a href="#adminDashboard">Admin Dashboard</a></li>
 </ul>
 
 <div class="nav-buttons">
-
-    <div id="authButtons">
-
-        <button
-        class="login-btn"
-        onclick="openLogin()">
-        Login
-        </button>
-
-        <button
-        class="register-btn"
-        onclick="openRegister()">
-        Register
-        </button>
-
-    </div>
-
-
-    <!-- ADMIN ALWAYS VISIBLE -->
-
-    <button
-    class="admin-btn"
-    onclick="openAdminLogin()">
-
-        🛡️ Admin
-
+    <button class="user-nav-btn" onclick="openReport()">
+        Report Waste
     </button>
-
-</div>
-
-
-<div id="userArea">
-
-<span
-class="user-name"
-id="navUserName">
-</span>
-
-<button
-class="logout-btn"
-onclick="logout()">
-
-Logout
-
-</button>
-
+    <button class="admin-nav-btn" onclick="openAdminDashboard()">
+        🛡️ Admin Dashboard
+    </button>
 </div>
 
 </nav>
@@ -1262,74 +969,34 @@ Logout
      HERO
 ========================= -->
 
-<section
-class="hero"
-id="home">
-
+<section class="hero" id="home">
 
 <div class="hero-text">
 
 <h1>
-
 Track Waste.<br>
-
-<span>
-Build a Greener Future.
-</span>
-
+<span>Build a Greener Future.</span>
 </h1>
 
-
 <p>
-
-EcoTrack helps citizens manage
-waste responsibly through
-segregation, proper disposal,
-reporting and eco-friendly
-participation.
-
+EcoTrack helps citizens manage waste responsibly through segregation, proper disposal, reporting and eco-friendly participation.
 </p>
-
 
 <div class="hero-buttons">
-
-<button
-class="primary-btn"
-onclick="openReport()">
-
-Report Waste
-
-</button>
-
-
-<button
-class="secondary-btn"
-onclick="openRegister()">
-
-Join EcoTrack
-
-</button>
-
+    <button class="primary-btn" onclick="openReport()">
+        Report Waste
+    </button>
+    <button class="secondary-btn" onclick="openAdminDashboard()">
+        Admin Dashboard
+    </button>
 </div>
 
 </div>
-
 
 <div class="hero-card">
-
-<div class="icon">
-♻️
-</div>
-
-<h2>
-EcoTrack
-</h2>
-
-<p>
-Every small action can create
-a cleaner environment.
-</p>
-
+    <div class="icon">♻️</div>
+    <h2>EcoTrack</h2>
+    <p>Every small action can create a cleaner environment.</p>
 </div>
 
 </section>
@@ -1342,91 +1009,34 @@ a cleaner environment.
 <section id="features">
 
 <div class="section-title">
-
-<h2>
-Our Features
-</h2>
-
-<p>
-Everything you need for better
-waste management
-</p>
-
+    <h2>Our Features</h2>
+    <p>Everything you need for better waste management</p>
 </div>
-
 
 <div class="features">
 
+<div class="feature-card">
+    <div class="feature-icon">🗑️</div>
+    <h3>Report Waste</h3>
+    <p>Report waste problems with location and description.</p>
+</div>
 
 <div class="feature-card">
-
-<div class="feature-icon">
-🗑️
+    <div class="feature-icon">♻️</div>
+    <h3>Segregate Waste</h3>
+    <p>Understand whether waste is wet, dry or e-waste.</p>
 </div>
-
-<h3>
-Report Waste
-</h3>
-
-<p>
-Report waste problems with
-location and description.
-</p>
-
-</div>
-
 
 <div class="feature-card">
-
-<div class="feature-icon">
-♻️
+    <div class="feature-icon">📍</div>
+    <h3>Find Disposal</h3>
+    <p>Find suitable options for responsible waste disposal.</p>
 </div>
-
-<h3>
-Segregate Waste
-</h3>
-
-<p>
-Understand whether waste
-is wet, dry or e-waste.
-</p>
-
-</div>
-
 
 <div class="feature-card">
-
-<div class="feature-icon">
-📍
-</div>
-
-<h3>
-Find Disposal
-</h3>
-
-<p>
-Find suitable options for
-responsible waste disposal.
-</p>
-
-</div>
-
-
-<div class="feature-card">
-
-<div class="feature-icon">
-🏆
-</div>
-
-<h3>
-Earn Eco Points
-</h3>
-
-<p>
-Get points for responsible
-environmental actions.
-</p>
-
+    <div class="feature-icon">🏆</div>
+    <h3>Earn Eco Points</h3>
+    <p>Get points for responsible environmental actions.</p>
 </div>
 
 </div>
@@ -1438,434 +1048,172 @@ environmental actions.
      USER DASHBOARD
 ========================= -->
 
-<section
-class="dashboard-section"
-id="dashboard">
-
+<section class="dashboard-section" id="dashboard">
 
 <div class="section-title">
-
-<h2>
-My Eco Dashboard
-</h2>
-
-<p>
-Track your environmental contribution
-</p>
-
+    <h2>My Eco Dashboard</h2>
+    <p>Track your environmental contribution</p>
 </div>
-
 
 <div class="dashboard">
 
+<div class="dashboard-card">
+    <h3>Reports Submitted</h3>
+    <div class="dashboard-number" id="reportCount">0</div>
+</div>
 
 <div class="dashboard-card">
-
-<h3>
-Reports Submitted
-</h3>
-
-<div
-class="dashboard-number"
-id="reportCount">
-
-0
-
+    <h3>Eco Points</h3>
+    <div class="dashboard-number" id="points">100</div>
 </div>
-
-</div>
-
 
 <div class="dashboard-card">
-
-<h3>
-Eco Points
-</h3>
-
-<div
-class="dashboard-number"
-id="points">
-
-100
-
-</div>
-
-</div>
-
-
-<div class="dashboard-card">
-
-<h3>
-Waste Managed
-</h3>
-
-<div
-class="dashboard-number"
-id="wasteManaged">
-
-0 kg
-
-</div>
-
+    <h3>Waste Managed</h3>
+    <div class="dashboard-number" id="wasteManaged">0 kg</div>
 </div>
 
 </div>
 
 </section>
 
+
 <!-- =========================
-     VERSION 6 SMART DASHBOARD
+     SMART DASHBOARD PROGRESS
 ========================= -->
 
 <section>
 
-    <div class="section-title">
+<div class="section-title">
+    <h2>🌱 My Eco Progress</h2>
+    <p>See how your actions are helping the environment</p>
+</div>
 
-        <h2>
-            🌱 My Eco Progress
-        </h2>
+<div class="v6-dashboard">
 
-        <p>
-            See how your actions are helping the environment
-        </p>
-
+<!-- ECO LEVEL -->
+<div class="eco-level-card">
+    <div class="eco-level-header">
+        <h3>🏆 Eco Level</h3>
+        <span class="level-badge" id="ecoLevel">Eco Starter</span>
     </div>
 
+    <p id="levelMessage">
+        Start reporting waste to become a Green Citizen!
+    </p>
 
-    <div class="v6-dashboard">
+    <br>
 
-
-        <!-- ECO LEVEL -->
-
-        <div class="eco-level-card">
-
-            <div class="eco-level-header">
-
-                <h3>
-                    🏆 Eco Level
-                </h3>
-
-                <span
-                    class="level-badge"
-                    id="ecoLevel">
-
-                    Eco Starter
-
-                </span>
-
-            </div>
-
-
-            <p id="levelMessage">
-
-                Start reporting waste to become
-                a Green Citizen!
-
-            </p>
-
-
-            <br>
-
-
-            <div class="progress-container">
-
-                <div
-                    class="progress-bar"
-                    id="ecoProgress">
-                </div>
-
-            </div>
-
-
-            <div
-                class="progress-text"
-                id="progressText">
-
-                0 / 200 Eco Points
-
-            </div>
-
-
-            <span
-                class="green-badge"
-                id="greenBadge">
-
-                🌱 Eco Starter
-
-            </span>
-
-        </div>
-
-
-        <!-- NOTIFICATIONS -->
-
-        <div class="notification-card">
-
-            <h3>
-                🔔 Notifications
-            </h3>
-
-
-            <div
-                id="notifications">
-
-                <div class="notification">
-
-                    🌱 Welcome to <strong>EcoTrack</strong>!
-
-                </div>
-
-                <div class="notification">
-
-                    ♻️ Submit a report to earn
-                    <strong>20 Eco Points</strong>.
-
-                </div>
-
-            </div>
-
-        </div>
-
+    <div class="progress-container">
+        <div class="progress-bar" id="ecoProgress"></div>
     </div>
 
-
-    <!-- STATISTICS -->
-
-    <div class="v6-stat-grid">
-
-
-        <div class="v6-stat">
-
-            <div class="v6-stat-icon">
-                🗑️
-            </div>
-
-            <h4>
-                Reports
-            </h4>
-
-            <div
-                class="v6-stat-number"
-                id="v6Reports">
-
-                0
-
-            </div>
-
-        </div>
-
-
-        <div class="v6-stat">
-
-            <div class="v6-stat-icon">
-                🏆
-            </div>
-
-            <h4>
-                Eco Points
-            </h4>
-
-            <div
-                class="v6-stat-number"
-                id="v6Points">
-
-                100
-
-            </div>
-
-        </div>
-
-
-        <div class="v6-stat">
-
-            <div class="v6-stat-icon">
-                ♻️
-            </div>
-
-            <h4>
-                Waste Managed
-            </h4>
-
-            <div
-                class="v6-stat-number"
-                id="v6Waste">
-
-                0 kg
-
-            </div>
-
-        </div>
-
-
-        <div class="v6-stat">
-
-            <div class="v6-stat-icon">
-                🌍
-            </div>
-
-            <h4>
-                Eco Level
-            </h4>
-
-            <div
-                class="v6-stat-number"
-                id="v6Level">
-
-                Starter
-
-            </div>
-
-        </div>
-
+    <div class="progress-text" id="progressText">
+        100 / 200 Eco Points
     </div>
+
+    <span class="green-badge" id="greenBadge">
+        🌱 Eco Starter
+    </span>
+</div>
+
+<!-- NOTIFICATIONS -->
+<div class="notification-card">
+    <h3>🔔 Notifications</h3>
+    <div id="notifications">
+        <div class="notification">
+            🌱 Welcome to <strong>EcoTrack</strong>!
+        </div>
+        <div class="notification">
+            ♻️ Submit a report to earn <strong>20 Eco Points</strong>.
+        </div>
+    </div>
+</div>
+
+</div>
+
+<!-- STATISTICS -->
+<div class="v6-stat-grid">
+
+<div class="v6-stat">
+    <div class="v6-stat-icon">🗑️</div>
+    <h4>Reports</h4>
+    <div class="v6-stat-number" id="v6Reports">0</div>
+</div>
+
+<div class="v6-stat">
+    <div class="v6-stat-icon">🏆</div>
+    <h4>Eco Points</h4>
+    <div class="v6-stat-number" id="v6Points">100</div>
+</div>
+
+<div class="v6-stat">
+    <div class="v6-stat-icon">♻️</div>
+    <h4>Waste Managed</h4>
+    <div class="v6-stat-number" id="v6Waste">0 kg</div>
+</div>
+
+<div class="v6-stat">
+    <div class="v6-stat-icon">🌍</div>
+    <h4>Eco Level</h4>
+    <div class="v6-stat-number" id="v6Level">Starter</div>
+</div>
+
+</div>
 
 </section>
+
 
 <!-- =========================
      REPORT FORM
 ========================= -->
 
-<section
-class="report-section"
-id="report">
-
+<section class="report-section" id="report">
 
 <div class="section-title">
-
-<h2>
-Report Waste
-</h2>
-
-<p>
-Help us identify waste problems
-</p>
-
+    <h2>Report Waste</h2>
+    <p>Help us identify waste problems in your community</p>
 </div>
-
 
 <div class="report-box">
 
-
-<form
-id="reportForm"
-onsubmit="submitReport(event)">
-
+<form id="reportForm" onsubmit="submitReport(event)">
 
 <div class="form-group">
-
-<label>
-Waste Type
-</label>
-
-
-<select
-id="wasteType"
-required>
-
-<option value="">
-Select waste category
-</option>
-
-<option value="Dry Waste">
-Dry Waste
-</option>
-
-<option value="Wet Waste">
-Wet Waste
-</option>
-
-<option value="E-Waste">
-E-Waste
-</option>
-
-<option value="Cleanliness">
-Cleanliness
-</option>
-
-<option value="Other">
-Other
-</option>
-
-</select>
-
+    <label for="wasteType">Waste Type</label>
+    <select id="wasteType" required>
+        <option value="">Select waste category</option>
+        <option value="Dry Waste">Dry Waste</option>
+        <option value="Wet Waste">Wet Waste</option>
+        <option value="E-Waste">E-Waste</option>
+        <option value="Cleanliness">Cleanliness</option>
+        <option value="Other">Other</option>
+    </select>
 </div>
-
 
 <div class="form-group">
-
-<label>
-Location
-</label>
-
-
-<div class="location-row">
-
-<input
-type="text"
-id="location"
-placeholder="Enter location"
-required>
-
-
-<button
-type="button"
-class="location-btn"
-onclick="getLocation()">
-
-📍 Use My Location
-
-</button>
-
+    <label for="location">Location</label>
+    <div class="location-row">
+        <input type="text" id="location" placeholder="Enter street, area, or coordinates" required>
+        <button type="button" class="location-btn" onclick="getLocation()">
+            📍 Use My Location
+        </button>
+    </div>
+    <div id="locationMessage"></div>
 </div>
-
-
-<div id="locationMessage"></div>
-
-</div>
-
 
 <div class="form-group">
-
-<label>
-Description
-</label>
-
-
-<textarea
-id="description"
-placeholder="Describe the waste problem..."
-required>
-</textarea>
-
+    <label for="description">Description</label>
+    <textarea id="description" placeholder="Describe the waste problem or cleanliness issue..." required></textarea>
 </div>
-
 
 <div class="form-group">
-
-<label>
-Upload Waste Image
-</label>
-
-
-<input
-type="file"
-id="wasteImage"
-accept="image/*"
-onchange="previewImage(event)">
-
-
-<img
-id="imagePreview">
-
+    <label for="wasteImage">Upload Waste Image</label>
+    <input type="file" id="wasteImage" accept="image/*" onchange="previewImage(event)">
+    <img id="imagePreview" alt="Waste preview">
 </div>
 
-
-<button
-type="submit"
-class="submit-btn">
-
-Submit Report ♻️
-
+<button type="submit" class="submit-btn" id="submitReportBtn">
+    Submit Report ♻️
 </button>
 
 </form>
@@ -1879,28 +1227,15 @@ Submit Report ♻️
      USER HISTORY
 ========================= -->
 
-<section
-class="history-section"
-id="history">
-
+<section class="history-section" id="history">
 
 <div class="section-title">
-
-<h2>
-My Reports
-</h2>
-
-<p>
-Track the complaints you have submitted
-</p>
-
+    <h2>My Reports</h2>
+    <p>Track the complaints you have submitted</p>
 </div>
 
-
-<div
-class="reports-container"
-id="reportsContainer">
-
+<div class="reports-container" id="reportsContainer">
+    <!-- Populated dynamically from localStorage -->
 </div>
 
 </section>
@@ -1910,167 +1245,64 @@ id="reportsContainer">
      ADMIN DASHBOARD
 ========================= -->
 
-<section
-class="admin-section"
-id="adminDashboard">
-
+<section class="admin-section" id="adminDashboard">
 
 <div class="admin-container">
 
-
 <div class="section-title">
-
-<h2>
-EcoTrack Admin Dashboard
-</h2>
-
-<p>
-Manage, track, and resolve community waste complaint reports
-</p>
-
+    <h2>EcoTrack Admin Dashboard</h2>
+    <p>Manage, track, and resolve community waste complaint reports</p>
 </div>
 
-<!-- REPORTS VIEW -->
-<div id="adminReportsView">
 <!-- ADMIN STATS -->
-
 <div class="admin-stats">
 
+<div class="admin-stat">
+    <h3>Total Reports</h3>
+    <div class="admin-stat-number" id="totalReports">0</div>
+</div>
 
 <div class="admin-stat">
-
-<h3>
-Total Reports
-</h3>
-
-<div
-class="admin-stat-number"
-id="totalReports">
-
-0
-
+    <h3>Pending</h3>
+    <div class="admin-stat-number" id="pendingReports">0</div>
 </div>
-
-</div>
-
 
 <div class="admin-stat">
-
-<h3>
-Pending
-</h3>
-
-<div
-class="admin-stat-number"
-id="pendingReports">
-
-0
-
+    <h3>In Progress</h3>
+    <div class="admin-stat-number" id="verifiedReports">0</div>
 </div>
-
-</div>
-
 
 <div class="admin-stat">
-
-<h3>
-In Progress
-</h3>
-
-<div
-class="admin-stat-number"
-id="verifiedReports">
-
-0
-
+    <h3>Resolved</h3>
+    <div class="admin-stat-number" id="resolvedReports">0</div>
 </div>
 
 </div>
 
-
-<div class="admin-stat">
-
-<h3>
-Resolved
-</h3>
-
-<div
-class="admin-stat-number"
-id="resolvedReports">
-
-0
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ADMIN TABLE -->
-
+<!-- ADMIN TABLE & TOOLS -->
 <div class="admin-tools">
-
     <input
         type="text"
         id="adminSearch"
-        placeholder="🔎 Search complaint or location..."
+        placeholder="🔎 Search complaint ID, location, or description..."
         oninput="loadAdminReports()"
     >
 
-
-    <select
-        id="adminFilter"
-        onchange="loadAdminReports()">
-
-        <option value="All">
-            All Status
-        </option>
-
-        <option value="Pending">
-            Pending
-        </option>
-
-        <option value="In Progress">
-            In Progress
-        </option>
-
-        <option value="Resolved">
-            Resolved
-        </option>
-
+    <select id="adminFilter" onchange="loadAdminReports()">
+        <option value="All">All Statuses</option>
+        <option value="Pending">Pending</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Resolved">Resolved</option>
     </select>
 
-    <select
-        id="adminCategoryFilter"
-        onchange="loadAdminReports()">
-
-        <option value="All">
-            All Categories
-        </option>
-
-        <option value="Dry Waste">
-            Dry Waste
-        </option>
-
-        <option value="Wet Waste">
-            Wet Waste
-        </option>
-
-        <option value="E-Waste">
-            E-Waste
-        </option>
-
-        <option value="Cleanliness">
-            Cleanliness
-        </option>
-
-        <option value="Other">
-            Other
-        </option>
-
+    <select id="adminCategoryFilter" onchange="loadAdminReports()">
+        <option value="All">All Categories</option>
+        <option value="Dry Waste">Dry Waste</option>
+        <option value="Wet Waste">Wet Waste</option>
+        <option value="E-Waste">E-Waste</option>
+        <option value="Cleanliness">Cleanliness</option>
+        <option value="Other">Other</option>
     </select>
-
 </div>
 
 <div class="admin-table-container">
@@ -2078,52 +1310,21 @@ id="resolvedReports">
 <table class="admin-table">
 
 <thead>
-
 <tr>
-
-<th>
-Complaint ID
-</th>
-
-<th>
-Date & Time
-</th>
-
-<th>
-User
-</th>
-
-<th>
-Category
-</th>
-
-<th>
-Description
-</th>
-
-<th>
-Location
-</th>
-
-<th>
-Image
-</th>
-
-<th>
-Status
-</th>
-
-<th>
-Action
-</th>
-
+    <th>Complaint ID</th>
+    <th>Date & Time</th>
+    <th>Reporter</th>
+    <th>Category</th>
+    <th>Description</th>
+    <th>Location</th>
+    <th>Image</th>
+    <th>Status</th>
+    <th>Actions</th>
 </tr>
-
 </thead>
 
-<tbody
-id="adminReportsTable">
-
+<tbody id="adminReportsTable">
+    <!-- Populated dynamically from localStorage -->
 </tbody>
 
 </table>
@@ -2131,294 +1332,26 @@ id="adminReportsTable">
 </div>
 
 </div>
-<!-- END REPORTS VIEW -->
-
-</div>
 
 </section>
 
 
 <!-- =========================
-     LOGIN / REGISTER MODAL
-========================= -->
-
-<div
-class="modal"
-id="authModal">
-
-
-<div class="modal-box">
-
-
-<span
-class="close"
-onclick="closeModal()">
-
-×
-
-</span>
-
-<div id="authNotice" style="display:none; margin: 10px 0 14px 0; padding: 10px 12px; border-radius: 6px; font-size: 13px; text-align: left; line-height: 1.4;"></div>
-
-
-<!-- LOGIN -->
-
-<form id="loginForm" onsubmit="event.preventDefault(); loginUser();">
-
-<h2>
-Welcome Back 🌱
-</h2>
-
-
-<input
-type="email"
-id="loginEmail"
-placeholder="Email"
-required
-autocomplete="username">
-
-
-<input
-type="password"
-id="loginPassword"
-placeholder="Password"
-required
-autocomplete="current-password">
-
-<div style="display:flex; justify-content:flex-end; margin: -6px 0 14px 0;">
-    <button
-        type="button"
-        onclick="handleForgotPasswordPrompt('loginEmail')"
-        style="background:none; border:none; color:#16803c; font-size:12.5px; font-weight:600; cursor:pointer; padding:0; text-decoration:underline;">
-        Forgot password?
-    </button>
-</div>
-
-<button
-type="submit">
-
-Login
-
-</button>
-
-<div style="display:flex; align-items:center; margin: 14px 0 8px 0; color: #888; font-size: 13px;">
-    <div style="flex:1; height: 1px; background: #e0e0e0; margin-right: 10px;"></div>
-    <span>or</span>
-    <div style="flex:1; height: 1px; background: #e0e0e0; margin-left: 10px;"></div>
-</div>
-
-<button
-type="button"
-onclick="loginWithGoogle()"
-style="background: #ffffff; color: #374151; border: 1px solid #d1d5db; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 500; cursor: pointer;">
-    <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
-    Continue with Google
-</button>
-
-
-<p class="switch-text">
-
-Don't have an account?
-
-<span onclick="showRegister()">
-Register
-</span>
-
-</p>
-
-</form>
-
-
-<!-- REGISTER -->
-
-<form
-id="registerForm"
-style="display:none;"
-onsubmit="event.preventDefault(); registerUser();">
-
-<h2>
-Join EcoTrack 🌱
-</h2>
-
-
-<input
-type="text"
-id="registerName"
-placeholder="Full Name"
-required
-autocomplete="name">
-
-
-<input
-type="email"
-id="registerEmail"
-placeholder="Email"
-required
-autocomplete="email">
-
-
-<input
-type="password"
-id="registerPassword"
-placeholder="Create Password (min. 6 characters)"
-required
-autocomplete="new-password">
-
-
-<button
-type="submit">
-
-Create Account
-
-</button>
-
-<div style="display:flex; align-items:center; margin: 14px 0 8px 0; color: #888; font-size: 13px;">
-    <div style="flex:1; height: 1px; background: #e0e0e0; margin-right: 10px;"></div>
-    <span>or</span>
-    <div style="flex:1; height: 1px; background: #e0e0e0; margin-left: 10px;"></div>
-</div>
-
-<button
-type="button"
-onclick="loginWithGoogle()"
-style="background: #ffffff; color: #374151; border: 1px solid #d1d5db; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 500; cursor: pointer;">
-    <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
-    Continue with Google
-</button>
-
-
-<p class="switch-text">
-
-Already have an account?
-
-<span onclick="showLogin()">
-Login
-</span>
-
-</p>
-
-</form>
-
-</div>
-
-</div>
-
-
-<!-- =========================
-     ADMIN LOGIN MODAL
-========================= -->
-
-<div
-class="modal"
-id="adminModal">
-
-
-<div class="modal-box">
-
-
-<span
-class="close"
-onclick="closeAdminModal()">
-
-×
-
-</span>
-
-
-<h2>
-🛡️ Admin Access
-</h2>
-
-<p style="font-size: 13px; color: #4b5563; margin: 4px 0 12px 0;">
-    Sign in with <strong>tanu.elara@gmail.com</strong> to access the EcoTrack Admin Dashboard.
-</p>
-
-<div id="adminNotice" style="display:none; margin: 10px 0 14px 0; padding: 10px 12px; border-radius: 6px; font-size: 13px; text-align: left; line-height: 1.4;"></div>
-
-<button
-type="button"
-id="adminGoogleBtn"
-onclick="loginWithGoogle()"
-style="background: #ffffff; color: #1f2937; border: 1.5px solid #d1d5db; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; cursor: pointer; width: 100%; padding: 11px 16px; border-radius: 8px; font-size: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); transition: all 0.2s;">
-    <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
-    Sign in with Google
-</button>
-
-<div style="display:flex; align-items:center; margin: 16px 0 12px 0; color: #888; font-size: 13px;">
-    <div style="flex:1; height: 1px; background: #e0e0e0; margin-right: 10px;"></div>
-    <span>or sign in with password</span>
-    <div style="flex:1; height: 1px; background: #e0e0e0; margin-left: 10px;"></div>
-</div>
-
-<form id="adminLoginForm" onsubmit="event.preventDefault(); adminLogin();">
-
-<input
-type="email"
-id="adminEmail"
-placeholder="tanu.elara@gmail.com"
-value="tanu.elara@gmail.com"
-required
-autocomplete="username">
-
-
-<input
-type="password"
-id="adminPassword"
-placeholder="Admin Password"
-required
-autocomplete="current-password">
-
-<div style="display:flex; justify-content:space-between; align-items:center; margin: -6px 0 14px 0;">
-    <button
-        type="button"
-        onclick="registerAdminAccount(document.getElementById('adminPassword').value)"
-        style="background:none; border:none; color:#15803d; font-size:12.5px; font-weight:600; cursor:pointer; padding:0; text-decoration:underline;">
-        ✨ First time? Register this password
-    </button>
-    <button
-        type="button"
-        onclick="handleForgotPasswordPrompt('adminEmail')"
-        style="background:none; border:none; color:#6b7280; font-size:12.5px; font-weight:500; cursor:pointer; padding:0; text-decoration:underline;">
-        Forgot password?
-    </button>
-</div>
-
-<button
-type="submit"
-id="adminSubmitBtn">
-
-Login as Admin
-
-</button>
-
-</form>
-
-<p class="switch-text" style="font-size: 12px; color: #666; margin-top: 15px; line-height: 1.4;">
-    🔒 Access to the EcoTrack Admin Dashboard is restricted to <strong>tanu.elara@gmail.com</strong>.
-</p>
-
-</div>
-
-</div>
-
-<!-- =========================
      REPORT DETAILS MODAL
 ========================= -->
-<div class="modal" id="reportDetailsModal">
 
-    <div class="modal-box" style="max-width: 520px; text-align: left;">
+<div class="modal" id="reportDetailsModal" onclick="handleModalBackdropClick(event)">
 
-        <span class="close" onclick="closeDetailsModal()">&times;</span>
-
-        <h2 id="modalReportId" style="color: #14532d; font-size: 20px; margin-bottom: 12px;">Report Details</h2>
-
-        <div id="modalReportBody" style="display: flex; flex-direction: column; gap: 10px; font-size: 14px; line-height: 1.6; color: #333;">
-            <!-- Populated dynamically -->
-        </div>
-
+<div class="modal-box">
+    <span class="close" onclick="closeDetailsModal()">&times;</span>
+    <h2 id="modalReportId" style="color: #14532d; font-size: 20px; margin-bottom: 12px; text-align: left;">Report Details</h2>
+    <div id="modalReportBody" style="display: flex; flex-direction: column; gap: 10px; font-size: 14px; line-height: 1.6; color: #333;">
+        <!-- Populated dynamically -->
     </div>
+</div>
 
 </div>
+
 
 <!-- =========================
      WASTE SEGREGATION GUIDE
@@ -2426,60 +1359,29 @@ Login as Admin
 
 <section>
 
-    <div class="section-title">
+<div class="section-title">
+    <h2>♻️ Waste Segregation Guide</h2>
+    <p>Know where your waste belongs</p>
+</div>
 
-        <h2>
-            ♻️ Waste Segregation Guide
-        </h2>
+<div class="seg-guide">
 
-        <p>
-            Know where your waste belongs
-        </p>
+<div class="guide-card">
+    <h3>🟢 Wet Waste</h3>
+    <p>Food scraps, vegetable peels, fruit waste and other biodegradable materials.</p>
+</div>
 
-    </div>
+<div class="guide-card">
+    <h3>🔵 Dry Waste</h3>
+    <p>Paper, cardboard, plastic, glass and metal items that can be recycled.</p>
+</div>
 
+<div class="guide-card">
+    <h3>🟠 E-Waste</h3>
+    <p>Old phones, chargers, batteries, computers and electronic devices.</p>
+</div>
 
-    <div class="seg-guide">
-
-        <div class="guide-card">
-
-            <h3>🟢 Wet Waste</h3>
-
-            <p>
-                Food scraps, vegetable peels,
-                fruit waste and other
-                biodegradable materials.
-            </p>
-
-        </div>
-
-
-        <div class="guide-card">
-
-            <h3>🔵 Dry Waste</h3>
-
-            <p>
-                Paper, cardboard, plastic,
-                glass and metal items that
-                can be recycled.
-            </p>
-
-        </div>
-
-
-        <div class="guide-card">
-
-            <h3>🟠 E-Waste</h3>
-
-            <p>
-                Old phones, chargers,
-                batteries, computers and
-                electronic devices.
-            </p>
-
-        </div>
-
-    </div>
+</div>
 
 </section>
 
@@ -2490,126 +1392,57 @@ Login as Admin
 
 <section>
 
-    <div class="section-title">
+<div class="section-title">
+    <h2>🏆 Eco Achievements</h2>
+    <p>Every responsible action counts</p>
+</div>
 
-        <h2>
-            🏆 Eco Achievements
-        </h2>
+<div class="achievement-box">
 
-        <p>
-            Every responsible action counts
-        </p>
+<div class="achievement">
+    <div class="achievement-icon">🌱</div>
+    <h4>Eco Starter</h4>
+    <p>Join EcoTrack</p>
+</div>
 
-    </div>
+<div class="achievement">
+    <div class="achievement-icon">♻️</div>
+    <h4>Eco Reporter</h4>
+    <p>Submit your first report</p>
+</div>
 
+<div class="achievement">
+    <div class="achievement-icon">🌍</div>
+    <h4>Green Citizen</h4>
+    <p>Earn 200 Eco Points</p>
+</div>
 
-    <div class="achievement-box">
-
-        <div class="achievement">
-
-            <div class="achievement-icon">
-                🌱
-            </div>
-
-            <h4>Eco Starter</h4>
-
-            <p>
-                Join EcoTrack
-            </p>
-
-        </div>
-
-
-        <div class="achievement">
-
-            <div class="achievement-icon">
-                ♻️
-            </div>
-
-            <h4>Eco Reporter</h4>
-
-            <p>
-                Submit your first report
-            </p>
-
-        </div>
-
-
-        <div class="achievement">
-
-            <div class="achievement-icon">
-                🌍
-            </div>
-
-            <h4>Green Citizen</h4>
-
-            <p>
-                Earn 200 Eco Points
-            </p>
-
-        </div>
-
-    </div>
+</div>
 
 </section>
+
 
 <!-- =========================
      FOOTER
 ========================= -->
 
 <footer>
-
-<h2>
-EcoTrack ♻️
-</h2>
-
-<p>
-Track Waste. Manage Responsibly.
-Build a Greener Future.
-</p>
-
+    <h2>EcoTrack ♻️</h2>
+    <p>Track Waste. Manage Responsibly. Build a Greener Future.</p>
 </footer>
 
 
-<script type="module">
-/* ==============================================================================
-   EcoTrack - Firebase Backend Integration (Auth, Firestore, Storage)
-============================================================================== */
-import {
-    firebaseConfig,
-    app,
-    auth,
-    isFirebaseConfigured,
-    registerUserWithFirebase,
-    loginUserWithFirebase,
-    loginWithGoogle,
-    logoutUserFromFirebase,
-    sendPasswordReset,
-    getUserProfile,
-    submitReportToFirebase,
-    subscribeToUserReports,
-    subscribeToAllReports,
-    updateReportStatusInFirebase,
-    getFriendlyAuthErrorMessage,
-    getReportCategory,
-    getReportTimestamp
-} from "/firebase-config.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+<!-- ==============================================================================
+     ECOTRACK JAVASCRIPT & LOCALSTORAGE ENGINE (NO FIREBASE)
+============================================================================== -->
+<script>
+// Main LocalStorage Key
+const STORAGE_KEY = "allEcoReports";
 
-// ==============================================================================
-// AUTHORIZED ADMINISTRATOR CONFIGURATION
-// ==============================================================================
-const ADMIN_EMAIL = "tanu.elara@gmail.com";
-window.ADMIN_EMAIL = ADMIN_EMAIL;
-
-// State
-let currentUser = null;
-let userReports = [];
-let allAdminReports = [];
-let unsubscribeUserReports = null;
-let unsubscribeAllReports = null;
+// Geolocation state
 let currentCoords = { latitude: null, longitude: null };
 
+// Safe HTML escaper
 function escapeHtml(str) {
     if (!str) return "";
     return String(str)
@@ -2621,63 +1454,67 @@ function escapeHtml(str) {
 }
 
 /* ===================================
-   MODALS
+   LOCALSTORAGE REPOSITORY
 =================================== */
-function openLogin(prefillEmail = "") {
-    document.getElementById("authModal").style.display = "flex";
-    showLogin(prefillEmail);
+function getStoredReports() {
+    try {
+        let raw = localStorage.getItem(STORAGE_KEY);
+        // Check fallback keys if any existed previously
+        if (!raw) {
+            raw = localStorage.getItem("ecoTrackReports") || localStorage.getItem("ecoReports");
+        }
+        if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) {
+                return parsed;
+            }
+        }
+    } catch (e) {
+        console.warn("Could not read reports from localStorage:", e);
+    }
+    return [];
 }
 
-function openRegister(prefillEmail = "") {
-    document.getElementById("authModal").style.display = "flex";
-    showRegister(prefillEmail);
+function saveStoredReports(reports) {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(reports));
+    } catch (e) {
+        console.error("Could not write reports to localStorage:", e);
+    }
 }
 
-function closeModal() {
-    document.getElementById("authModal").style.display = "none";
-    const notice = document.getElementById("authNotice");
-    if (notice) notice.style.display = "none";
-}
-
-function showLogin(prefillEmail = "") {
-    document.getElementById("loginForm").style.display = "block";
-    document.getElementById("registerForm").style.display = "none";
-    const notice = document.getElementById("authNotice");
-    if (notice) notice.style.display = "none";
-    if (prefillEmail) {
-        const emailInput = document.getElementById("loginEmail");
-        if (emailInput) {
-            emailInput.value = prefillEmail;
-            const pwdInput = document.getElementById("loginPassword");
-            if (pwdInput) pwdInput.focus();
+/* ===================================
+   PAGE NAVIGATION (DIRECT ROUTING)
+=================================== */
+function openReport() {
+    const reportSection = document.getElementById("report");
+    if (reportSection) {
+        reportSection.scrollIntoView({ behavior: "smooth" });
+        const firstField = document.getElementById("wasteType");
+        if (firstField) {
+            setTimeout(() => firstField.focus(), 400);
         }
     }
 }
 
-function showRegister(prefillEmail = "") {
-    document.getElementById("loginForm").style.display = "none";
-    document.getElementById("registerForm").style.display = "block";
-    const notice = document.getElementById("authNotice");
-    if (notice) notice.style.display = "none";
-    if (prefillEmail) {
-        const regInput = document.getElementById("registerEmail");
-        if (regInput) {
-            regInput.value = prefillEmail;
-            const pwdInput = document.getElementById("registerPassword");
-            if (pwdInput) pwdInput.focus();
+function openAdminDashboard() {
+    const adminSection = document.getElementById("adminDashboard");
+    if (adminSection) {
+        adminSection.style.display = "block";
+        if (window.location.hash !== "#adminDashboard") {
+            try {
+                history.pushState(null, "", "#adminDashboard");
+            } catch (e) {
+                window.location.hash = "adminDashboard";
+            }
         }
+        adminSection.scrollIntoView({ behavior: "smooth" });
     }
 }
 
-function switchToLoginWithEmail(email) {
-    showLogin(email);
-    showAuthNotice(`Account exists! Please enter your password for <strong>${escapeHtml(email)}</strong> to log in.`, "info", `
-        <button type="button" onclick="handleForgotPassword('${escapeHtml(email)}')" style="background:none; border:none; color:#2563eb; font-size:12.5px; font-weight:600; cursor:pointer; text-decoration:underline; padding:0;">
-            Forgot Password?
-        </button>
-    `);
-}
-
+/* ===================================
+   TOAST NOTIFICATIONS
+=================================== */
 function showGlobalToast(message, type = "info") {
     let container = document.getElementById("toastContainer");
     if (!container) {
@@ -2687,7 +1524,7 @@ function showGlobalToast(message, type = "info") {
         document.body.appendChild(container);
     }
     const toast = document.createElement("div");
-    const bg = type === "error" ? "#dc2626" : type === "success" ? "#16a34a" : "#2563eb";
+    const bg = type === "error" ? "#dc2626" : type === "success" ? "#16803c" : "#2563eb";
     toast.style.cssText = `background:${bg};color:white;padding:12px 18px;border-radius:8px;font-size:14px;box-shadow:0 4px 14px rgba(0,0,0,0.18);pointer-events:auto;transition:opacity 0.3s ease;line-height:1.4;`;
     toast.innerText = message;
     container.appendChild(toast);
@@ -2696,453 +1533,24 @@ function showGlobalToast(message, type = "info") {
         setTimeout(() => toast.remove(), 300);
     }, 4500);
 }
-window.showGlobalToast = showGlobalToast;
-
-function showAuthNotice(message, type = "error", actionHtml = "") {
-    const el = document.getElementById("authNotice");
-    if (!el) {
-        showGlobalToast(typeof message === "string" ? message : "Notice", type);
-        return;
-    }
-    el.style.display = "block";
-    let content = `<div style="font-weight: 500; line-height: 1.45;">${message}</div>`;
-    if (actionHtml) {
-        content += `<div style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">${actionHtml}</div>`;
-    }
-    el.innerHTML = content;
-
-    if (type === "error") {
-        el.style.background = "#fef2f2";
-        el.style.color = "#991b1b";
-        el.style.border = "1px solid #fecaca";
-    } else if (type === "success") {
-        el.style.background = "#f0fdf4";
-        el.style.color = "#166534";
-        el.style.border = "1px solid #bbf7d0";
-    } else {
-        el.style.background = "#eff6ff";
-        el.style.color = "#1e40af";
-        el.style.border = "1px solid #bfdbfe";
-    }
-}
-
-function showAdminNotice(message, type = "error", actionHtml = "") {
-    const el = document.getElementById("adminNotice");
-    if (!el) {
-        showGlobalToast(typeof message === "string" ? message : "Notice", type);
-        return;
-    }
-    el.style.display = "block";
-    let content = `<div style="font-weight: 500; line-height: 1.45;">${message}</div>`;
-    if (actionHtml) {
-        content += `<div style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">${actionHtml}</div>`;
-    }
-    el.innerHTML = content;
-
-    if (type === "error") {
-        el.style.background = "#fef2f2";
-        el.style.color = "#991b1b";
-        el.style.border = "1px solid #fecaca";
-    } else if (type === "success") {
-        el.style.background = "#f0fdf4";
-        el.style.color = "#166534";
-        el.style.border = "1px solid #bbf7d0";
-    } else {
-        el.style.background = "#eff6ff";
-        el.style.color = "#1e40af";
-        el.style.border = "1px solid #bfdbfe";
-    }
-}
-
-async function handleForgotPassword(passedEmail) {
-    let email = (passedEmail || "").trim().toLowerCase();
-    const adminModal = document.getElementById("adminModal");
-    const isAdminModalOpen = adminModal && (adminModal.style.display === "flex" || adminModal.style.display === "block");
-    if (!email && isAdminModalOpen) {
-        email = ADMIN_EMAIL.toLowerCase().trim();
-    }
-    if (!email) {
-        const loginInput = document.getElementById("loginEmail");
-        const adminInput = document.getElementById("adminEmail");
-        const regInput = document.getElementById("registerEmail");
-        email = (loginInput && loginInput.value ? loginInput.value : (adminInput && adminInput.value ? adminInput.value : (regInput && regInput.value ? regInput.value : ""))).trim().toLowerCase();
-    }
-    if (!email) {
-        const entered = prompt("Enter your registered email address to receive a password reset link:", isAdminModalOpen ? ADMIN_EMAIL : "");
-        if (!entered) return;
-        email = entered.trim().toLowerCase();
-    }
-
-    try {
-        await sendPasswordReset(email);
-        const msg = `✅ Password reset link has been sent to <strong>${escapeHtml(email)}</strong>. Please check your inbox and spam folder.`;
-        showAuthNotice(msg, "success");
-        const adminNotice = document.getElementById("adminNotice");
-        if (adminNotice && adminNotice.style.display !== "none") {
-            showAdminNotice(msg, "success");
-        }
-        showGlobalToast("Password reset link sent! 📩 Check your inbox.", "success");
-    } catch (err) {
-        console.error("Password reset error:", err);
-        const errText = getFriendlyAuthErrorMessage(err);
-        showAuthNotice("Could not send password reset link: " + errText, "error");
-        showGlobalToast("Password reset failed: " + errText, "error");
-    }
-}
-
-function handleForgotPasswordPrompt(sourceInputId) {
-    if (sourceInputId === "adminEmail") {
-        handleForgotPassword(ADMIN_EMAIL);
-        return;
-    }
-    const input = sourceInputId ? document.getElementById(sourceInputId) : null;
-    const email = input ? input.value : "";
-    handleForgotPassword(email);
-}
-
-async function loginWithGoogleHandler() {
-    const adminGoogleBtn = document.getElementById("adminGoogleBtn");
-    const originalText = adminGoogleBtn ? adminGoogleBtn.innerText : "";
-    if (adminGoogleBtn) {
-        adminGoogleBtn.innerText = "Signing in with Google... ⏳";
-    }
-
-    const wasAdminModalOpen = document.getElementById("adminModal") && document.getElementById("adminModal").style.display === "flex";
-
-    try {
-        const userProfile = await loginWithGoogle();
-        currentUser = userProfile;
-        closeModal();
-        closeAdminModal();
-        updateUserUI();
-        initUserReportsSubscription(currentUser.userId || currentUser.uid);
-
-        const userEmail = (currentUser.email || "").toLowerCase().trim();
-        const isAdmin = isAuthorizedAdmin(userEmail);
-
-        if (isAdmin) {
-            const adminDash = document.getElementById("adminDashboard");
-            if (adminDash) {
-                adminDash.style.display = "block";
-                adminDash.scrollIntoView({ behavior: "smooth" });
-            }
-            initAdminReportsSubscription();
-            showGlobalToast("Welcome to EcoTrack Admin Dashboard 🛡️", "success");
-        } else {
-            const adminDash = document.getElementById("adminDashboard");
-            if (adminDash) adminDash.style.display = "none";
-
-            if (wasAdminModalOpen) {
-                showGlobalToast("Access Denied: Account is not an authorized administrator.", "error");
-            } else {
-                showGlobalToast("Signed in with Google! 🌱 Welcome to EcoTrack, " + (currentUser.name || "Citizen"), "success");
-            }
-        }
-    } catch (err) {
-        if (err && (err.code === "auth/popup-closed-by-user" || err.code === "auth/cancelled-popup-request")) {
-            return;
-        }
-        console.error("Google sign-in error:", err);
-        const friendlyMsg = getFriendlyAuthErrorMessage(err);
-        showAdminNotice(friendlyMsg, "error");
-        showAuthNotice(friendlyMsg, "error");
-    } finally {
-        if (adminGoogleBtn) {
-            adminGoogleBtn.innerText = originalText;
-        }
-    }
-}
-window.loginWithGoogle = loginWithGoogleHandler;
 
 /* ===================================
-   AUTHENTICATION (FIREBASE AUTH)
-================================== */
-async function registerUser() {
-    const name = document.getElementById("registerName").value.trim();
-    const email = document.getElementById("registerEmail").value.trim().toLowerCase();
-    const password = document.getElementById("registerPassword").value;
-
-    if (!name || !email || !password) {
-        showAuthNotice("Please fill all fields: Name, Email, and Password.", "error");
-        return;
-    }
-
-    if (password.length < 6) {
-        showAuthNotice("Password must be at least 6 characters long.", "error");
-        return;
-    }
-
-    const regBtn = document.querySelector("#registerForm button[type='submit']");
-    const originalText = regBtn ? regBtn.innerText : "";
-    if (regBtn) {
-        regBtn.disabled = true;
-        regBtn.innerText = "Creating Account... 🌱";
-    }
-
-    try {
-        const userProfile = await registerUserWithFirebase(name, email, password);
-        currentUser = userProfile;
-        showGlobalToast("Account created successfully! 🌱 Welcome to EcoTrack, " + name, "success");
-        closeModal();
-        updateUserUI();
-        initUserReportsSubscription(currentUser.userId || currentUser.uid);
-    } catch (err) {
-        const code = err.code || "";
-        if (code === "auth/email-already-in-use") {
-            console.warn("Registration notice: email already registered:", email);
-            const actionHtml = `
-                <button type="button" onclick="switchToLoginWithEmail('${escapeHtml(email)}')" style="background:#16803c; color:white; border:none; padding:6px 14px; border-radius:6px; font-size:12.5px; font-weight:600; cursor:pointer;">
-                    👉 Log In with this Account
-                </button>
-                <button type="button" onclick="loginWithGoogle()" style="background:#ffffff; color:#374151; border:1px solid #d1d5db; padding:6px 12px; border-radius:6px; font-size:12.5px; font-weight:500; cursor:pointer;">
-                    Continue with Google
-                </button>
-            `;
-            showAuthNotice(`<strong>${escapeHtml(email)}</strong> is already registered. If this is your account, please log in or continue with Google.`, "error", actionHtml);
-        } else {
-            console.error("Registration error:", err);
-            showAuthNotice(getFriendlyAuthErrorMessage(err), "error");
-        }
-    } finally {
-        if (regBtn) {
-            regBtn.disabled = false;
-            regBtn.innerText = originalText;
-        }
-    }
-}
-
-async function loginUser() {
-    const email = document.getElementById("loginEmail").value.trim().toLowerCase();
-    const password = document.getElementById("loginPassword").value;
-
-    if (!email || !password) {
-        showAuthNotice("Please enter both email and password.", "error");
-        return;
-    }
-
-    const loginBtn = document.querySelector("#loginForm button[type='submit']");
-    const originalText = loginBtn ? loginBtn.innerText : "";
-    if (loginBtn) {
-        loginBtn.disabled = true;
-        loginBtn.innerText = "Logging in... ⏳";
-    }
-
-    try {
-        const userProfile = await loginUserWithFirebase(email, password);
-        currentUser = userProfile;
-        closeModal();
-        updateUserUI();
-        initUserReportsSubscription(currentUser.userId || currentUser.uid);
-
-        const userEmail = (currentUser.email || "").toLowerCase().trim();
-        const isAdmin = isAuthorizedAdmin(userEmail);
-        const adminDash = document.getElementById("adminDashboard");
-
-        if (isAdmin) {
-            if (adminDash) {
-                adminDash.style.display = "block";
-                adminDash.scrollIntoView({ behavior: "smooth" });
-            }
-            initAdminReportsSubscription();
-            showGlobalToast("Welcome to EcoTrack Admin Dashboard 🛡️", "success");
-        } else {
-            if (adminDash) adminDash.style.display = "none";
-            showGlobalToast("Login successful! Welcome back to EcoTrack 🌱", "success");
-        }
-    } catch (err) {
-        console.error("Login error:", err);
-        const code = err.code || "";
-        if (code === "auth/invalid-credential" || code === "auth/wrong-password" || code === "auth/invalid-login-credentials" || code === "auth/user-not-found") {
-            const actionHtml = `
-                <button type="button" onclick="handleForgotPassword('${escapeHtml(email)}')" style="background:#2563eb; color:white; border:none; padding:6px 14px; border-radius:6px; font-size:12.5px; font-weight:600; cursor:pointer;">
-                    🔑 Reset Password
-                </button>
-                <button type="button" onclick="loginWithGoogle()" style="background:#ffffff; color:#374151; border:1px solid #d1d5db; padding:6px 12px; border-radius:6px; font-size:12.5px; font-weight:500; cursor:pointer;">
-                    Continue with Google
-                </button>
-                <button type="button" onclick="showRegister('${escapeHtml(email)}')" style="background:#f3f4f6; color:#374151; border:1px solid #d1d5db; padding:6px 10px; border-radius:6px; font-size:12px; cursor:pointer;">
-                    Create Account
-                </button>
-            `;
-            showAuthNotice("Invalid email or password.<br><span style='font-size:12px; color:#4b5563; font-weight:normal; display:inline-block; margin-top:2px;'>• If you signed up using Google, click <strong>Continue with Google</strong>.<br>• If you forgot your password, click <strong>Reset Password</strong> to receive a reset link.</span>", "error", actionHtml);
-        } else {
-            showAuthNotice(getFriendlyAuthErrorMessage(err), "error");
-        }
-    } finally {
-        if (loginBtn) {
-            loginBtn.disabled = false;
-            loginBtn.innerText = originalText;
-        }
-    }
-}
-
-async function logout() {
-    try {
-        if (unsubscribeUserReports) {
-            unsubscribeUserReports();
-            unsubscribeUserReports = null;
-        }
-        await logoutUserFromFirebase();
-        currentUser = null;
-        userReports = [];
-
-        document.getElementById("authButtons").style.display = "flex";
-        document.getElementById("userArea").style.display = "none";
-        document.getElementById("adminDashboard").style.display = "none";
-
-        loadReports();
-        alert("You have been logged out.");
-    } catch (err) {
-        console.error("Logout error:", err);
-    }
-}
-
-/* ===================================
-   USER DASHBOARD & GAMIFICATION UI
+   USER REPORTING FUNCTIONALITY
 =================================== */
-function updateUserUI() {
-    if (!currentUser) return;
-
-    const authBtns = document.getElementById("authButtons");
-    if (authBtns) authBtns.style.display = "none";
-
-    const userArea = document.getElementById("userArea");
-    if (userArea) userArea.style.display = "flex";
-
-    const navName = document.getElementById("navUserName");
-    if (navName) navName.innerText = "Hi, " + (currentUser.name || currentUser.displayName || "Citizen");
-
-    const reportCount = userReports.length;
-    const points = (currentUser.ecoPoints !== undefined) ? currentUser.ecoPoints : (100 + reportCount * 20);
-
-    const pointsEl = document.getElementById("points");
-    if (pointsEl) pointsEl.innerText = points;
-
-    const countEl = document.getElementById("reportCount");
-    if (countEl) countEl.innerText = reportCount;
-
-    const wasteEl = document.getElementById("wasteManaged");
-    if (wasteEl) wasteEl.innerText = reportCount + " kg";
-
-    updateVersion6();
-}
-
-function updateEcoLevel() {
-    if (!currentUser) return;
-
-    const reportCount = userReports.length;
-    const points = (currentUser.ecoPoints !== undefined) ? currentUser.ecoPoints : (100 + reportCount * 20);
-
-    const reportsEl = document.getElementById("v6Reports");
-    if (reportsEl) reportsEl.innerText = reportCount;
-
-    const pointsEl = document.getElementById("v6Points");
-    if (pointsEl) pointsEl.innerText = points;
-
-    const wasteEl = document.getElementById("v6Waste");
-    if (wasteEl) wasteEl.innerText = (reportCount * 1) + " kg";
-
-    let level = "Eco Starter";
-    let nextLevel = 200;
-    let previousLevel = 100;
-
-    if (points >= 500) {
-        level = "Eco Champion";
-        nextLevel = 1000;
-        previousLevel = 500;
-    } else if (points >= 200) {
-        level = "Green Citizen";
-        nextLevel = 500;
-        previousLevel = 200;
-    }
-
-    let progress = ((points - previousLevel) / (nextLevel - previousLevel)) * 100;
-    if (progress < 0) progress = 0;
-    if (progress > 100) progress = 100;
-
-    const levelEl = document.getElementById("ecoLevel");
-    if (levelEl) levelEl.innerText = level;
-
-    const v6LevelEl = document.getElementById("v6Level");
-    if (v6LevelEl) v6LevelEl.innerText = level.replace("Eco ", "");
-
-    const progressBar = document.getElementById("ecoProgress");
-    if (progressBar) progressBar.style.width = progress + "%";
-
-    const progressText = document.getElementById("progressText");
-    if (progressText) progressText.innerText = points + " / " + nextLevel + " Eco Points";
-
-    const badge = document.getElementById("greenBadge");
-    if (badge) badge.innerText = "🌱 " + level;
-}
-
-function updateNotifications() {
-    if (!currentUser) return;
-
-    const container = document.getElementById("notifications");
-    if (!container) return;
-
-    const notifications = [];
-    notifications.push(`
-        <div class="notification">
-            👋 Welcome back, <strong>${currentUser.name || currentUser.displayName || "Eco Hero"}</strong>!
-        </div>
-    `);
-
-    if (userReports.length > 0) {
-        const latest = userReports[0];
-        const status = latest.status || "Pending";
-        notifications.push(`
-            <div class="notification">
-                📋 Complaint <strong>${latest.reportId || latest.id}</strong> is <strong>${status}</strong>.
-            </div>
-        `);
-    }
-
-    notifications.push(`
-        <div class="notification">
-            ♻️ You have submitted <strong>${userReports.length}</strong> complaint(s).
-        </div>
-    `);
-
-    container.innerHTML = notifications.join("");
-}
-
-function updateVersion6() {
-    if (!currentUser) return;
-    updateEcoLevel();
-    updateNotifications();
-}
-
-/* ===================================
-   REPORT SUBMISSION
-=================================== */
-function openReport() {
-    if (!currentUser) {
-        alert("Please login or register before reporting waste.");
-        openLogin();
-        return;
-    }
-
-    const reportSection = document.getElementById("report");
-    if (reportSection) {
-        reportSection.scrollIntoView({ behavior: "smooth" });
-    }
-}
-
 function previewImage(event) {
-    const image = document.getElementById("imagePreview");
-    const file = event.target.files[0];
+    const preview = document.getElementById("imagePreview");
+    const file = event.target.files && event.target.files[0];
 
     if (!file) {
-        image.style.display = "none";
+        preview.src = "";
+        preview.style.display = "none";
         return;
     }
 
     const reader = new FileReader();
     reader.onload = function(e) {
-        image.src = e.target.result;
-        image.style.display = "block";
+        preview.src = e.target.result;
+        preview.style.display = "block";
     };
     reader.readAsDataURL(file);
 }
@@ -3151,26 +1559,29 @@ function getLocation() {
     const message = document.getElementById("locationMessage");
 
     if (!navigator.geolocation) {
-        message.innerText = "Location is not supported by your browser.";
+        if (message) message.innerText = "Geolocation is not supported by your browser.";
         return;
     }
 
-    message.innerText = "Getting your coordinates... 📍";
+    if (message) message.innerText = "Detecting your coordinates... 📍";
 
     navigator.geolocation.getCurrentPosition(
         function(position) {
             currentCoords.latitude = position.coords.latitude;
             currentCoords.longitude = position.coords.longitude;
 
-            document.getElementById("location").value =
-                position.coords.latitude.toFixed(5) + ", " + position.coords.longitude.toFixed(5);
+            const locInput = document.getElementById("location");
+            if (locInput) {
+                locInput.value = position.coords.latitude.toFixed(5) + ", " + position.coords.longitude.toFixed(5);
+            }
 
-            message.innerText = "Location detected successfully ✓";
+            if (message) message.innerText = "Location detected successfully ✓";
         },
         function(err) {
             console.warn("Geolocation warning:", err);
-            message.innerText = "Unable to get automatic location. Please type location manually.";
-        }
+            if (message) message.innerText = "Could not fetch auto-location. Please type your location manually.";
+        },
+        { timeout: 8000 }
     );
 }
 
@@ -3179,35 +1590,12 @@ function generateComplaintID() {
     return "ECO-" + number;
 }
 
-let isSubmittingReport = false;
+let isSubmitting = false;
 
 async function submitReport(event) {
     event.preventDefault();
 
-    // Prevent duplicate reports on rapid/repeated button clicks
-    if (isSubmittingReport) {
-        console.warn("Report submission already in progress. Duplicate submission prevented.");
-        return;
-    }
-
-    const authUser = auth.currentUser;
-    if (!currentUser && !authUser) {
-        alert("Please login or register before reporting waste.");
-        openLogin();
-        return;
-    }
-
-    // Ensure currentUser is available even if profile is still syncing
-    if (!currentUser && authUser) {
-        currentUser = {
-            uid: authUser.uid,
-            userId: authUser.uid,
-            email: authUser.email || "",
-            name: authUser.displayName || "Citizen",
-            role: "user",
-            ecoPoints: 0
-        };
-    }
+    if (isSubmitting) return;
 
     const wasteTypeEl = document.getElementById("wasteType");
     const wasteType = wasteTypeEl ? wasteTypeEl.value : "";
@@ -3221,71 +1609,82 @@ async function submitReport(event) {
         return;
     }
     if (!locationInput) {
-        alert("Please provide a location.");
+        alert("Please enter a location.");
         return;
     }
     if (!description) {
-        alert("Please provide a description.");
+        alert("Please enter a description.");
         return;
     }
 
-    isSubmittingReport = true;
-    const submitBtn = event.target.querySelector("button[type='submit']") || document.querySelector("#reportForm button[type='submit']");
-    const originalText = submitBtn ? submitBtn.innerHTML : "";
+    isSubmitting = true;
+    const submitBtn = document.getElementById("submitReportBtn");
+    const originalBtnText = submitBtn ? submitBtn.innerText : "Submit Report ♻️";
     if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.innerHTML = "Submitting to Firebase... ⏳";
+        submitBtn.innerText = "Saving Report... ⏳";
     }
-
-    const complaintID = generateComplaintID();
-    const activeUid = (authUser && authUser.uid) || (currentUser && (currentUser.userId || currentUser.uid));
-    const activeEmail = (authUser && authUser.email) || (currentUser && currentUser.email) || "";
-    const activeName = (currentUser && (currentUser.name || currentUser.displayName)) || (authUser && (authUser.displayName || (authUser.email ? authUser.email.split("@")[0] : "Citizen"))) || "Citizen";
-
-    // Check coordinates
-    let lat = currentCoords.latitude;
-    let lng = currentCoords.longitude;
-    if (lat === null && lng === null && locationInput.includes(",")) {
-        const parts = locationInput.split(",");
-        const pLat = parseFloat(parts[0]);
-        const pLng = parseFloat(parts[1]);
-        if (!isNaN(pLat) && !isNaN(pLng)) {
-            lat = pLat;
-            lng = pLng;
-        }
-    }
-
-    const reportData = {
-        reportId: complaintID,
-        userId: activeUid,
-        userName: activeName,
-        userEmail: activeEmail,
-        category: wasteType,
-        wasteType: wasteType,
-        type: wasteType,
-        complaintType: wasteType,
-        description: description,
-        location: locationInput,
-        latitude: lat,
-        longitude: lng
-    };
 
     try {
-        // Submit directly to Firestore reports collection
-        await submitReportToFirebase(reportData, imageFile);
-
-        // Only executed after Firestore confirms document is successfully written!
-        if (currentUser) {
-            currentUser.ecoPoints = (currentUser.ecoPoints !== undefined ? currentUser.ecoPoints : 0) + 20;
-            updateUserUI();
+        // Read image file as base64 data URL if present
+        let imageDataUrl = "";
+        if (imageFile) {
+            imageDataUrl = await new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result || "");
+                reader.onerror = () => resolve("");
+                reader.readAsDataURL(imageFile);
+            });
         }
 
-        // Ensure real-time subscription is active
-        if (!unsubscribeUserReports && activeUid) {
-            initUserReportsSubscription(activeUid);
+        // Coordinates resolution
+        let lat = currentCoords.latitude;
+        let lng = currentCoords.longitude;
+        if (lat === null && lng === null && locationInput.includes(",")) {
+            const parts = locationInput.split(",");
+            const pLat = parseFloat(parts[0]);
+            const pLng = parseFloat(parts[1]);
+            if (!isNaN(pLat) && !isNaN(pLng)) {
+                lat = pLat;
+                lng = pLng;
+            }
         }
 
-        // Reset report form
+        const complaintID = generateComplaintID();
+        const now = new Date();
+        const dateDisplay = now.toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "short",
+            day: "numeric"
+        }) + " " + now.toLocaleTimeString(undefined, {
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+
+        const newReport = {
+            reportId: complaintID,
+            id: complaintID,
+            category: wasteType,
+            wasteType: wasteType,
+            description: description,
+            location: locationInput,
+            latitude: lat,
+            longitude: lng,
+            date: dateDisplay,
+            timestamp: Date.now(),
+            status: "Pending",
+            imageUrl: imageDataUrl,
+            image: imageDataUrl,
+            userName: "Community Citizen",
+            ecoPoints: 20
+        };
+
+        // Save into LocalStorage
+        const reports = getStoredReports();
+        reports.unshift(newReport);
+        saveStoredReports(reports);
+
+        // Reset the form
         const form = document.getElementById("reportForm");
         if (form) form.reset();
 
@@ -3299,57 +1698,43 @@ async function submitReport(event) {
         if (locationMsg) locationMsg.innerText = "";
         currentCoords = { latitude: null, longitude: null };
 
-        showGlobalToast(`Report ${complaintID} submitted successfully! 🎉 +20 Eco Points`, "success");
-        alert(`Report submitted successfully! 🎉\n\nComplaint ID: ${complaintID}\nCategory: ${wasteType}\n\n+20 Eco Points added!`);
+        // Refresh views
+        loadReports();
+        loadAdminReports();
+        updateDashboardStats();
 
+        showGlobalToast(`Report ${complaintID} submitted successfully! 🎉 +20 Eco Points`, "success");
+
+        // Smooth scroll to My Reports section so the user can immediately see it
         const historyEl = document.getElementById("history");
         if (historyEl) {
             historyEl.scrollIntoView({ behavior: "smooth" });
         }
     } catch (err) {
-        console.error("Report submission failed:", err);
-        showGlobalToast("Submission failed: " + (err.message || err), "error");
-        alert("Submission failed: " + (err.message || err));
+        console.error("Failed to submit report:", err);
+        alert("Failed to save report: " + (err.message || err));
     } finally {
-        isSubmittingReport = false;
+        isSubmitting = false;
         if (submitBtn) {
             submitBtn.disabled = false;
-            submitBtn.innerHTML = originalText;
+            submitBtn.innerText = originalBtnText;
         }
     }
 }
 
 /* ===================================
-   USER REPORT HISTORY (FIRESTORE)
+   USER REPORT HISTORY DISPLAY
 =================================== */
-function initUserReportsSubscription(userId) {
-    if (unsubscribeUserReports) {
-        unsubscribeUserReports();
-    }
-    unsubscribeUserReports = subscribeToUserReports(userId, (reports) => {
-        userReports = reports;
-        loadReports();
-        updateUserUI();
-    });
-}
-
 function loadReports() {
     const container = document.getElementById("reportsContainer");
     if (!container) return;
 
-    if (!currentUser) {
-        container.innerHTML = `
-            <div class="no-reports">
-                Please login to view your reports.
-            </div>
-        `;
-        return;
-    }
+    const reports = getStoredReports();
 
-    if (userReports.length === 0) {
+    if (reports.length === 0) {
         container.innerHTML = `
             <div class="no-reports">
-                You haven't submitted any reports yet. 🌱
+                No reports submitted yet. Use the form above to submit your first waste report! 🌱
             </div>
         `;
         return;
@@ -3357,7 +1742,7 @@ function loadReports() {
 
     container.innerHTML = "";
 
-    userReports.forEach(function(report) {
+    reports.forEach(function(report) {
         const imageSrc = report.imageUrl || report.image;
         let imageHTML = "";
         if (imageSrc) {
@@ -3366,39 +1751,37 @@ function loadReports() {
                     class="report-image"
                     src="${imageSrc}"
                     alt="Waste report image"
-                    onclick="viewReportDetails('${report.docId || report.reportId}')"
+                    onclick="viewReportDetails('${report.reportId || report.id}')"
                     style="cursor:pointer;"
-                    title="Click to view details"
+                    title="Click to view full details"
                 >
             `;
         }
 
         const status = report.status || "Pending";
         const statusClass = status.toLowerCase().replace(" ", "-");
-        const dateMs = getReportTimestamp(report);
-        const dateDisplay = dateMs > 0
-            ? new Date(dateMs).toLocaleDateString()
-            : (report.date || "Recently");
-        const category = getReportCategory(report);
+        const category = report.category || report.wasteType || "General Waste";
+        const reportId = report.reportId || report.id || "N/A";
+        const dateDisplay = report.date || (report.timestamp ? new Date(report.timestamp).toLocaleDateString() : "Recently");
 
         container.innerHTML += `
             <div class="report-card">
                 <div class="report-top">
-                    <span class="complaint-id">${report.reportId || report.id || "N/A"}</span>
-                    <span class="status ${statusClass}">${status}</span>
+                    <span class="complaint-id">${escapeHtml(reportId)}</span>
+                    <span class="status ${statusClass}">${escapeHtml(status)}</span>
                 </div>
                 <div class="report-info">
                     <div>
-                        <strong>Category:</strong> ${category}
+                        <strong>Category:</strong> ${escapeHtml(category)}
                     </div>
                     <div>
-                        <strong>Date:</strong> ${dateDisplay}
+                        <strong>Date:</strong> ${escapeHtml(dateDisplay)}
                     </div>
                     <div>
-                        <strong>Location:</strong> ${report.location || report.address || "N/A"}
+                        <strong>Location:</strong> ${escapeHtml(report.location || "N/A")}
                     </div>
                     <div>
-                        <strong>Description:</strong> ${report.description || "No description provided."}
+                        <strong>Description:</strong> ${escapeHtml(report.description || "No description provided.")}
                     </div>
                 </div>
                 ${imageHTML}
@@ -3408,281 +1791,9 @@ function loadReports() {
 }
 
 /* ===================================
-   ADMIN DASHBOARD & AUTHENTICATION
+   ADMIN DASHBOARD DISPLAY & ACTIONS
 =================================== */
-let isAdminAuthenticating = false;
-
-function isAuthorizedAdmin(email) {
-    const clean = (email || "").toLowerCase().trim();
-    return clean === ADMIN_EMAIL.toLowerCase().trim();
-}
-window.isAuthorizedAdmin = isAuthorizedAdmin;
-
-function openAdminLogin() {
-    const userEmail = (currentUser?.email || "").toLowerCase().trim();
-    if (currentUser && isAuthorizedAdmin(userEmail)) {
-        const adminDash = document.getElementById("adminDashboard");
-        if (adminDash) {
-            adminDash.style.display = "block";
-            adminDash.scrollIntoView({ behavior: "smooth" });
-        }
-        initAdminReportsSubscription();
-        showGlobalToast("Welcome to EcoTrack Admin Dashboard 🛡️", "info");
-        return;
-    }
-
-    const m = document.getElementById("adminModal");
-    if (m) m.style.display = "flex";
-    const noticeEl = document.getElementById("adminNotice");
-    if (currentUser) {
-        if (noticeEl) {
-            noticeEl.style.display = "block";
-            noticeEl.style.background = "#fef2f2";
-            noticeEl.style.border = "1px solid #fca5a5";
-            noticeEl.style.color = "#991b1b";
-            noticeEl.innerHTML = `⚠️ <strong>Admin Access Restricted:</strong> Current account (<em>${escapeHtml(currentUser.email || "Citizen")}</em>) is not an administrator. Please log in with <strong>${escapeHtml(ADMIN_EMAIL)}</strong> to access the EcoTrack Admin Dashboard.`;
-        }
-    } else {
-        if (noticeEl) noticeEl.style.display = "none";
-    }
-    const emailInput = document.getElementById("adminEmail");
-    if (emailInput && !emailInput.value) {
-        emailInput.value = ADMIN_EMAIL;
-    }
-}
-window.openAdminLogin = openAdminLogin;
-
-function closeAdminModal() {
-    document.getElementById("adminModal").style.display = "none";
-}
-
-async function adminLogin() {
-    // 1. Concurrency guard - prevent multiple simultaneous authentication requests
-    if (isAdminAuthenticating) {
-        console.log("[EcoTrack Diagnostics] Admin authentication already in progress. Ignoring duplicate click.");
-        return;
-    }
-
-    const emailInput = document.getElementById("adminEmail");
-    const passwordInput = document.getElementById("adminPassword");
-    const email = (emailInput?.value || "").trim().toLowerCase();
-    const password = passwordInput?.value || "";
-
-    if (!email || !password) {
-        showAdminNotice("Please enter both email and password.", "error");
-        return;
-    }
-
-    // 2. Client-side restriction: only ADMIN_EMAIL is authorized
-    if (!isAuthorizedAdmin(email)) {
-        showAdminNotice(`Access Denied: Only <strong>${escapeHtml(ADMIN_EMAIL)}</strong> can access the EcoTrack Admin Dashboard.`, "error");
-        return;
-    }
-
-    // 3. Disable the submit button immediately to block multiple form submissions / clicks
-    const adminBtn = document.getElementById("adminSubmitBtn") || document.querySelector("#adminModal button[type='submit']");
-    const originalText = adminBtn ? adminBtn.innerText : "Login as Admin";
-    
-    isAdminAuthenticating = true;
-    if (adminBtn) {
-        adminBtn.disabled = true;
-        adminBtn.innerText = "Authenticating with Firebase... 🛡️";
-    }
-
-    try {
-        console.log("[EcoTrack Diagnostics] Performing single Firebase authentication attempt for:", email, "| Project:", firebaseConfig?.projectId || "gen-lang-client-0947402564");
-
-        // 4. Exactly ONE intentional Firebase authentication request
-        const userProfile = await loginUserWithFirebase(email, password);
-
-        // 5. Verify authenticated Firebase user is ADMIN_EMAIL
-        const authenticatedEmail = (auth.currentUser?.email || userProfile?.email || "").toLowerCase().trim();
-        if (!isAuthorizedAdmin(authenticatedEmail)) {
-            showAdminNotice(`Access Denied: Only <strong>${escapeHtml(ADMIN_EMAIL)}</strong> can access the EcoTrack Admin Dashboard.`, "error");
-            return;
-        }
-
-        currentUser = userProfile;
-        closeAdminModal();
-
-        // 6. Open EcoTrack Admin Dashboard
-        const adminDash = document.getElementById("adminDashboard");
-        if (adminDash) {
-            adminDash.style.display = "block";
-            if (window.location.hash !== "#adminDashboard") {
-                try {
-                    history.pushState(null, "", "#adminDashboard");
-                } catch (e) {
-                    window.location.hash = "adminDashboard";
-                }
-            }
-            adminDash.scrollIntoView({ behavior: "smooth" });
-        }
-        initAdminReportsSubscription();
-        updateUserUI();
-        showGlobalToast("Welcome to EcoTrack Admin Dashboard 🛡️", "success");
-    } catch (err) {
-        const code = err.code || "unknown";
-        const message = err.message || "An unexpected error occurred.";
-
-        // Log warning for diagnostics - NEVER log passwords or sensitive tokens
-        console.warn("[Firebase Admin Auth]", {
-            code: code,
-            message: message
-        });
-
-        let diagnosticDetail = "";
-        let showResetAction = false;
-        let showRegisterAction = false;
-
-        switch (code) {
-            case "auth/invalid-credential":
-                diagnosticDetail = `Firebase returned <code>auth/invalid-credential</code>. The password does not match Firebase Authentication records for <strong>${escapeHtml(ADMIN_EMAIL)}</strong> (or the password account has not been registered yet in this Firebase project).`;
-                showResetAction = true;
-                showRegisterAction = true;
-                break;
-            case "auth/wrong-password":
-                diagnosticDetail = `Firebase returned <code>auth/wrong-password</code>. The password entered for <strong>${escapeHtml(ADMIN_EMAIL)}</strong> is incorrect.`;
-                showResetAction = true;
-                break;
-            case "auth/user-not-found":
-                diagnosticDetail = `Firebase returned <code>auth/user-not-found</code>. The user <strong>${escapeHtml(ADMIN_EMAIL)}</strong> does not exist yet in Firebase Authentication for project <code>${escapeHtml(firebaseConfig?.projectId || "gen-lang-client-0947402564")}</code>.`;
-                showResetAction = true;
-                showRegisterAction = true;
-                break;
-            case "auth/too-many-requests":
-                diagnosticDetail = `Firebase returned <code>auth/too-many-requests</code>. Access to <strong>${escapeHtml(ADMIN_EMAIL)}</strong> has been temporarily throttled by Firebase due to repeated failed attempts. Please wait for the temporary security cooldown to expire or use password reset.`;
-                showResetAction = true;
-                break;
-            case "auth/network-request-failed":
-                diagnosticDetail = "Firebase returned <code>auth/network-request-failed</code>. Network connection to Firebase Authentication servers failed. Please check your internet connectivity.";
-                break;
-            case "auth/operation-not-allowed":
-                diagnosticDetail = "Firebase returned <code>auth/operation-not-allowed</code>. Email/Password sign-in is disabled in your Firebase Console under Authentication > Sign-in method.";
-                break;
-            default:
-                diagnosticDetail = `Firebase returned <code>${escapeHtml(code)}</code>: ${escapeHtml(message)}`;
-                break;
-        }
-
-        let actionButtonsHtml = "";
-        if (showResetAction) {
-            actionButtonsHtml += `
-                <button type="button" onclick="handleForgotPassword('${escapeHtml(email)}')" style="background:#2563eb; color:white; border:none; padding:6px 14px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">
-                    🔑 Send Password Reset Link
-                </button>
-            `;
-        }
-        if (showRegisterAction) {
-            actionButtonsHtml += `
-                <button type="button" onclick="registerAdminAccount(document.getElementById('adminPassword').value)" style="background:#15803d; color:white; border:none; padding:6px 14px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">
-                    ✨ First Time? Register with this Password
-                </button>
-            `;
-        }
-
-        const noticeHtml = `
-            <div style="text-align:left; line-height:1.45;">
-                <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
-                    <span style="background:#fee2e2; color:#991b1b; padding:3px 8px; border-radius:4px; font-family:monospace; font-weight:700; font-size:12px; border:1px solid #fca5a5;">
-                        ${escapeHtml(code)}
-                    </span>
-                    <strong style="color:#991b1b; font-size:13px;">Firebase Authentication Notice</strong>
-                </div>
-                <div style="font-size:13px; color:#1f2937; margin-bottom:6px;">
-                    ${diagnosticDetail}
-                </div>
-                <div style="font-size:11px; color:#6b7280; font-family:monospace; word-break:break-all; margin-bottom:8px;">
-                    ${escapeHtml(message)}
-                </div>
-                ${actionButtonsHtml ? `<div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;">${actionButtonsHtml}</div>` : ""}
-            </div>
-        `;
-
-        showAdminNotice(noticeHtml, "error");
-    } finally {
-        // 8. Re-enable button
-        isAdminAuthenticating = false;
-        if (adminBtn) {
-            adminBtn.disabled = false;
-            adminBtn.innerText = originalText;
-        }
-    }
-}
-
-async function registerAdminAccount(rawPassword) {
-    const password = (rawPassword || document.getElementById("adminPassword")?.value || "").trim();
-    if (!password || password.length < 6) {
-        showAdminNotice("Please enter a password with at least 6 characters in the password field first.", "error");
-        return;
-    }
-    const adminBtn = document.getElementById("adminSubmitBtn");
-    const originalText = adminBtn ? adminBtn.innerText : "Login as Admin";
-    if (adminBtn) {
-        adminBtn.disabled = true;
-        adminBtn.innerText = "Registering Admin... 🛡️";
-    }
-    try {
-        const userProfile = await registerUserWithFirebase("Administrator", ADMIN_EMAIL, password);
-        currentUser = userProfile;
-        closeAdminModal();
-        const adminDash = document.getElementById("adminDashboard");
-        if (adminDash) {
-            adminDash.style.display = "block";
-            adminDash.scrollIntoView({ behavior: "smooth" });
-        }
-        initAdminReportsSubscription();
-        updateUserUI();
-        showGlobalToast("Admin account registered and logged in successfully! 🛡️", "success");
-    } catch (err) {
-        const code = err.code || "unknown";
-        console.warn("[Admin Registration]", { code, message: err.message });
-        if (code === "auth/email-already-in-use") {
-            showAdminNotice(`<strong>${escapeHtml(ADMIN_EMAIL)}</strong> already has a Firebase account. Please enter your existing password, sign in with Google, or reset your password.`, "error", `
-                <button type="button" onclick="handleForgotPassword('${escapeHtml(ADMIN_EMAIL)}')" style="background:#2563eb; color:white; border:none; padding:6px 14px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">
-                    🔑 Send Password Reset Link
-                </button>
-            `);
-        } else {
-            showAdminNotice(`Registration error (${escapeHtml(code)}): ${escapeHtml(err.message || "Failed to register")}`, "error");
-        }
-    } finally {
-        if (adminBtn) {
-            adminBtn.disabled = false;
-            adminBtn.innerText = originalText;
-        }
-    }
-}
-window.registerAdminAccount = registerAdminAccount;
-
-function initAdminReportsSubscription() {
-    const userEmail = (currentUser?.email || "").toLowerCase().trim();
-    if (!currentUser || !isAuthorizedAdmin(userEmail)) {
-        return;
-    }
-    if (unsubscribeAllReports) {
-        unsubscribeAllReports();
-    }
-    unsubscribeAllReports = subscribeToAllReports((reports) => {
-        allAdminReports = reports;
-        loadAdminReports();
-    }, (err) => {
-        console.warn("Admin reports real-time feed notice:", err?.message || err);
-    });
-}
-
-function normalizeCategory(cat) {
-    if (!cat) return "";
-    const lower = String(cat).toLowerCase().trim();
-    if (lower.includes("dry")) return "Dry Waste";
-    if (lower.includes("wet")) return "Wet Waste";
-    if (lower.includes("e-waste") || lower.includes("ewaste") || lower === "e waste") return "E-Waste";
-    if (lower.includes("clean")) return "Cleanliness";
-    if (lower.includes("other")) return "Other";
-    return cat.trim();
-}
-
-function syncAdminCategoryDropdown() {
+function syncAdminCategoryDropdown(reports) {
     const select = document.getElementById("adminCategoryFilter");
     if (!select) return;
 
@@ -3690,13 +1801,9 @@ function syncAdminCategoryDropdown() {
     const standardCategories = ["Dry Waste", "Wet Waste", "E-Waste", "Cleanliness", "Other"];
     const foundCategories = new Set(standardCategories);
 
-    allAdminReports.forEach(r => {
-        const cat = getReportCategory(r);
-        if (cat) {
-            const norm = normalizeCategory(cat);
-            if (norm) foundCategories.add(norm);
-            else foundCategories.add(cat);
-        }
+    reports.forEach(r => {
+        const cat = r.category || r.wasteType;
+        if (cat) foundCategories.add(cat.trim());
     });
 
     const existingOptions = Array.from(select.options).map(o => o.value);
@@ -3708,7 +1815,7 @@ function syncAdminCategoryDropdown() {
     if (needsUpdate || select.options.length <= 1) {
         let html = `<option value="All">All Categories</option>`;
         foundCategories.forEach(cat => {
-            html += `<option value="${cat}">${cat}</option>`;
+            html += `<option value="${escapeHtml(cat)}">${escapeHtml(cat)}</option>`;
         });
         select.innerHTML = html;
         if (currentVal && Array.from(select.options).some(o => o.value === currentVal)) {
@@ -3723,17 +1830,7 @@ function loadAdminReports() {
     const table = document.getElementById("adminReportsTable");
     if (!table) return;
 
-    const userEmail = (currentUser?.email || "").toLowerCase().trim();
-    if (!currentUser || !isAuthorizedAdmin(userEmail)) {
-        table.innerHTML = `
-            <tr>
-                <td colspan="9" style="text-align:center;padding:30px;color:#dc2626;">
-                    Access restricted. Please sign in with <strong>${escapeHtml(ADMIN_EMAIL)}</strong>.
-                </td>
-            </tr>
-        `;
-        return;
-    }
+    const reports = getStoredReports();
 
     const search = document.getElementById("adminSearch")
         ? document.getElementById("adminSearch").value.toLowerCase().trim()
@@ -3746,40 +1843,33 @@ function loadAdminReports() {
     const categorySelect = document.getElementById("adminCategoryFilter");
     const categoryFilter = categorySelect ? categorySelect.value : "All";
 
-    // Ensure category dropdown dynamically contains any unique categories found in Firestore
-    syncAdminCategoryDropdown();
+    syncAdminCategoryDropdown(reports);
 
-    const filteredReports = allAdminReports.filter(function(report) {
-        const id = (report.reportId || report.id || report.docId || "").toLowerCase();
-        const loc = (report.location || report.address || "").toLowerCase();
-        const name = (report.userName || report.user || report.userEmail || "").toLowerCase();
+    const filtered = reports.filter(function(report) {
+        const id = (report.reportId || report.id || "").toLowerCase();
+        const loc = (report.location || "").toLowerCase();
+        const name = (report.userName || "Citizen").toLowerCase();
         const desc = (report.description || "").toLowerCase();
-        const reportCat = getReportCategory(report);
-        const normCat = normalizeCategory(reportCat);
+        const cat = (report.category || report.wasteType || "").toLowerCase();
 
-        const matchesSearch = !search || id.includes(search) || loc.includes(search) || name.includes(search) || desc.includes(search) || reportCat.toLowerCase().includes(search);
-        
-        // Status filter: "All" displays every status
+        const matchesSearch = !search || id.includes(search) || loc.includes(search) || name.includes(search) || desc.includes(search) || cat.includes(search);
+
         const reportStatus = report.status || "Pending";
         const matchesFilter = (filter === "All") || (reportStatus.toLowerCase() === filter.toLowerCase());
 
-        // Category filter: "All" displays every report in Firestore without exception
-        let matchesCategory = true;
-        if (categoryFilter !== "All") {
-            const normFilter = normalizeCategory(categoryFilter);
-            matchesCategory = (normCat === normFilter) || (reportCat.toLowerCase() === categoryFilter.toLowerCase());
-        }
+        const matchesCat = (categoryFilter === "All") || (cat === categoryFilter.toLowerCase());
 
-        return matchesSearch && matchesFilter && matchesCategory;
+        return matchesSearch && matchesFilter && matchesCat;
     });
 
     table.innerHTML = "";
 
+    // Calculate admin counters
     let pending = 0;
     let inProgress = 0;
     let resolved = 0;
 
-    allAdminReports.forEach(function(report) {
+    reports.forEach(function(report) {
         const status = report.status || "Pending";
         if (status === "Pending") pending++;
         if (status === "In Progress" || status === "Verified") inProgress++;
@@ -3787,7 +1877,7 @@ function loadAdminReports() {
     });
 
     const totalEl = document.getElementById("totalReports");
-    if (totalEl) totalEl.innerText = allAdminReports.length;
+    if (totalEl) totalEl.innerText = reports.length;
 
     const pendingEl = document.getElementById("pendingReports");
     if (pendingEl) pendingEl.innerText = pending;
@@ -3798,62 +1888,58 @@ function loadAdminReports() {
     const resolvedEl = document.getElementById("resolvedReports");
     if (resolvedEl) resolvedEl.innerText = resolved;
 
-    if (filteredReports.length === 0) {
+    if (filtered.length === 0) {
         table.innerHTML = `
             <tr>
                 <td colspan="9" style="text-align:center;padding:30px;color:#6b7280;">
-                    No matching reports found.
+                    ${reports.length === 0 ? "No reports submitted yet. Reports submitted from the reporting form will appear here." : "No matching reports found for the selected filter."}
                 </td>
             </tr>
         `;
         return;
     }
 
-    filteredReports.forEach(function(report) {
+    filtered.forEach(function(report) {
         const imgSrc = report.imageUrl || report.image;
         const imageHTML = imgSrc
-            ? `<img src="${imgSrc}" style="width:48px;height:48px;object-fit:cover;border-radius:4px;cursor:pointer;border:1px solid #d1d5db;" onclick="viewReportDetails('${report.docId || report.reportId}')" title="Click to view details">`
+            ? `<img src="${imgSrc}" style="width:48px;height:48px;object-fit:cover;border-radius:4px;cursor:pointer;border:1px solid #d1d5db;" onclick="viewReportDetails('${report.reportId || report.id}')" title="Click to view details">`
             : '<span style="color:#9ca3af;font-size:12px;">No image</span>';
 
-        const docId = report.docId || report.reportId || report.id;
+        const repId = report.reportId || report.id;
         const status = report.status || "Pending";
         const statusClass = status.toLowerCase().replace(" ", "-");
-        const category = getReportCategory(report);
-
-        const dateMs = getReportTimestamp(report);
-        const dateDisplay = dateMs > 0
-            ? new Date(dateMs).toLocaleDateString(undefined, {month:'short', day:'numeric'}) + ' ' + new Date(dateMs).toLocaleTimeString(undefined, {hour:'2-digit', minute:'2-digit'})
-            : (report.date || "Recent");
+        const category = report.category || report.wasteType || "Other";
+        const dateDisplay = report.date || (report.timestamp ? new Date(report.timestamp).toLocaleDateString() : "Recent");
 
         const rawDesc = report.description || "No description provided.";
-        const displayDesc = rawDesc.length > 55 ? rawDesc.substring(0, 55) + "..." : rawDesc;
-        const rawLoc = report.location || report.address || "N/A";
-        const displayLoc = rawLoc.length > 45 ? rawLoc.substring(0, 45) + "..." : rawLoc;
+        const displayDesc = rawDesc.length > 50 ? rawDesc.substring(0, 50) + "..." : rawDesc;
+        const rawLoc = report.location || "N/A";
+        const displayLoc = rawLoc.length > 40 ? rawLoc.substring(0, 40) + "..." : rawLoc;
 
         table.innerHTML += `
             <tr>
-                <td><strong>${report.reportId || report.id || docId}</strong></td>
-                <td style="white-space:nowrap; font-size:12.5px; color:#4b5563;">${dateDisplay}</td>
-                <td>${escapeHtml(report.userName || report.user || "Citizen")}</td>
-                <td><span style="background:#f0fdf4; color:#166534; font-weight:600; padding:2px 8px; border-radius:4px; font-size:12px; border:1px solid #bbf7d0;">${category}</span></td>
+                <td><strong>${escapeHtml(repId)}</strong></td>
+                <td style="white-space:nowrap; font-size:12.5px; color:#4b5563;">${escapeHtml(dateDisplay)}</td>
+                <td>${escapeHtml(report.userName || "Community Citizen")}</td>
+                <td><span style="background:#f0fdf4; color:#166534; font-weight:600; padding:2px 8px; border-radius:4px; font-size:12px; border:1px solid #bbf7d0;">${escapeHtml(category)}</span></td>
                 <td style="max-width:180px; font-size:12.5px; color:#374151; word-break:break-word;" title="${escapeHtml(rawDesc)}">${escapeHtml(displayDesc)}</td>
                 <td style="max-width:160px; font-size:12.5px; color:#4b5563; word-break:break-word;" title="${escapeHtml(rawLoc)}">${escapeHtml(displayLoc)}</td>
                 <td>${imageHTML}</td>
-                <td><span class="status ${statusClass}">${status}</span></td>
+                <td><span class="status ${statusClass}">${escapeHtml(status)}</span></td>
                 <td style="white-space:nowrap;">
                     <button
                         class="admin-action progress-btn"
-                        onclick="updateReportStatus('${docId}','In Progress')">
+                        onclick="updateReportStatus('${repId}','In Progress')">
                         In Progress
                     </button>
                     <button
                         class="admin-action resolve-btn"
-                        onclick="updateReportStatus('${docId}','Resolved')">
+                        onclick="updateReportStatus('${repId}','Resolved')">
                         Resolve
                     </button>
                     <button
                         class="admin-action details-btn"
-                        onclick="viewReportDetails('${docId}')">
+                        onclick="viewReportDetails('${repId}')">
                         Details
                     </button>
                 </td>
@@ -3862,50 +1948,41 @@ function loadAdminReports() {
     });
 }
 
-async function updateReportStatus(docId, newStatus) {
-    const userEmail = (currentUser?.email || "").toLowerCase().trim();
-    if (!currentUser || !isAuthorizedAdmin(userEmail)) {
-        alert(`Unauthorized: Only ${ADMIN_EMAIL} can change report status.`);
-        return;
-    }
+function updateReportStatus(reportId, newStatus) {
+    const reports = getStoredReports();
+    const index = reports.findIndex(r => (r.reportId === reportId || r.id === reportId));
+    if (index !== -1) {
+        reports[index].status = newStatus;
+        reports[index].updatedAt = Date.now();
+        saveStoredReports(reports);
 
-    try {
-        const adminName = currentUser.name || currentUser.displayName || currentUser.email || "Admin";
-        await updateReportStatusInFirebase(docId, newStatus, adminName);
-        showGlobalToast(`Report status updated to "${newStatus}"!`, "success");
-    } catch (err) {
-        console.error("Failed to update status:", err);
-        alert("Failed to update report status: " + (err.message || err));
+        // Immediate UI refresh
+        loadAdminReports();
+        loadReports();
+        updateDashboardStats();
+
+        showGlobalToast(`Report ${reportId} marked as "${newStatus}"!`, "success");
     }
 }
 
 /* ===================================
    REPORT DETAILS MODAL
 =================================== */
-function viewReportDetails(docId) {
-    const report = allAdminReports.find(r => r.docId === docId || r.reportId === docId)
-                || userReports.find(r => r.docId === docId || r.reportId === docId);
-
+function viewReportDetails(reportId) {
+    const reports = getStoredReports();
+    const report = reports.find(r => (r.reportId === reportId || r.id === reportId));
     if (!report) return;
 
     const modal = document.getElementById("reportDetailsModal");
     const titleEl = document.getElementById("modalReportId");
     const bodyEl = document.getElementById("modalReportBody");
 
-    titleEl.innerText = `Report Details (${report.reportId || report.id || report.docId})`;
+    titleEl.innerText = `Report Details (${report.reportId || report.id})`;
 
     const status = report.status || "Pending";
     const statusClass = status.toLowerCase().replace(" ", "-");
-
-    const dateMs = getReportTimestamp(report);
-    const dateStr = dateMs > 0
-        ? new Date(dateMs).toLocaleString()
-        : (report.date || "Recently");
-
-    const updatedMs = report.updatedAt?.seconds ? report.updatedAt.seconds * 1000 : dateMs;
-    const updatedStr = updatedMs > 0
-        ? new Date(updatedMs).toLocaleString()
-        : dateStr;
+    const dateStr = report.date || (report.timestamp ? new Date(report.timestamp).toLocaleString() : "Recently");
+    const updatedStr = report.updatedAt ? new Date(report.updatedAt).toLocaleString() : dateStr;
 
     const coordsDisplay = (report.latitude && report.longitude)
         ? `${report.latitude}, ${report.longitude} (<a href="https://www.google.com/maps?q=${report.latitude},${report.longitude}" target="_blank" style="color:#16803c; text-decoration:underline;">View in Maps ↗</a>)`
@@ -3915,23 +1992,21 @@ function viewReportDetails(docId) {
     const imageDisplay = imgSrc
         ? `<div style="margin-top:8px;">
                <strong style="display:block;margin-bottom:4px;">Waste Image:</strong>
-               <a href="${imgSrc}" target="_blank" title="Click to view full image">
-                   <img src="${imgSrc}" style="width:100%; max-height:240px; object-fit:cover; border-radius:8px; border:1px solid #ddd;">
+               <a href="${imgSrc}" target="_blank" title="Click to open full image">
+                   <img src="${imgSrc}" style="width:100%; max-height:260px; object-fit:cover; border-radius:8px; border:1px solid #ddd;">
                </a>
            </div>`
         : `<div><strong>Image:</strong> No image attached</div>`;
 
-    const category = getReportCategory(report);
-
     bodyEl.innerHTML = `
         <div><strong>Status:</strong> <span class="status ${statusClass}">${status}</span></div>
-        <div><strong>Category:</strong> ${category}</div>
-        <div><strong>Reporter:</strong> ${report.userName || report.user || "Citizen"} (${report.userEmail || "N/A"})</div>
-        <div><strong>Location:</strong> ${report.location || report.address || "N/A"}</div>
+        <div><strong>Category:</strong> ${escapeHtml(report.category || report.wasteType || "General Waste")}</div>
+        <div><strong>Reporter:</strong> ${escapeHtml(report.userName || "Community Citizen")}</div>
+        <div><strong>Location:</strong> ${escapeHtml(report.location || "N/A")}</div>
         <div><strong>Coordinates:</strong> ${coordsDisplay}</div>
-        <div><strong>Description:</strong> ${report.description || "No description provided."}</div>
+        <div><strong>Description:</strong> ${escapeHtml(report.description || "No description provided.")}</div>
         <div><strong>EcoPoints:</strong> +${report.ecoPoints || 20} pts</div>
-        <div><strong>Created At:</strong> ${dateStr}</div>
+        <div><strong>Date Submitted:</strong> ${dateStr}</div>
         <div><strong>Last Updated:</strong> ${updatedStr}</div>
         ${imageDisplay}
     `;
@@ -3944,121 +2019,135 @@ function closeDetailsModal() {
     if (modal) modal.style.display = "none";
 }
 
+function handleModalBackdropClick(event) {
+    if (event.target.id === "reportDetailsModal") {
+        closeDetailsModal();
+    }
+}
+
 /* ===================================
-   WINDOW EVENT BINDINGS
+   GAMIFICATION & DASHBOARD STATS
 =================================== */
-window.openLogin = openLogin;
-window.openRegister = openRegister;
-window.closeModal = closeModal;
-window.showLogin = showLogin;
-window.showRegister = showRegister;
-window.switchToLoginWithEmail = switchToLoginWithEmail;
-window.handleForgotPassword = handleForgotPassword;
-window.handleForgotPasswordPrompt = handleForgotPasswordPrompt;
-window.registerUser = registerUser;
-window.loginUser = loginUser;
-window.logout = logout;
+function updateDashboardStats() {
+    const reports = getStoredReports();
+    const count = reports.length;
+    const points = 100 + count * 20;
+
+    const reportCountEl = document.getElementById("reportCount");
+    if (reportCountEl) reportCountEl.innerText = count;
+
+    const pointsEl = document.getElementById("points");
+    if (pointsEl) pointsEl.innerText = points;
+
+    const wasteEl = document.getElementById("wasteManaged");
+    if (wasteEl) wasteEl.innerText = count + " kg";
+
+    const v6ReportsEl = document.getElementById("v6Reports");
+    if (v6ReportsEl) v6ReportsEl.innerText = count;
+
+    const v6PointsEl = document.getElementById("v6Points");
+    if (v6PointsEl) v6PointsEl.innerText = points;
+
+    const v6WasteEl = document.getElementById("v6Waste");
+    if (v6WasteEl) v6WasteEl.innerText = count + " kg";
+
+    let level = "Eco Starter";
+    let nextLevel = 200;
+    let prevLevel = 100;
+
+    if (points >= 500) {
+        level = "Eco Champion";
+        nextLevel = 1000;
+        prevLevel = 500;
+    } else if (points >= 200) {
+        level = "Green Citizen";
+        nextLevel = 500;
+        prevLevel = 200;
+    }
+
+    let progress = Math.min(100, Math.max(0, ((points - prevLevel) / (nextLevel - prevLevel)) * 100));
+
+    const ecoLevelEl = document.getElementById("ecoLevel");
+    if (ecoLevelEl) ecoLevelEl.innerText = level;
+
+    const v6LevelEl = document.getElementById("v6Level");
+    if (v6LevelEl) v6LevelEl.innerText = level.replace("Eco ", "");
+
+    const progressBar = document.getElementById("ecoProgress");
+    if (progressBar) progressBar.style.width = progress + "%";
+
+    const progressText = document.getElementById("progressText");
+    if (progressText) progressText.innerText = points + " / " + nextLevel + " Eco Points";
+
+    const badge = document.getElementById("greenBadge");
+    if (badge) badge.innerText = "🌱 " + level;
+
+    const notifContainer = document.getElementById("notifications");
+    if (notifContainer) {
+        let notifs = [];
+        notifs.push(`<div class="notification">🌱 Welcome to <strong>EcoTrack</strong> community waste management!</div>`);
+        if (count > 0) {
+            const latest = reports[0];
+            notifs.push(`<div class="notification">📋 Complaint <strong>${escapeHtml(latest.reportId || latest.id)}</strong> is <strong>${escapeHtml(latest.status || "Pending")}</strong>.</div>`);
+            notifs.push(`<div class="notification">♻️ You have submitted <strong>${count}</strong> complaint(s) and earned <strong>${count * 20}</strong> bonus Eco Points.</div>`);
+        } else {
+            notifs.push(`<div class="notification">♻️ Submit your first report to earn <strong>20 Eco Points</strong>!</div>`);
+        }
+        notifContainer.innerHTML = notifs.join("");
+    }
+}
+
+/* ===================================
+   GLOBAL EVENT BINDINGS
+=================================== */
 window.openReport = openReport;
+window.openAdminDashboard = openAdminDashboard;
 window.previewImage = previewImage;
 window.getLocation = getLocation;
 window.submitReport = submitReport;
 window.loadReports = loadReports;
-window.openAdminLogin = openAdminLogin;
-window.closeAdminModal = closeAdminModal;
-window.adminLogin = adminLogin;
 window.loadAdminReports = loadAdminReports;
 window.updateReportStatus = updateReportStatus;
 window.viewReportDetails = viewReportDetails;
 window.closeDetailsModal = closeDetailsModal;
+window.handleModalBackdropClick = handleModalBackdropClick;
 
-/* ===================================
-   SESSION RESTORATION & INITIALIZATION
-=================================== */
-function initApp() {
-    if (!isFirebaseConfigured()) {
-        console.warn(
-            "EcoTrack: Firebase is not configured yet. " +
-            "Please open /firebase-config.js and paste your Firebase Project credentials."
-        );
-        return;
+// Close modal with Escape key
+window.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") {
+        closeDetailsModal();
     }
+});
 
-    onAuthStateChanged(auth, async (firebaseUser) => {
-        if (firebaseUser) {
-            try {
-                const profile = await getUserProfile(firebaseUser.uid);
-                const userEmail = (firebaseUser.email || "").toLowerCase().trim();
-                const isAdmin = isAuthorizedAdmin(userEmail);
-                currentUser = profile || {
-                    userId: firebaseUser.uid,
-                    name: firebaseUser.displayName || (firebaseUser.email ? firebaseUser.email.split("@")[0] : "Citizen"),
-                    email: firebaseUser.email,
-                    role: isAdmin ? "admin" : "user",
-                    ecoPoints: 0,
-                    ecoLevel: isAdmin ? "Eco Master" : "Eco Starter"
-                };
-                updateUserUI();
-                initUserReportsSubscription(firebaseUser.uid);
+// Sync data if changed in another browser tab
+window.addEventListener("storage", function(e) {
+    if (e.key === STORAGE_KEY) {
+        loadReports();
+        loadAdminReports();
+        updateDashboardStats();
+    }
+});
 
-                const adminDash = document.getElementById("adminDashboard");
-                if (isAdmin) {
-                    if (adminDash) adminDash.style.display = "block";
-                    initAdminReportsSubscription();
-                } else {
-                    if (adminDash) adminDash.style.display = "none";
-                }
-                handleAdminRouting();
-            } catch (err) {
-                console.error("Failed to fetch user profile on auth change:", err);
-            }
-        } else {
-            currentUser = null;
-            userReports = [];
-            const authBtns = document.getElementById("authButtons");
-            if (authBtns) authBtns.style.display = "flex";
-            const userArea = document.getElementById("userArea");
-            if (userArea) userArea.style.display = "none";
-            const adminDash = document.getElementById("adminDashboard");
-            if (adminDash) adminDash.style.display = "none";
-            loadReports();
-            handleAdminRouting();
-        }
-    });
-
-    handleAdminRouting();
-}
-
-function handleAdminRouting() {
-    const path = (window.location.pathname || "").toLowerCase();
+// Handle direct hash navigation to #adminDashboard or #admin
+function handleHashRoute() {
     const hash = (window.location.hash || "").toLowerCase();
-    const isAdminRoute = path === "/admin" || path.startsWith("/admin/") || hash === "#admin" || hash === "#admindashboard";
-
-    if (isAdminRoute) {
-        const userEmail = (currentUser?.email || "").toLowerCase().trim();
-        const isAdmin = isAuthorizedAdmin(userEmail);
-        const adminDash = document.getElementById("adminDashboard");
-
-        if (isAdmin) {
-            if (adminDash) {
-                adminDash.style.display = "block";
-                adminDash.scrollIntoView({ behavior: "smooth" });
-            }
-            initAdminReportsSubscription();
-        } else {
-            openAdminLogin();
+    if (hash === "#admindashboard" || hash === "#admin") {
+        const adminSection = document.getElementById("adminDashboard");
+        if (adminSection) {
+            adminSection.scrollIntoView({ behavior: "smooth" });
         }
     }
 }
 
-window.addEventListener("hashchange", handleAdminRouting);
-window.addEventListener("popstate", handleAdminRouting);
-window.handleAdminRouting = handleAdminRouting;
+window.addEventListener("hashchange", handleHashRoute);
 
-if (document.readyState === "loading") {
-    window.addEventListener("DOMContentLoaded", initApp);
-} else {
-    initApp();
-}
+// Initialize app when DOM is ready
+document.addEventListener("DOMContentLoaded", function() {
+    loadReports();
+    loadAdminReports();
+    updateDashboardStats();
+    handleHashRoute();
+});
 </script>
 
 </body>
